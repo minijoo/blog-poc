@@ -20,7 +20,7 @@ export default function Post({ meta, children, posts }) {
           <main>
             <article className="py-16">
               <Head>
-                <title>{meta.title} – Tailwind CSS</title>
+                <title>{meta.title} – Starship Sports</title>
                 <meta name="twitter:site" content="@tailwindcss" />
                 <meta name="twitter:creator" content="@tailwindcss" />
                 <meta name="twitter:title" content={`${meta.title} – Tailwind CSS`} />
@@ -86,7 +86,7 @@ export default function Post({ meta, children, posts }) {
                             <img src={author.avatar} alt="" className="w-8 h-8 rounded-full" />
                             <dl className="text-sm font-medium whitespace-no-wrap">
                               <dt className="sr-only">Name</dt>
-                              <dd className="text-gray-900">{author.name}</dd>
+                              <dd className="text-gray-900 dark:text-gray-300">{author.name}</dd>
                             </dl>
                           </li>
                         ))}
@@ -139,7 +139,7 @@ export default function Post({ meta, children, posts }) {
                 <dl className="space-y-10">
                   <div>
                     <dt className="sr-only">Published on</dt>
-                    <dd className="text-base leading-6 font-medium text-gray-500">
+                    <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-300">
                       <time dateTime={meta.date}>
                         {postDateTemplate.render(new Date(meta.date))}
                       </time>
@@ -164,12 +164,12 @@ export default function Post({ meta, children, posts }) {
                         <img src={author.avatar} alt="" className="w-10 h-10 rounded-full" />
                         <dl className="text-sm font-medium whitespace-no-wrap">
                           <dt className="sr-only">Name</dt>
-                          <dd className="text-gray-900">{author.name}</dd>
+                          <dd className="text-gray-900 dark:text-gray-300">{author.name}</dd>
                           <dt className="sr-only">Twitter</dt>
                           <dd>
                             <a
                               href={`https://twitter.com/${author.twitter}`}
-                              className="text-teal-600 hover:text-teal-700"
+                              className="text-emerald-600 hover:text-emerald-700"
                             >
                               @{author.twitter}
                             </a>
@@ -193,7 +193,7 @@ export default function Post({ meta, children, posts }) {
                       Want to talk about this post?{' '}
                       <a
                         href={meta.discussion}
-                        className="font-medium text-teal-600 hover:text-teal-700"
+                        className="font-medium text-emerald-600 hover:text-emerald-700"
                       >
                         Discuss this on GitHub &rarr;
                       </a>
@@ -209,7 +209,7 @@ export default function Post({ meta, children, posts }) {
                         <h2 className="text-xs leading-5 tracking-wide uppercase text-gray-500">
                           Next Article
                         </h2>
-                        <div className="text-teal-600 hover:text-teal-700">
+                        <div className="text-emerald-600 hover:text-emerald-700">
                           <Link href={next.link}>
                             <a>{next.title}</a>
                           </Link>
@@ -221,7 +221,7 @@ export default function Post({ meta, children, posts }) {
                         <h2 className="text-xs leading-5 tracking-wide uppercase text-gray-500">
                           Previous Article
                         </h2>
-                        <div className="text-teal-600 hover:text-teal-700">
+                        <div className="text-emerald-600 hover:text-emerald-700">
                           <Link href={previous.link}>
                             <a>{previous.title}</a>
                           </Link>
@@ -232,7 +232,9 @@ export default function Post({ meta, children, posts }) {
                 )}
                 <div className="pt-8">
                   <Link href="/">
-                    <a className="text-teal-600 hover:text-teal-700">&larr; Back to the blog</a>
+                    <a className="text-emerald-600 dark:text-emerald-200 hover:text-emerald-700">
+                      &larr; Back to the blog
+                    </a>
                   </Link>
                 </div>
               </footer>

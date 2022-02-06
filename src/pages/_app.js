@@ -15,6 +15,20 @@ export default function App({ Component, pageProps }) {
         <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feed.xml" />
         <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="/atom.xml" />
         <link rel="alternate" type="application/json" title="JSON Feed" href="/feed.json" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.initTheme = function() {
+              if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+              } else {
+                document.documentElement.classList.remove('dark')
+              }
+            };
+            window.initTheme();
+          `,
+          }}
+        ></script>
       </Head>
       <Component {...pageProps} />
     </div>

@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors')
 const mdx = require('@mdx-js/mdx')
 
 module.exports = {
+  darkMode: 'class',
   mode: 'jit',
   purge: {
     content: ['./src/**/*.{js,mdx}', './next.config.js'],
