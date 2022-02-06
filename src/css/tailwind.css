@@ -1,0 +1,23 @@
+/* purgecss start ignore */
+@tailwind base;
+/* purgecss end ignore */
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .prose {
+    @apply text-gray-500 dark:text-gray-300;
+  }
+  .prose a,
+  .prose code,
+  .prose strong,
+  .prose blockquote,
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    @apply dark:text-gray-50;
+  }
+}
+
+@import './prism.css';
