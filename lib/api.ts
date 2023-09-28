@@ -1,47 +1,62 @@
-import fs from 'fs'
-import { join } from 'path'
-import matter from 'gray-matter'
+// prettier-ignore
+import fs from 'fs';
+import { join } from "path";
+import { bundleMDX } from "mdx-bundler";
 
-const postsDirectory = join(process.cwd(), '_posts')
+const postsDirectory = join(process.cwd(), "_posts");
 
 export function getPostSlugs() {
-  return fs.readdirSync(postsDirectory)
+  return fs.readdirSync(postsDirectory).filter((slug) => /.+.mdx$/.test(slug));
 }
 
-export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.md$/, '')
-  const fullPath = join(postsDirectory, `${realSlug}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const { data, content } = matter(fileContents)
+export async function getPostBySlug(slug: string, fields: string[] = []) {
+  const realSlug = slug.replace(/\.mdx$/, "");
+  const fullPath = join(postsDirectory, `${realSlug}.mdx`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const result = await bundleMDX({
+    source: fileContents,
+    mdxOptions(options: Record<string, any>) {
+      return {
+        ...options,
+        providerImportSource: "@mdx-js/react",
+      };
+    },
+  });
 
+  // const { data, content } = matter(fileContents);
   type Items = {
-    [key: string]: string
-  }
+    [key: string]: string;
+  };
 
-  const items: Items = {}
+  const items: Items = {};
 
   // Ensure only the minimal needed data is exposed
   fields.forEach((field) => {
-    if (field === 'slug') {
-      items[field] = realSlug
+    if (field === "slug") {
+      items[field] = realSlug;
     }
-    if (field === 'content') {
-      items[field] = content
+    if (field === "code") {
+      items[field] = result.code;
     }
+    if (typeof result.frontmatter[field] !== "undefined") {
+      items[field] = result.frontmatter[field];
+    }
+  });
 
-    if (typeof data[field] !== 'undefined') {
-      items[field] = data[field]
-    }
-  })
-
-  return items
+  return items;
 }
 
-export function getAllPosts(fields: string[] = []) {
-  const slugs = getPostSlugs()
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-  return posts
+export async function getAllPosts(fields: string[] = []) {
+  const slugs = getPostSlugs();
+  const posts = await Promise.all(
+    slugs.map(async (slug) => await getPostBySlug(slug, fields))
+  );
+  // sort posts by date in descending order
+  posts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+  return posts;
+}
+export function getFile(filePath: string) {
+  const fullPath = join(postsDirectory, filePath);
+  console.log("Full path", fullPath);
+  return fs.readFileSync(fullPath, "utf8");
 }
