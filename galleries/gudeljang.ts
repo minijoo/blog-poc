@@ -1,6 +1,6 @@
-const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
-
-const photoPaths = [
+import GalleryItem from "../interfaces/galleryItem";
+import { mapGalleryToSlides } from "../lib/utils";
+const galleryItems: GalleryItem[] = [
   {
     path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/gudeljang1.jpeg",
     height: 1008,
@@ -38,18 +38,5 @@ const photoPaths = [
   },
 ];
 
-const photos = photoPaths.map((photo) => ({
-  src: photo.path,
-  width: photo.width,
-  height: photo.height,
-  srcSet: breakpoints.map((breakpoint) => {
-    const height = Math.round((photo.height / photo.width) * breakpoint);
-    return {
-      src: photo.path,
-      width: breakpoint,
-      height,
-    };
-  }),
-}));
-
-export default photos;
+const slides = galleryItems.map(mapGalleryToSlides);
+export default slides;

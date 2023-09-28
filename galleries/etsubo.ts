@@ -1,6 +1,7 @@
-const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
+import GalleryItem from "../interfaces/galleryItem";
+import { mapGalleryToSlides } from "../lib/utils";
 
-const photoPaths = [
+const galleryItems: GalleryItem[] = [
   {
     path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo1.jpeg",
     height: 1080,
@@ -16,20 +17,28 @@ const photoPaths = [
     height: 1080,
     width: 800,
   },
+  {
+    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo4.jpeg",
+    height: 1080,
+    width: 800,
+  },
+  {
+    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo5.jpeg",
+    height: 1080,
+    width: 800,
+  },
+  {
+    type: "video",
+    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo6.jpeg",
+    video: {
+      path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo7.m4v",
+      type: "video/mp4",
+    },
+    height: 1080,
+    width: 800,
+  },
 ];
 
-const photos = photoPaths.map((photo) => ({
-  src: photo.path,
-  width: photo.width,
-  height: photo.height,
-  srcSet: breakpoints.map((breakpoint) => {
-    const height = Math.round((photo.height / photo.width) * breakpoint);
-    return {
-      src: photo.path,
-      width: breakpoint,
-      height,
-    };
-  }),
-}));
+const slides = galleryItems.map(mapGalleryToSlides);
 
-export default photos;
+export default slides;

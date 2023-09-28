@@ -1,22 +1,20 @@
 import { useState } from "react";
-
 import PhotoAlbum from "react-photo-album";
-
 import Lightbox from "yet-another-react-lightbox";
 
-// import optional lightbox plugins
+// Lightbox plugins
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-export default function PhotoGallery({ photos }) {
+export default function PhotoGallery({ slides }) {
   const [index, setIndex] = useState(-1);
 
   return (
     <>
       <PhotoAlbum
-        photos={photos}
+        photos={slides}
         layout="columns"
         columns={(containerWidth) => {
           if (containerWidth < 400) return 3;
@@ -30,7 +28,7 @@ export default function PhotoGallery({ photos }) {
         onClick={({ index }) => setIndex(index)}
       />
       <Lightbox
-        slides={photos}
+        slides={slides}
         open={index >= 0}
         index={index}
         close={() => setIndex(-1)}
@@ -45,8 +43,7 @@ export default function PhotoGallery({ photos }) {
         controller={{
           closeOnPullDown: true,
         }}
-        // enable optional lightbox plugins
-        plugins={[Fullscreen, Thumbnails, Zoom]}
+        plugins={[Fullscreen, Thumbnails, Zoom, Video]}
       />
     </>
   );
