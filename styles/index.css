@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pb-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.barContainer {
+  flex: 1;
+  height: 25px;
+  background: #dfdfe7;
+  border-radius: 12px;
+  overflow: hidden; /* Crucial part */
+}
+
+.textValue {
+  margin-left: 8px;
+  width: 42px;
+  text-align: right;
+}
+
+.fillerBackground {
+  height: inherit;
+  transition: "width 2s ease-i-out";
+  background: linear-gradient(
+    90deg,
+    rgb(183, 183, 183),
+    rgb(248, 134, 4),
+    rgb(0, 249, 50),
+    rgb(249, 0, 0),
+    rgb(0, 8, 249)
+  );
+}
+
+.filler {
+  transition: "width 2s ease-i-out";
+  height: inherit;
+  border-radius: inherit;
+  overflow: hidden;
+}
