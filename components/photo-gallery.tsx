@@ -34,6 +34,17 @@ export default function PhotoGallery({ photos }) {
         open={index >= 0}
         index={index}
         close={() => setIndex(-1)}
+        carousel={{
+          finite: true,
+          padding: 0,
+        }}
+        animation={{
+          fade: 80,
+          swipe: 80,
+        }}
+        controller={{
+          closeOnPullDown: true,
+        }}
         // enable optional lightbox plugins
         plugins={[Fullscreen, Thumbnails, Zoom]}
       />
