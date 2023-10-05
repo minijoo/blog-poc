@@ -197,11 +197,13 @@ export default function KoreaJapanOverview() {
                 setCategory(event.target.value);
               }}
             >
-              <option value="" selected>
+              <option key="" value="" selected>
                 Choose a category
               </option>
               {categorys.map((cat: string) => (
-                <option value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
           </div>
