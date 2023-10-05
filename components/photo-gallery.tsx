@@ -43,7 +43,7 @@ export default function PhotoGallery({ slides }) {
         controller={{
           closeOnPullDown: true,
         }}
-        plugins={[Fullscreen, Thumbnails, Zoom, Video]}
+        plugins={[Fullscreen, Zoom, Video]}
       />
     </>
   );
