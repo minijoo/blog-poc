@@ -44,7 +44,7 @@ const Layout = ({ preview, children }: Props) => {
                 className="text-3xl py-1 px-2 hover:bg-white hover:text-black"
                 onClick={() => {
                   setHasEntered(true);
-                  setCookie(COOKIE_NAME, 1, { maxAge: 60 * 24 });
+                  setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 });
                   onEntry(hasEntered);
                 }}
               >
