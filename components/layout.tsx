@@ -5,14 +5,27 @@ import Footer from "./footer";
 import Meta from "./meta";
 
 const COOKIE_NAME = "entered-jordys-site";
+const env = process.env.NODE_ENV;
+const counterKey = env === "development" ? "dev_counter" : "visit_counter";
+
 type Props = {
   preview?: boolean;
   children: React.ReactNode;
 };
 
-const onEntry = (hasEntered) => {
-  // send counter update to api
-  // alert(hasEntered ? "you already entered" : "you are being entered");
+const onEntry = async (hasEntered) => {
+  fetch(`https://api.api-ninjas.com/v1/counter?id=${counterKey}&hit=true`, {
+    headers: {
+      "X-Api-Key": "v9YXK1HI5TDys8z0Azf1mg==cg8Iy54a591nROCr", // @TODO put api key somewhere outside of codebase
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((_) => {})
+    .catch((err) => {
+      console.log("There was an error hitting counter endpoint", err);
+    });
 };
 
 const Layout = ({ preview, children }: Props) => {

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Container from "../components/container";
-import ProgressBar from "../components/progress-bar";
 
 const reviews = [
   {
@@ -166,67 +164,180 @@ const categorys = Array.from(
   }, new Set())
 );
 
-const onSort = (descending) => {
+const doSort = (descending: number) => {
   reviews.sort((a, b) => (b.rating - a.rating) * (descending ? 1 : -1));
 };
 
 export default function KoreaJapanOverview() {
   const [descending, setDescending] = useState(1);
   const [category, setCategory] = useState("");
-  onSort(descending);
+  doSort(descending);
   return (
     <>
-      <Container>
-        <div className="grid grid-cols-3 place-content-center pb-5">
-          <div className="col-span-1">
-            <button
-              className="secondary-button"
-              onClick={() => {
-                setDescending(descending ? 0 : 1);
-                onSort(descending);
-              }}
-            >
-              Sort
-            </button>
-          </div>
-          <div className="col-span-2">
-            <select
-              id="countries"
-              className="dropdown"
-              onChange={(event) => {
-                setCategory(event.target.value);
-              }}
-            >
-              <option key="" value="" selected>
-                Choose a category
-              </option>
-              {categorys.map((cat: string) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
+      <div className="grid grid-cols-3 place-content-center pb-5">
+        <div className="col-span-1">
+          <button
+            className="secondary-button"
+            onClick={() => {
+              setDescending(descending ? 0 : 1);
+              doSort(descending);
+            }}
+          >
+            Sort⤵
+          </button>
         </div>
-      </Container>
-      <div className="grid grid-cols-4 gap-4">
-        {reviews.map((review) => (
-          <>
-            {(!category || review.category === category) && (
-              <>
-                <div className="col-span-1">
-                  <a className="hover:underline" href={review.link}>
-                    {review.name}
-                  </a>{" "}
-                  {review.showCategory && "(" + review.category + ")"}
+        <div className="col-span-2">
+          <select
+            id="countries"
+            className="dropdown"
+            onChange={(event) => {
+              setCategory(event.target.value);
+            }}
+            defaultValue=""
+          >
+            <option key="" value="">
+              Choose a category
+            </option>
+            {categorys.map((cat: string) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {reviews.map((review, index) => {
+          if (category && review.category !== category) {
+            return <></>;
+          }
+
+          const map1 = {
+            1: "bg-grad-1",
+            2: "bg-grad-2",
+            3: "bg-grad-3",
+            4: "bg-grad-4",
+            5: "bg-grad-5",
+            6: "bg-grad-6",
+            7: "bg-grad-7",
+            8: "bg-grad-8",
+            9: "bg-grad-9",
+            10: "bg-grad-10",
+            11: "bg-grad-11",
+            12: "bg-grad-12",
+            13: "bg-grad-13",
+            14: "bg-grad-14",
+            15: "bg-grad-15",
+            16: "bg-grad-16",
+            17: "bg-grad-17",
+            18: "bg-grad-18",
+            19: "bg-grad-19",
+            20: "bg-grad-20",
+            21: "bg-grad-21",
+            22: "bg-grad-22",
+            23: "bg-grad-23",
+            24: "bg-grad-24",
+            25: "bg-grad-25",
+            26: "bg-grad-26",
+            27: "bg-grad-27",
+            28: "bg-grad-28",
+            29: "bg-grad-29",
+            30: "bg-grad-30",
+            31: "bg-grad-31",
+            32: "bg-grad-32",
+            33: "bg-grad-33",
+            34: "bg-grad-34",
+            35: "bg-grad-35",
+            36: "bg-grad-36",
+            37: "bg-grad-37",
+            38: "bg-grad-38",
+            39: "bg-grad-39",
+            40: "bg-grad-40",
+            41: "bg-grad-41",
+            42: "bg-grad-42",
+            43: "bg-grad-43",
+            44: "bg-grad-44",
+            45: "bg-grad-45",
+            46: "bg-grad-46",
+            47: "bg-grad-47",
+            48: "bg-grad-48",
+            49: "bg-grad-49",
+            50: "bg-grad-50",
+            51: "bg-grad-51",
+            52: "bg-grad-52",
+            53: "bg-grad-53",
+            54: "bg-grad-54",
+            55: "bg-grad-55",
+            56: "bg-grad-56",
+            57: "bg-grad-57",
+            58: "bg-grad-58",
+            59: "bg-grad-59",
+            60: "bg-grad-60",
+            61: "bg-grad-61",
+            62: "bg-grad-62",
+            63: "bg-grad-63",
+            64: "bg-grad-64",
+            65: "bg-grad-65",
+            66: "bg-grad-66",
+            67: "bg-grad-67",
+            68: "bg-grad-68",
+            69: "bg-grad-69",
+            70: "bg-grad-70",
+            71: "bg-grad-71",
+            72: "bg-grad-72",
+            73: "bg-grad-73",
+            74: "bg-grad-74",
+            75: "bg-grad-75",
+            76: "bg-grad-76",
+            77: "bg-grad-77",
+            78: "bg-grad-78",
+            79: "bg-grad-79",
+            80: "bg-grad-80",
+            81: "bg-grad-81",
+            82: "bg-grad-82",
+            83: "bg-grad-83",
+            84: "bg-grad-84",
+            85: "bg-grad-85",
+            86: "bg-grad-86",
+            87: "bg-grad-87",
+            88: "bg-grad-88",
+            89: "bg-grad-89",
+            90: "bg-grad-90",
+            91: "bg-grad-91",
+            92: "bg-grad-92",
+            93: "bg-grad-93",
+            94: "bg-grad-94",
+            95: "bg-grad-95",
+            96: "bg-grad-96",
+            97: "bg-grad-97",
+            98: "bg-grad-98",
+            99: "bg-grad-99",
+            100: "bg-grad-100",
+          };
+          const colour = map1[review.rating];
+
+          return (
+            <a href={review.link}>
+              <div
+                tabIndex={index}
+                key={index}
+                className={`grid grid-cols-3 p-3 col-span-1 h-20 rounded-2xl hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
+              >
+                <div className="col-span-1 flex items-center text-2xl">
+                  {review.rating}
                 </div>
-                <div className="col-span-3">
-                  <ProgressBar valuePercentage={review.rating} />
+                <div className="col-span-2 flex items-center text-sm">
+                  <div>
+                    {review.name.length > 17
+                      ? review.name.substring(0, 17) + ".."
+                      : review.name}{" "}
+                    {review.showCategory && "(" + review.category + ")"}
+                  </div>
                 </div>
-              </>
-            )}
-          </>
-        ))}
+              </div>
+            </a>
+          );
+        })}
       </div>
     </>
   );
