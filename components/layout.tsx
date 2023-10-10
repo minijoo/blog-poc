@@ -32,20 +32,28 @@ const Layout = ({ preview, children }: Props) => {
   const [hasEntered, setHasEntered] = useState(true);
   const [cookies, setCookie] = useCookies([COOKIE_NAME]);
   useEffect(() => {
+    if (hasEntered && cookies[COOKIE_NAME] === 1) {
+      // Entered state being true means this is being run on load, not on click of entry
+      // And if cookie exists on load, i.e. site is visited before last cookie expired
+      // Then refresh cookie
+      setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 });
+    }
+    // Regardless of cookie set on load or on click, set entered state accordingly.
+    // (Technically we never remove or set cookie to 0 so this is always making entered state true)
+    // (How is cookie removed? via TTL which does not invoke this hook)
     setHasEntered(cookies[COOKIE_NAME] === 1);
   }, [cookies]);
   if (!hasEntered) {
     return (
       <>
-        <div className="text-white fixed h-full w-full bg-black z-50 place-content-center flex items-center">
+        <div className="text-white fixed h-full w-full bg-black z-49 place-content-center flex items-center">
           <div className="grid grid-rows-2">
             <div className="row-span-1">
               <div
                 className="text-3xl py-1 px-2 hover:bg-white hover:text-black"
                 onClick={() => {
-                  setHasEntered(true);
-                  setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 });
-                  onEntry(hasEntered);
+                  setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 }); // This will inovke useEffect
+                  onEntry(hasEntered); // Only do this when entry button is actively clicked
                 }}
               >
                 Click to Enter
@@ -56,6 +64,14 @@ const Layout = ({ preview, children }: Props) => {
             </div>
           </div>
         </div>
+        <button
+          className="z-50 bg-black absolute"
+          onClick={() => {
+            setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 }); // This will inovke useEffect
+          }}
+        >
+          bp
+        </button>
       </>
     );
   }
