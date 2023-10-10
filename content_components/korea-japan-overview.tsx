@@ -183,7 +183,7 @@ export default function KoreaJapanOverview() {
               doSort(descending);
             }}
           >
-            Sort⤵
+            Sort ⤵
           </button>
         </div>
         <div className="col-span-2">
@@ -206,7 +206,7 @@ export default function KoreaJapanOverview() {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
         {reviews.map((review, index) => {
           if (category && review.category !== category) {
             return <></>;
@@ -317,25 +317,29 @@ export default function KoreaJapanOverview() {
           const colour = map1[review.rating];
 
           return (
-            <a href={review.link}>
+            <div
+              tabIndex={index}
+              key={index}
+              className={`col-span-1 grid grid-cols-1`}
+            >
               <div
-                tabIndex={index}
-                key={index}
-                className={`grid grid-cols-3 p-3 col-span-1 h-20 rounded-2xl hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
+                className={`my-0 mx-auto flex items-center place-content-center text-3xl p-3 w-20 h-16 rounded-lg hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
               >
-                <div className="col-span-1 flex items-center text-2xl">
-                  {review.rating}
+                <a href={review.link}>
+                  <div>{review.rating}</div>
+                </a>
+              </div>
+              <div className="grid grid-rows-2 pt-2 text-sm text-center">
+                <div className="row-span-1 h-5 truncate">
+                  {review.name.length > 20
+                    ? review.name.substring(0, 20) + ".."
+                    : review.name}
                 </div>
-                <div className="col-span-2 flex items-center text-sm">
-                  <div>
-                    {review.name.length > 17
-                      ? review.name.substring(0, 17) + ".."
-                      : review.name}{" "}
-                    {review.showCategory && "(" + review.category + ")"}
-                  </div>
+                <div className="row-span-1">
+                  <em> {review.showCategory && review.category}</em>
                 </div>
               </div>
-            </a>
+            </div>
           );
         })}
       </div>
