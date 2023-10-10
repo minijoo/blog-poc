@@ -323,7 +323,7 @@ export default function KoreaJapanOverview() {
               className={`col-span-1 grid grid-cols-1`}
             >
               <div
-                className={`my-0 mx-auto flex items-center place-content-center text-3xl p-3 w-20 h-16 rounded-lg hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
+                className={`my-0 mx-auto flex items-center place-content-center text-3xl w-20 h-16 rounded-lg hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
               >
                 <a href={review.link}>
                   <div>{review.rating}</div>
