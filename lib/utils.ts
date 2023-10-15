@@ -1,6 +1,6 @@
 import GalleryItem from "../interfaces/galleryItem";
 
-const breakpoints = [1080];
+const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
 
 const mapGalleryToSlides = (galleryItem: GalleryItem) => {
   if (galleryItem.type === "video") {
