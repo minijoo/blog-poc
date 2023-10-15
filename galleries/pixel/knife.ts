@@ -3,12 +3,12 @@ import { mapGalleryToSlides } from "../../lib/utils";
 
 const galleryItems: GalleryItem[] = [
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/pixel/knife1.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/pixel/knife1.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/pixel/knife2.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/pixel/knife2.jpeg",
     height: 1080,
     width: 800,
   },

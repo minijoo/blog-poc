@@ -39,11 +39,16 @@ export default function PhotoGallery({ slides }) {
         animation={{
           fade: 80,
           swipe: 80,
+          zoom: 100,
         }}
         controller={{
           closeOnPullDown: true,
         }}
-        plugins={[Fullscreen, Zoom, Video]}
+        zoom={{
+          maxZoomPixelRatio: 4,
+          doubleClickMaxStops: 1,
+        }}
+        plugins={[Zoom, Video]}
       />
     </>
   );

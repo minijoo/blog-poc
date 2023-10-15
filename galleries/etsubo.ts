@@ -3,40 +3,40 @@ import { mapGalleryToSlides } from "../lib/utils";
 
 const galleryItems: GalleryItem[] = [
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo1.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo1.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo2.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo2.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo3.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo3.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo4.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo4.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo5.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo5.jpeg",
     height: 1080,
     width: 800,
   },
   {
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo8.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo8.jpeg",
     height: 1080,
     width: 800,
   },
   {
     type: "video",
-    path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo6.jpeg",
+    path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo6.jpeg",
     video: {
-      path: "https://jordysbucket.s3.amazonaws.com/public/assets/food/etsubo7.m4v",
+      path: "https://d1goytf13un2gh.cloudfront.net/assets/food/etsubo7.m4v",
       type: "video/mp4",
     },
     height: 1080,

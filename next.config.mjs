@@ -28,9 +28,9 @@ const configuration = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "jordysbucket.s3.amazonaws.com",
+        hostname: "d1goytf13un2gh.cloudfront.net",
         port: "",
-        pathname: "/public/assets/**",
+        pathname: "/assets/**",
       },
     ],
     dangerouslyAllowSVG: true,
