@@ -3,6 +3,7 @@ import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 
 // Lightbox plugins
+import Download from "yet-another-react-lightbox/plugins/download";
 import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
@@ -46,7 +47,7 @@ export default function PhotoGallery({ slides }) {
           maxZoomPixelRatio: 4,
           doubleClickMaxStops: 1,
         }}
-        plugins={[Zoom, Video]}
+        plugins={[Zoom, Video, Download]}
       />
     </>
   );
