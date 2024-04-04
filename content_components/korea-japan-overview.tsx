@@ -325,7 +325,7 @@ export default function KoreaJapanOverview() {
               <div
                 className={`my-0 mx-auto flex items-center place-content-center text-3xl w-20 h-16 rounded-lg hover:cursor-pointer hover:outline-slate-950 hover:outline-2 hover:outline active:outline-4 focus:outline-2 focus:outline-slate-950 focus:outline ${colour}`}
               >
-                <a href={review.link}>
+                <a href={review.link} className="no-decoration">
                   <div>{review.rating}</div>
                 </a>
               </div>

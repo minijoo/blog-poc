@@ -10,18 +10,24 @@ function getCurrentDimension() {
 
 const Header = () => {
   return (
-    <>
-      <h2 className="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8">
+    <section className="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-4 md:mb-6">
+      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 h-20 relative md:hidden">
+        <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
+      </div>
+      <div>
         <Link href="/" className="hover:underline">
-          Jordy's{" "}
-          <div className="inline-block md:w-16 md:h-16 w-8 h-8 relative">
-            <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
-          </div>{" "}
-          Blog
+          <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight md:pr-8">
+            Jordy's Blog.
+          </h1>
         </Link>
-        .
-      </h2>
-    </>
+        <h4 className="md:text-left text-md md:pl-8 text-center">
+          A place for my photos, videos and thoughts.
+        </h4>
+      </div>
+      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 h-20 relative hidden">
+        <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
+      </div>{" "}
+    </section>
   );
 };
 
