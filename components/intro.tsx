@@ -8,7 +8,7 @@ const Intro = () => {
       </div>
       <div>
         <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight md:pr-8">
-          Jordy's Blog.
+          Jordy's.Site
         </h1>
         <h4 className="md:text-left text-md md:pl-8 text-center">
           A place for my photos, videos and thoughts.

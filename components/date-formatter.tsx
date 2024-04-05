@@ -1,4 +1,11 @@
 import { parseISO, format } from "date-fns";
+import { Kaisei_Opti } from "next/font/google";
+
+const kaisei = Kaisei_Opti({
+  weight: "400",
+  subsets: ["cyrillic"],
+  variable: "--font-kaisei",
+});
 
 type Props = {
   dateString: string;
@@ -13,7 +20,7 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
   if (useKanji) {
     // useShortForm doesn't apply
     return (
-      <div className="jp-scroll">
+      <div className={`${kaisei.variable} jp-scroll`}>
         <p>{format(date, "yy")}年</p>
         <p>{month}月</p>
         <p>{day}日</p>
@@ -21,7 +28,7 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
     );
   }
   if (useShortForm) {
-    return <div>{format(date, "M/d/yy")}</div>;
+    return <span>{format(date, "M/d/yy")}</span>;
   }
   return <div>{format(date, "LLLL	d, yyyy")}</div>;
 };

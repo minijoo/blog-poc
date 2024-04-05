@@ -17,7 +17,7 @@ const Header = () => {
       <div>
         <Link href="/" className="hover:underline">
           <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight md:pr-8">
-            Jordy's Blog.
+            Jordy's.Site
           </h1>
         </Link>
         <h4 className="md:text-left text-md md:pl-8 text-center">

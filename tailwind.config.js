@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ["var(--font-crimson)"],
+      },
+
       colors: {
         "accent-1": "#FAFAFA",
         "accent-2": "#EAEAEA",

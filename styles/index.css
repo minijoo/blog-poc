@@ -57,4 +57,5 @@
   text-orientation: upright;
   writing-mode: vertical-rl;
   letter-spacing: 0.12em;
+  font-family: var(--font-kaisei);
 }
