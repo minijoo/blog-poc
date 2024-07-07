@@ -19,27 +19,27 @@ export default function Index({ allPosts }: Props) {
         </Head>
         <ContainerHome>
           {posts.length > 0 && <MoreStories posts={posts} />}
-          <div className="`overflow-scroll w-full bg-gray">
+          <div className="w-full bg-gray">
             {/** These are scroll portions that snap using proximity
              * Each snap is set to half of view height
              * Purposely 13 of them, since homepage shows 6 stories
              * Leaving 7 of them. Another 6 to wrap and show the same 6 stories
              * Leaving 1, which is used for scrolling back to the top.
              */}
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
-            <div className="h-[50vh] snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
+            <div className="h-60 snap-start"></div>
           </div>
         </ContainerHome>
         <div className="fixed bottom-0 w-screen">
