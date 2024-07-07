@@ -11,7 +11,7 @@ function getCurrentDimension() {
 const Header = () => {
   return (
     <section className="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-4 md:mb-6">
-      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 h-20 relative md:hidden">
+      <div className="text-shadow my-0 block md:inline-block md:w-32 w-20 h-20 relative md:hidden">
         <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
       </div>
       <div>
@@ -24,7 +24,7 @@ const Header = () => {
           A place for my photos, videos and thoughts.
         </h4>
       </div>
-      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 h-20 relative hidden">
+      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 relative hidden">
         <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
       </div>{" "}
     </section>

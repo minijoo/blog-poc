@@ -83,7 +83,7 @@ const Layout = ({ preview, children }: Props) => {
         <Alert preview={preview} />
         <main>{children}</main>
       </div>
-      <Footer />
+      {/* <Footer /> TODO: think about a different layout component for index vs other pages*/}
     </>
   );
 };

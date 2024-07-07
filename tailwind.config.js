@@ -5,6 +5,7 @@ module.exports = {
     "./pages/**/*.tsx",
     "./content_components/**/*.tsx",
   ],
+  safelist: ["h-48", "h-40", "h-28", "h-60"],
   theme: {
     extend: {
       fontFamily: {

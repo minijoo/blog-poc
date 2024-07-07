@@ -1,18 +1,14 @@
-import Container from "../components/container";
+import ContainerHome from "../components/container-home";
 import MoreStories from "../components/more-stories";
-// import HeroPost from "../components/hero-post";
-// import Intro from "../components/intro";
 import Layout from "../components/layout";
 import { getAllPosts } from "../lib/api";
 import Head from "next/head";
-// import { CMS_NAME } from "../lib/constants";
 import Post from "../interfaces/post";
-import Header from "../components/header";
+import Footer from "../components/footer";
 
 type Props = {
   allPosts: Post[];
 };
-
 export default function Index({ allPosts }: Props) {
   const posts = allPosts;
   return (
@@ -21,10 +17,34 @@ export default function Index({ allPosts }: Props) {
         <Head>
           <title>{`Jordy's Site`}</title>
         </Head>
-        <Container>
-          <Header />
+        <ContainerHome>
           {posts.length > 0 && <MoreStories posts={posts} />}
-        </Container>
+          <div className="`overflow-scroll w-full bg-gray">
+            {/** These are scroll portions that snap using proximity
+             * Each snap is set to half of view height
+             * Purposely 13 of them, since homepage shows 6 stories
+             * Leaving 7 of them. Another 6 to wrap and show the same 6 stories
+             * Leaving 1, which is used for scrolling back to the top.
+             */}
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+            <div className="h-[50vh] snap-start"></div>
+          </div>
+        </ContainerHome>
+        <div className="fixed bottom-0 w-screen">
+          <Footer />
+        </div>
       </Layout>
     </>
   );
