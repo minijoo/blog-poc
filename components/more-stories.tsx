@@ -24,13 +24,9 @@ const MoreStories = ({ posts }: Props) => {
 
   const calculateScrollAmount = () => {
     let scrollY = window.scrollY;
-    setTravel((scrollY / (16 * 15)) * 60); // 360 pie, 6 slices, 60 degrees each
+    setTravel((scrollY / (16 * 24)) * 60); // 360 pie, 6 slices, 60 degrees each
 
-    const scrollPercent =
-      (scrollY / (getMainScrollHeight() - window.innerHeight)) * 100;
-    console.assert(scrollPercent <= 100);
-
-    if (scrollPercent === 100) {
+    if (scrollY > 12 * 16 * 24) {
       // infinite scroll effect when scrolling down
       window.scroll(0, 0);
     }
