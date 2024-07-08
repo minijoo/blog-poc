@@ -10,23 +10,25 @@ function getCurrentDimension() {
 
 const Header = () => {
   return (
-    <section className="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-4 md:mb-6">
-      <div className="text-shadow my-0 block md:inline-block md:w-32 w-20 h-20 relative md:hidden">
-        <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
+    <section className="flex-col flex items-center mt-8 mb-4 h-20 md:h-32">
+      <div className="flex-grow flex w-full place-content-center -translate-x-3">
+        <div className="text-shadow my-0 block w-20 h-full relative text-right md:mx-3">
+          <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
+        </div>
+        <div className="">
+          <Link href="/" className="hover:underline">
+            <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight">
+              Jordy's.Site
+            </h1>
+          </Link>
+        </div>
       </div>
-      <div>
-        <Link href="/" className="hover:underline">
-          <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight md:pr-8">
-            Jordy's.Site
-          </h1>
-        </Link>
-        <h4 className="md:text-left text-md md:pl-8 text-center">
-          A place for my photos, videos and thoughts.
-        </h4>
-      </div>
-      <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 relative hidden">
+      <h4 className="text-md md:text-xl text-center">
+        A place for my photos, videos and thoughts.
+      </h4>
+      {/* <div className="text-shadow my-0 block md:inline-block md:w-32 md:h-32 w-20 relative hidden">
         <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
-      </div>{" "}
+      </div>{" "} */}
     </section>
   );
 };

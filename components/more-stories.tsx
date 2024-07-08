@@ -25,8 +25,8 @@ const MoreStories = ({ posts }: Props) => {
   const calculateScrollAmount = () => {
     let scrollY = window.scrollY;
     setTravel((scrollY / (16 * 24)) * 60); // 360 pie, 6 slices, 60 degrees each
-
-    if (scrollY > 12 * 16 * 24) {
+    const isChromeIOS = navigator.userAgent.match("CriOS");
+    if (scrollY > 12 * 16 * 24 && !isChromeIOS) {
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
@@ -52,11 +52,11 @@ const MoreStories = ({ posts }: Props) => {
   const yTransC = radius * cosC;
   const p_width = windowWidth / 16; //post width is window width
   return (
-    <section className="w-auto w-full px-10 fixed left-1/2 -translate-x-1/2 text-center">
+    <section className="w-auto w-full fixed left-1/2 -translate-x-1/2 text-center">
       <Header />
       <div className="w-[200vw] text-center left-1/2 relative -translate-x-1/2 mx-auto">
         <div
-          className="h-40 md:px-10 px-2 w-screen absolute left-1/2 `-translate-x-1/2"
+          className="md:px-10 px-2 w-screen absolute left-1/2 `-translate-x-1/2"
           style={{
             transform: `translateX(${
               -1 * xTransC - p_width / 2

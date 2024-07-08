@@ -15,7 +15,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
     <Image
       src={src}
       alt={`Cover Image for ${title}`}
-      className={cn("shadow-sm w-full opacity-40", {
+      className={cn("shadow-sm w-full", {
         "transition-opacity": slug,
       })}
       width={1300}

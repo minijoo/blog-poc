@@ -32,7 +32,7 @@ const PostPreview = ({
         </div>
         <div className="grow">
           <div
-            className={`h-${height} $h-full $px-2 md:px-0 md:w-full $w-[95vw] text-left flex items-center justify-between`}
+            className={`h-[30vh] $h-full $px-2 md:px-0 md:w-full $w-[95vw] text-left flex items-center justify-between`}
           >
             <div className="md:px-2 w-full h-full text-justify">
               <Textfit style={inlineStyle} mode="multi" max={10000}>
