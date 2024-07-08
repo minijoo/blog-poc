@@ -32,21 +32,21 @@ export default function Index({ allPosts }: Props) {
              * Leaving 7 of them. Another 6 to wrap and show the same 6 stories
              * Leaving 1, which is used for scrolling back to the top.
              */}
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
-            <div className="h-96 snap-start"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
+            <div className="h-96 snap-start snap-always"></div>
           </div>
         </ContainerHome>
         <div className="fixed bottom-0 w-screen">
