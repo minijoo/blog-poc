@@ -75,11 +75,13 @@ const MoreStories = ({ posts }: Props) => {
             />
           </div>
 
-          <CoverImage
-            title={posts[0].title}
-            src={posts[0].coverImage}
-            slug={posts[0].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[0].title}
+              src={posts[0].coverImage}
+              slug={posts[0].slug}
+            />
+          </div>
         </div>
 
         <div
@@ -88,7 +90,7 @@ const MoreStories = ({ posts }: Props) => {
               radius - yTransA
             }rem)`,
           }}
-          className="h-40 md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -101,11 +103,13 @@ const MoreStories = ({ posts }: Props) => {
               excerpt={posts[1].excerpt}
             />
           </div>
-          <CoverImage
-            title={posts[1].title}
-            src={posts[1].coverImage}
-            slug={posts[1].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[1].title}
+              src={posts[1].coverImage}
+              slug={posts[1].slug}
+            />
+          </div>
         </div>
         <div
           style={{
@@ -113,7 +117,7 @@ const MoreStories = ({ posts }: Props) => {
               radius + yTransB
             }rem)`,
           }}
-          className="h-40 md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -126,11 +130,13 @@ const MoreStories = ({ posts }: Props) => {
               excerpt={posts[2].excerpt}
             />
           </div>
-          <CoverImage
-            title={posts[2].title}
-            src={posts[2].coverImage}
-            slug={posts[2].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[2].title}
+              src={posts[2].coverImage}
+              slug={posts[2].slug}
+            />
+          </div>
         </div>
         <div
           style={{
@@ -138,7 +144,7 @@ const MoreStories = ({ posts }: Props) => {
               radius + yTransC
             }rem)`,
           }}
-          className="h-40 md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -151,11 +157,13 @@ const MoreStories = ({ posts }: Props) => {
               excerpt={posts[3].excerpt}
             />
           </div>
-          <CoverImage
-            title={posts[3].title}
-            src={posts[3].coverImage}
-            slug={posts[3].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[3].title}
+              src={posts[3].coverImage}
+              slug={posts[3].slug}
+            />
+          </div>
         </div>
         <div
           style={{
@@ -163,7 +171,7 @@ const MoreStories = ({ posts }: Props) => {
               -1 * xTransA - p_width / 2
             }rem) translateY(${radius + yTransA}rem)`,
           }}
-          className="h-40 md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -176,11 +184,13 @@ const MoreStories = ({ posts }: Props) => {
               excerpt={posts[4].excerpt}
             />
           </div>
-          <CoverImage
-            title={posts[4].title}
-            src={posts[4].coverImage}
-            slug={posts[4].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[4].title}
+              src={posts[4].coverImage}
+              slug={posts[4].slug}
+            />
+          </div>
         </div>
         <div
           style={{
@@ -188,7 +198,7 @@ const MoreStories = ({ posts }: Props) => {
               -1 * xTransB - p_width / 2
             }rem) translateY(${radius - yTransB}rem)`,
           }}
-          className="h-40 md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -201,11 +211,13 @@ const MoreStories = ({ posts }: Props) => {
               excerpt={posts[5].excerpt}
             />
           </div>
-          <CoverImage
-            title={posts[5].title}
-            src={posts[5].coverImage}
-            slug={posts[5].slug}
-          />
+          <div className="scale-[1.01]">
+            <CoverImage
+              title={posts[5].title}
+              src={posts[5].coverImage}
+              slug={posts[5].slug}
+            />
+          </div>
         </div>
       </div>
     </section>
