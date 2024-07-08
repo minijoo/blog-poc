@@ -17,8 +17,14 @@
   }
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* .no-scrollbar::-webkit-scrollbar { */
+*::-webkit-scrollbar {
+  /* using `*` wildcard so all pages scollers are disabled 
+  because Safari isn't applying below styles when adding class dynamically */
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
+  display: none !important;
 }
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
