@@ -10,6 +10,7 @@ import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import type PostType from "../../interfaces/post";
 import Footer from "../../components/footer";
+import { useLayoutEffect } from "react";
 
 type Props = {
   post: PostType;
@@ -18,6 +19,10 @@ type Props = {
 };
 
 export default function Post({ post, morePosts, preview }: Props) {
+  useLayoutEffect(() => {
+    document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
+    // this adds scrollbar to the page
+  });
   const router = useRouter();
   const title = `${post.title} | Jordy's Site`;
   if (!router.isFallback && !post?.slug) {

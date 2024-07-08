@@ -5,11 +5,17 @@ import { getAllPosts } from "../lib/api";
 import Head from "next/head";
 import Post from "../interfaces/post";
 import Footer from "../components/footer";
+import { useLayoutEffect } from "react";
 
 type Props = {
   allPosts: Post[];
 };
+
 export default function Index({ allPosts }: Props) {
+  useLayoutEffect(() => {
+    document.getElementsByTagName("html")[0].classList.add("no-scrollbar");
+    // this removes scrollbar from the page
+  });
   const posts = allPosts;
   return (
     <>
