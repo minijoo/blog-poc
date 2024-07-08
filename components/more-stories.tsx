@@ -28,7 +28,11 @@ const MoreStories = ({ posts }: Props) => {
 
     if (scrollY > 12 * 16 * 24) {
       // infinite scroll effect when scrolling down
-      window.scroll(0, 0);
+      window.scroll({
+        top: 0,
+        // @ts-expect-error
+        behavior: "instant",
+      });
     }
   };
 
