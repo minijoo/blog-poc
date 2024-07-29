@@ -1,7 +1,6 @@
 import PostPreview from "./post-preview";
 import type Post from "../interfaces/post";
-import { useLayoutEffect, useRef, useState } from "react";
-import { getMainScrollHeight } from "./height-observer";
+import { useLayoutEffect, useState } from "react";
 import Header from "./header";
 import { useMediaQuery } from "react-responsive";
 import CoverImage from "./cover-image";
@@ -24,12 +23,12 @@ const MoreStories = ({ posts }: Props) => {
 
   const calculateScrollAmount = () => {
     let scrollY = window.scrollY;
-    setTravel((scrollY / 600) * 60); // 360 pie, 6 slices, 60 degrees each
+    setTravel(0 + (scrollY / 600) * 60); // 360 pie, 6 slices, 60 degrees each
     const isChromeIOS = navigator.userAgent.match("CriOS");
-    if (scrollY > 12 * 600 && !isChromeIOS) {
+    if (scrollX > 12 * 600 && !isChromeIOS) {
       // infinite scroll effect when scrolling down
       window.scroll({
-        top: 0,
+        left: 0,
         // @ts-expect-error
         behavior: "instant",
       });
@@ -37,30 +36,23 @@ const MoreStories = ({ posts }: Props) => {
   };
 
   const [travel, setTravel] = useState(0);
-  const cosA = Math.cos((30 + travel) * (Math.PI / 180));
-  const sinA = Math.sin((30 + travel) * (Math.PI / 180));
-  const cosB = Math.cos((30 - travel) * (Math.PI / 180));
-  const sinB = Math.sin((30 - travel) * (Math.PI / 180));
-  const cosC = Math.cos(travel * (Math.PI / 180));
-  const sinC = Math.sin(travel * (Math.PI / 180));
-  const radius = useMediaQuery({ query: "(min-width: 768px)" }) ? 90 : 36; //rems
-  const xTransA = radius * cosA;
-  const yTransA = radius * sinA;
-  const xTransB = radius * cosB;
-  const yTransB = radius * sinB;
-  const xTransC = radius * sinC;
-  const yTransC = radius * cosC;
-  const p_width = windowWidth / 16; //post width is window width
+  const radius = useMediaQuery({ query: "(min-width: 768px)" }) ? 110 : 50; //rems
+  const xTransA = radius * Math.cos(travel * (Math.PI / 180));
+  const yTransA = radius * Math.sin(travel * (Math.PI / 180));
+  const xTransB = radius * Math.cos((60 - travel) * (Math.PI / 180));
+  const yTransB = radius * Math.sin((60 - travel) * (Math.PI / 180));
+  const xTransC = radius * Math.cos((60 + travel) * (Math.PI / 180));
+  const yTransC = radius * Math.sin((60 + travel) * (Math.PI / 180));
   return (
     <section className="w-auto w-full fixed left-1/2 -translate-x-1/2 text-center">
       <Header />
-      <div className="w-[200vw] text-center left-1/2 relative -translate-x-1/2 mx-auto">
+      <div className="`w-[200vw] text-center `left-1/2 absolute `-translate-x-1/2 mx-auto">
         <div
-          className="md:px-10 w-screen absolute left-1/2 `-translate-x-1/2"
+          className="md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
           style={{
-            transform: `translateX(${
-              -1 * xTransC - p_width / 2
-            }rem) translateY(${radius - yTransC}rem)`,
+            transform: `translateX(${radius - xTransA}rem) translateY(${
+              -1 * yTransA
+            }rem)`,
           }}
         >
           <div className="px-2">
@@ -86,11 +78,11 @@ const MoreStories = ({ posts }: Props) => {
 
         <div
           style={{
-            transform: `translateX(${xTransA - p_width / 2}rem) translateY(${
-              radius - yTransA
-            }rem)`,
+            transform: `translateX(${
+              radius - xTransB
+            }rem) translateY(${yTransB}rem)`,
           }}
-          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="h-40 md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -113,11 +105,11 @@ const MoreStories = ({ posts }: Props) => {
         </div>
         <div
           style={{
-            transform: `translateX(${xTransB - p_width / 2}rem) translateY(${
-              radius + yTransB
-            }rem)`,
+            transform: `translateX(${
+              radius + xTransC
+            }rem) translateY(${yTransC}rem)`,
           }}
-          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="h-40 md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -140,11 +132,11 @@ const MoreStories = ({ posts }: Props) => {
         </div>
         <div
           style={{
-            transform: `translateX(${xTransC - p_width / 2}rem) translateY(${
-              radius + yTransC
-            }rem)`,
+            transform: `translateX(${
+              radius + xTransA
+            }rem) translateY(${yTransA}rem)`,
           }}
-          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="h-40 md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -167,11 +159,11 @@ const MoreStories = ({ posts }: Props) => {
         </div>
         <div
           style={{
-            transform: `translateX(${
-              -1 * xTransA - p_width / 2
-            }rem) translateY(${radius + yTransA}rem)`,
+            transform: `translateX(${radius + xTransB}rem) translateY(${
+              -1 * yTransB
+            }rem)`,
           }}
-          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="h-40 md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
@@ -194,11 +186,11 @@ const MoreStories = ({ posts }: Props) => {
         </div>
         <div
           style={{
-            transform: `translateX(${
-              -1 * xTransB - p_width / 2
-            }rem) translateY(${radius - yTransB}rem)`,
+            transform: `translateX(${radius - xTransC}rem) translateY(${
+              -1 * yTransC
+            }rem)`,
           }}
-          className="md:px-10 w-screen absolute left-1/2 -translate-x-1/2"
+          className="h-40 md:px-10 w-screen absolute `left-1/2 `-translate-x-1/2"
         >
           <div className="px-2">
             <PostPreview
