@@ -15,6 +15,13 @@ export default function Index({ allPosts }: Props) {
   useLayoutEffect(() => {
     document.getElementsByTagName("html")[0].classList.add("no-scrollbar");
     // this removes scrollbar from the page
+
+    // start page at second occurrence of first post
+    window.scroll({
+      top: 3600,
+      // @ts-expect-error
+      behavior: "instant",
+    });
   });
   const posts = allPosts;
   return (

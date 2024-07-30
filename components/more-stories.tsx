@@ -25,10 +25,10 @@ const MoreStories = ({ posts }: Props) => {
     let scrollY = window.scrollY;
     setTravel(0 + (scrollY / 600) * 60); // 360 pie, 6 slices, 60 degrees each
     const isChromeIOS = navigator.userAgent.match("CriOS");
-    if (scrollX > 12 * 600 && !isChromeIOS) {
+    if (scrollY > 12 * 600 && !isChromeIOS) {
       // infinite scroll effect when scrolling down
       window.scroll({
-        left: 0,
+        top: 0,
         // @ts-expect-error
         behavior: "instant",
       });

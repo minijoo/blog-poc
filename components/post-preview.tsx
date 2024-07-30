@@ -23,7 +23,7 @@ const PostPreview = ({
   const inlineStyle = { height: "100%" };
   const height = 60; // Later, add variable preview size functionality
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative bg-white">
       <Link as={`/posts/${slug}`} href="/posts/[slug]">
         <div className="font-bold text-3xl leading-snug duration-200">
           <Textfit mode="single" max={1000}>
