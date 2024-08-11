@@ -6,34 +6,15 @@ import CoverImage from "./cover-image";
 
 type Props = {
   posts: Post[];
+  travel: number;
 };
 
-const MoreStories = ({ posts }: Props) => {
+const MoreStories = ({ posts, travel }: Props) => {
   const [windowWidth, setWindowWidth] = useState(1);
-  const [travel, setTravel] = useState(0);
 
   useLayoutEffect(() => {
     setWindowWidth(window.innerWidth);
-    const onScroll = () => {
-      calculateScrollAmount();
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
   });
-
-  const calculateScrollAmount = () => {
-    const n = (window.scrollY / 600) * 60; // turns each 600px scroll div (in index.js) to a 60 pixel scroll.
-    setTravel(n < 0 ? 360 + (n % 360) : n % 360);
-    const isChromeIOS = navigator.userAgent.match("CriOS");
-    if (window.scrollY > 12 * 600 && !isChromeIOS) {
-      // infinite scroll effect when scrolling down
-      window.scroll({
-        top: 0,
-        // @ts-expect-error
-        behavior: "instant",
-      });
-    }
-  };
 
   const convertCoords = (theta: number, radius: number) => {
     return [
@@ -43,12 +24,12 @@ const MoreStories = ({ posts }: Props) => {
   };
 
   const radius = windowWidth * 2;
-  const thetas = [180, 240, 300, 0, 60, 120];
+  const thetas = [180, 120, 60, 0, 300, 240];
   const coords = thetas.map((theta) => convertCoords(theta + travel, radius));
   return (
-    <section className="w-auto w-full fixed left-1/2 -translate-x-1/2 text-center">
+    <section className="w-full fixed left-1/2 -translate-x-1/2 text-center">
       <Header />
-      <div className="relative w-full h-screen">
+      <div className="relative w-full">
         {coords.map((coord, index) => (
           <div
             className="absolute w-screen"
