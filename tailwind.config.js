@@ -8,6 +8,21 @@ module.exports = {
   safelist: ["h-48", "h-40", "h-28", "h-60"],
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            "code::before": {
+              content: '""',
+            },
+            "code::after": {
+              content: '""',
+            },
+            blockquote: {
+              quotes: "none",
+            },
+          },
+        },
+      },
       fontFamily: {
         serif: ["var(--font-crimson)"],
       },
@@ -143,5 +158,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

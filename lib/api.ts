@@ -2,6 +2,8 @@
 import fs from 'fs';
 import { join } from "path";
 import { bundleMDX } from "mdx-bundler";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 const postsDirectory = join(process.cwd(), "_posts");
 
@@ -16,6 +18,8 @@ export async function getPostBySlug(slug: string, fields: string[] = []) {
   const result = await bundleMDX({
     source: fileContents,
     mdxOptions(options: Record<string, any>) {
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath];
+      options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypeKatex];
       return {
         ...options,
         providerImportSource: "@mdx-js/react",

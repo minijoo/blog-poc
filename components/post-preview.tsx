@@ -27,21 +27,19 @@ const PostPreview = ({
       <Link as={`/posts/${slug}`} href="/posts/[slug]">
         <div className="font-bold text-3xl leading-snug duration-200">
           <Textfit mode="single" max={1000}>
-            {title}
+            <em>{title}</em>
           </Textfit>
         </div>
         <div className="grow">
           <div
-            className={`h-[30vh] $h-full $px-2 md:px-0 md:w-full $w-[95vw] text-left flex items-center justify-between`}
+            className={`h-[25vh] md:px-0 md:w-full text-left flex items-center justify-between`}
           >
             <div className="md:px-2 w-full h-full text-justify">
               <Textfit style={inlineStyle} mode="multi" max={10000}>
                 <span className="align-text-bottom">
-                  <em>By {author.name === "Jordy" ? "me" : author.name}</em> —
-                  <span className="text-gray-600 mx-10">
-                    {excerpt} {"("}
-                    <DateFormatter dateString={date} useShortForm />
-                    {")"}
+                  <span className="text-gray-600">
+                    {/* {author.name === "Jordy" ? "me" : author.name} */}
+                    {excerpt} <br />
                   </span>
                 </span>
               </Textfit>

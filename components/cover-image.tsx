@@ -1,8 +1,5 @@
-import cn from "classnames";
 import Link from "next/link";
 import Image from "next/image";
-
-// Unused since cover images were removed from homepage
 
 type Props = {
   title: string;
@@ -12,18 +9,10 @@ type Props = {
 
 const CoverImage = ({ title, src, slug }: Props) => {
   const image = (
-    <Image
-      src={src}
-      alt={`Cover Image for ${title}`}
-      className={cn("shadow-sm w-full", {
-        "transition-opacity": slug,
-      })}
-      width={1300}
-      height={630}
-    />
+    <Image src={src} alt={`Cover Image for ${title}`} fill objectFit="cover" />
   );
   return (
-    <div className="sm:mx-0">
+    <div className="sm:mx-0 h-full">
       {slug ? (
         <Link as={`/posts/${slug}`} href="/posts/[slug]" aria-label={title}>
           {image}

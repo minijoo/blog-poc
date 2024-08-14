@@ -3,6 +3,7 @@ import type Post from "../interfaces/post";
 import { useLayoutEffect, useState } from "react";
 import Header from "./header";
 import CoverImage from "./cover-image";
+import DateFormatter from "./date-formatter";
 
 type Props = {
   posts: Post[];
@@ -27,12 +28,12 @@ const MoreStories = ({ posts, travel }: Props) => {
   const thetas = [180, 120, 60, 0, 300, 240];
   const coords = thetas.map((theta) => convertCoords(theta + travel, radius));
   return (
-    <section className="w-full fixed left-1/2 -translate-x-1/2 text-center">
+    <section className="w-full max-w-xl fixed left-1/2 -translate-x-1/2 text-center">
       <Header />
       <div className="relative w-full">
         {coords.map((coord, index) => (
           <div
-            className="absolute w-screen"
+            className="absolute w-full"
             key={index}
             style={{ left: coord[0], top: coord[1] }}
           >
@@ -48,12 +49,16 @@ const MoreStories = ({ posts, travel }: Props) => {
               />
             </div>
 
-            <div className="scale-[1.01]">
+            <div className="scale-[1.01] h-[35vh]">
               <CoverImage
                 title={posts[index].title}
                 src={posts[index].coverImage}
                 slug={posts[index].slug}
               />
+            </div>
+            <div className="mt-2 text-lg">
+              Posted on{" "}
+              <DateFormatter dateString={posts[index].date} useShortForm />
             </div>
           </div>
         ))}

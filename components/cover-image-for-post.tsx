@@ -13,7 +13,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
   const image = (
     <div>
       <div
-        className="w-full h-36 md:h-96 bg-cover bg-center"
+        className="w-full h-36 md:h-48 bg-cover bg-center"
         style={{
           backgroundImage: `url(${src})`,
         }}
@@ -21,7 +21,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
         <div className="h-full backdrop-blur-sm bg-white/50 px-5 md:px-10 py-6 md:py-12">
           <Textfit
             max={1000}
-            className="h-full text-center tracking-tighter flex items-center"
+            className="h-full text-center tracking-tighter flex items-center place-content-center"
           >
             {title}
           </Textfit>

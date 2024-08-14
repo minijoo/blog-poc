@@ -1,6 +1,5 @@
 import * as React from "react";
 import { getMDXComponent } from "mdx-bundler/client";
-import markdownStyles from "./markdown-styles.module.css";
 
 type Props = {
   // content: string;
@@ -18,7 +17,7 @@ const PostBody = ({ code }: Props) => {
         className={markdownStyles["markdown"]}
         dangerouslySetInnerHTML={{ __html: content }}
       /> */}
-      <div className={markdownStyles["markdown"]}>
+      <div className="prose prose-xl">
         <Component />
       </div>
     </div>
