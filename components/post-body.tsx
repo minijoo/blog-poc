@@ -17,7 +17,7 @@ const PostBody = ({ code }: Props) => {
         className={markdownStyles["markdown"]}
         dangerouslySetInnerHTML={{ __html: content }}
       /> */}
-      <div className="">
+      <div className="prose prose-xl">
         <Component />
       </div>
     </div>
