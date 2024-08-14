@@ -35,7 +35,6 @@ export default function Index({ allPosts }: Props) {
     setTravel(n < 0 ? 360 + (n % 360) : n % 360);
     const isChromeIOS = navigator.userAgent.match("CriOS");
     if (window.scrollY > 12 * 600 && !isChromeIOS) {
-      alert("ha!");
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
