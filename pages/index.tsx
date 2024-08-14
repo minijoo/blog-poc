@@ -23,10 +23,11 @@ export default function Index({ allPosts }: Props) {
   }, []); // empty array forces this fn to run only once (on load) and not on any other rerenders
 
   useLayoutEffect(() => {
-    // document.getElementsByTagName("html")[0].classList.add("no-scrollbar");
-    // // this removes scrollbar from the page
-    // window.addEventListener("scroll", calculateScrollAmount);
-    // return () => window.removeEventListener("scroll", calculateScrollAmount);
+    document.getElementsByTagName("html")[0].classList.add("no-scrollbar");
+    // this removes scrollbar from the page
+
+    window.addEventListener("scroll", calculateScrollAmount);
+    return () => window.removeEventListener("scroll", calculateScrollAmount);
   });
 
   const calculateScrollAmount = () => {
