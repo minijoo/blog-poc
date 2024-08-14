@@ -1,13 +1,13 @@
 ---
   title: 'Homepage Design Updated'
   excerpt: 'The new design is based around a spinning wheel, and its implementation is documented here in detail'
-  coverImage: '/assets/blog/temp/wheel.png'
+  coverImage: 'https://d1goytf13un2gh.cloudfront.net/assets/wheel/wheel.png'
   date: '2024-08-11T19:30:00.000Z'
   author:
     name: Jordy
     picture: '/assets/blog/authors/jord.jpg'
   ogImage:
-    url: '/assets/blog/temp/wheel.png'
+    url: 'https://d1goytf13un2gh.cloudfront.net/assets/wheel/wheel.png'
 ---
 
 import { Fig1 } from "../content_components/examples/wheel";
@@ -21,7 +21,7 @@ The problem of creating the new design can be reduced to a simpler one: six poin
 First, let's start with the view (fig. 1): a circle with six points sitting on the circumference, equidistant from each other. To produce such an image using CSS, I determined the coordinates of each of these six points using trigonometry.  
 
 <p style={{"text-align": "center", "margin": "0 auto"}}>
-  <img style={{"margin": "auto"}} src="/assets/blog/temp/fig1.jpg" />
+  <img style={{"margin": "auto"}} src="https://d1goytf13un2gh.cloudfront.net/assets/wheel/fig1.jpg" />
   <em>Fig. 1</em>
 </p>
 
@@ -30,7 +30,7 @@ Given a circle with origin `(0,0)` in cartesian coordinates, any point `P` on th
 Let's review the cosine and sine functions. They are based on an angle created by two lines, where one is the control line. What cosine of the angle between two lines produces is a quotient `x/r`, where `r` is the distance of the non-control line that starts from the intersection and ends at some point `C`, from which drawing a straight line to intersect with the control line creates a right angle at that intersection. Then `x` is the position along the control line relative to the intersection point that the above right angle would occur. Similarly, sine produces `y/r`, where `r` is the same as above (the distance along the non-control line that reaches point `C`), and `y` is the position along the line perpendicular to the control line relative to the intersection point such that when located based off the point at which the right angle occurs, it will intersect with the non-control line exactly at point `C`, i.e. the point along the non-control line that is `r` distance away from the intersection. Using the same two lines, point `C`, `x`, `y`, `r`, and the right angle are shown in Fig. 2.
 
 <p style={{"text-align": "center"}}>
-  <img style={{"margin": "auto"}} src="/assets/blog/temp/fig2.png" />
+  <img style={{"margin": "auto"}} src="https://d1goytf13un2gh.cloudfront.net/assets/wheel/fig2.png" />
   <em>Fig. 2</em>
 </p>
 
@@ -53,7 +53,7 @@ As a quick aside, what do negative `x` and `y` values mean? Since `x` and `y` va
 
 > *"Angle touches" refers to the half of the line where an angle is formed. For example, take the following two angles that are formed by two lines: 
 <p style={{"text-align": "center"}}>
-  <img style={{"margin": "auto"}} src="/assets/blog/temp/fig3.png" />
+  <img style={{"margin": "auto"}} src="https://d1goytf13un2gh.cloudfront.net/assets/wheel/fig3.png" />
   <em>Fig. 2</em>
 </p>
 > $ \theta _1 $ and $ \theta _2 $ are angle formed by lines A and B intersecting each other. However, they are formed on opposite halves of line B. In other words, $ \theta _1 $ "touches" one half of line B, and $ \theta _2 $ touches the other. 
@@ -151,7 +151,7 @@ Finally, we add the styles to the `wheelContiner` `<div>` and `point` `<div>`s.
 ```
 
 <p style={{"text-align": "center"}}>
-  <img style={{"margin": "auto"}} src="/assets/blog/temp/fig4.png" />
+  <img style={{"margin": "auto"}} src="https://d1goytf13un2gh.cloudfront.net/assets/wheel/fig4.png" />
   <em>Fig. 4</em>
 </p>
 
