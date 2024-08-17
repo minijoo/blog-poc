@@ -19,14 +19,16 @@ const CoverImage = ({ title, src, slug }: Props) => {
         }}
       >
         <div className="h-full backdrop-blur-sm bg-white/50 px-5 md:px-10">
-          <Textfit
+          {/* <Textfit
             mode="multi"
-            max={1000}
-            style={{ height: "144px" }}
+            max={1000} */}
+          <div
+            style={{ height: "144px", fontSize: "36px" }}
             className="text-center tracking-tighter flex place-items-center"
           >
             {title}
-          </Textfit>
+          </div>
+          {/* </Textfit> */}
         </div>
       </div>
     </div>
