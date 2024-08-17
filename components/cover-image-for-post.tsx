@@ -1,7 +1,5 @@
-import cn from "classnames";
-import Image from "next/image";
-import PostTitle from "./post-title";
-import { Textfit } from "react-textfit";
+import { useLayoutEffect, useRef } from "react";
+import textFit from "textfit";
 
 type Props = {
   title: string;
@@ -10,6 +8,14 @@ type Props = {
 };
 
 const CoverImage = ({ title, src, slug }: Props) => {
+  const ref = useRef();
+  useLayoutEffect(() => {
+    textFit(ref.current, {
+      multiLine: true,
+      alignHoriz: true,
+      alignVert: true,
+    });
+  });
   const image = (
     <div>
       <div
@@ -18,17 +24,10 @@ const CoverImage = ({ title, src, slug }: Props) => {
           backgroundImage: `url(${src})`,
         }}
       >
-        <div className="h-full backdrop-blur-sm bg-white/50 px-5 md:px-10">
-          {/* <Textfit
-            mode="multi"
-            max={1000} */}
-          <div
-            style={{ height: "144px", fontSize: "36px" }}
-            className="text-center tracking-tighter flex place-items-center"
-          >
+        <div className="h-full w-full backdrop-blur-sm bg-white/50 px-5 md:px-10">
+          <div ref={ref} className="h-36">
             {title}
           </div>
-          {/* </Textfit> */}
         </div>
       </div>
     </div>
