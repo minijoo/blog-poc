@@ -35,10 +35,14 @@ const PostPreview = ({
             className={`h-[25vh] md:px-0 md:w-full text-left flex items-center justify-between`}
           >
             <div className="md:px-2 w-full h-full text-justify">
-              <Textfit style={inlineStyle} mode="multi" max={10000}>
+              <Textfit
+                className="flex place-items-center"
+                style={inlineStyle}
+                mode="multi"
+                max={10000}
+              >
                 <span className="align-text-bottom">
                   <span className="text-gray-600">
-                    {/* {author.name === "Jordy" ? "me" : author.name} */}
                     {excerpt} <br />
                   </span>
                 </span>

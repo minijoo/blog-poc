@@ -21,7 +21,7 @@
 *::-webkit-scrollbar {
   /* using `*` wildcard so all pages scollers are disabled 
   because Safari isn't applying below styles when adding class dynamically */
-  /* -webkit-appearance: none; */
+  -webkit-appearance: none;
   width: 0;
   height: 0;
   display: none;
@@ -75,8 +75,5 @@ html {
 }
 
 .jp-scroll {
-  text-orientation: upright;
-  writing-mode: vertical-rl;
-  letter-spacing: 0.12em;
   font-family: var(--font-kaisei);
 }

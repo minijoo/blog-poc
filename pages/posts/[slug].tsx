@@ -52,7 +52,9 @@ export default function Post({ post, morePosts, preview }: Props) {
           </>
         )}
       </Container>
-      <Footer />
+      <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 justify-items-center place-items-center">
+        <Footer />
+      </div>
     </Layout>
   );
 }

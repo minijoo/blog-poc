@@ -20,10 +20,23 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
   if (useKanji) {
     // useShortForm doesn't apply
     return (
-      <div className={`${kaisei.variable} jp-scroll`}>
-        <p>{format(date, "yy")}年</p>
-        <p>{month}月</p>
-        <p>{day}日</p>
+      <div className={`${kaisei.variable} jp-scroll flex flex-row gap-1`}>
+        <div className="flex flex-col">
+          {day.split("").map((c) => (
+            <div>{c}</div>
+          ))}
+          <div>日</div>
+        </div>
+        <div className="flex flex-col">
+          {month.split("").map((c) => (
+            <div>{c}</div>
+          ))}
+          <div>月</div>
+        </div>
+        <div className="flex flex-col">
+          <div>{format(date, "yy")}</div>
+          <div>年</div>
+        </div>
       </div>
     );
   }
