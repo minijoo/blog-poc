@@ -20,7 +20,7 @@ const Footer = () => {
           <div className="grow flex flex-col text-xl gap-2">
             <div
               className="flex flex-col gap-1 w-16 cursor-pointer"
-              onPointerDown={(e) => {
+              onClick={() => {
                 setExpand(!expand);
               }}
             >
