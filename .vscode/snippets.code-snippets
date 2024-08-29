@@ -17,8 +17,8 @@
   // }
   "Insert LightboxLink": {
     "scope": "javascript,typescript,MDX,mdx",
-    "prefix": "mdx",
-    "body": ["<LightboxLink slides={$2} ithPhoto={$3}>$1</LightboxLink>"],
+    "prefix": "lightboxlink",
+    "body": ["<LightboxLink data={$1} picId=\"$2\">"],
     "description": "Insert ligthboxlink component"
   }
 }

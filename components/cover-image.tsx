@@ -9,7 +9,12 @@ type Props = {
 
 const CoverImage = ({ title, src, slug }: Props) => {
   const image = (
-    <Image src={src} alt={`Cover Image for ${title}`} fill objectFit="cover" />
+    <Image
+      src={src}
+      alt={`Cover Image for ${title}`}
+      fill
+      style={{ objectFit: "cover" }}
+    />
   );
   return (
     <div className="sm:mx-0 h-full">

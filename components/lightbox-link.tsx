@@ -1,12 +1,24 @@
 import { useState } from "react";
-import Lightbox from "yet-another-react-lightbox";
+import { IndexInfo } from "typescript";
+import Lightbox, { Slide } from "yet-another-react-lightbox";
 
 // Lightbox plugins
 import Download from "yet-another-react-lightbox/plugins/download";
 import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-export default function PhotoGallery({ slides, ithPhoto, children }) {
+export type LightboxData = {
+  slideIndexById: Map<string, number>;
+  slides: Slide[];
+};
+
+type Props = {
+  data: LightboxData;
+  picId: string;
+  children: any;
+};
+
+export default function PhotoGallery({ data, picId, children }: Props) {
   const [index, setIndex] = useState(-1);
 
   return (
@@ -14,13 +26,13 @@ export default function PhotoGallery({ slides, ithPhoto, children }) {
       <a
         className="lightbox"
         onClick={() => {
-          setIndex(ithPhoto);
+          setIndex(data.slideIndexById[picId]);
         }}
       >
         {children}
       </a>
       <Lightbox
-        slides={slides}
+        slides={data.slides}
         open={index >= 0}
         index={index}
         close={() => setIndex(-1)}

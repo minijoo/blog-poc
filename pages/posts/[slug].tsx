@@ -10,7 +10,7 @@ import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import type PostType from "../../interfaces/post";
 import Footer from "../../components/footer";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 type Props = {
   post: PostType;
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function Post({ post, morePosts, preview }: Props) {
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
     // this adds scrollbar to the page
   });

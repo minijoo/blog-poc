@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import textFit from "textfit";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const CoverImage = ({ title, src, slug }: Props) => {
   const ref = useRef();
-  useLayoutEffect(() => {
+  useEffect(() => {
     textFit(ref.current, {
       multiLine: true,
       alignHoriz: true,

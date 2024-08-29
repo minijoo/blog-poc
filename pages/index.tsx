@@ -22,7 +22,7 @@ export default function Index({ allPosts }: Props) {
     });
   }, []); // empty array forces this fn to run only once (on load) and not on any other rerenders
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.getElementsByTagName("html")[0].classList.add("no-scrollbar");
     // this removes scrollbar from the page
 
@@ -47,7 +47,9 @@ export default function Index({ allPosts }: Props) {
   const posts = allPosts;
   const scrollDivs = [];
   for (let i = 0; i < 14; i++) {
-    scrollDivs.push(<div className="h-[600px] snap-start snap-always"></div>);
+    scrollDivs.push(
+      <div key={i} className="h-[600px] snap-start snap-always"></div>
+    );
   }
   return (
     <>

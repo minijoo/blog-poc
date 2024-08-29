@@ -22,14 +22,14 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
     return (
       <div className={`${kaisei.variable} jp-scroll flex flex-row gap-1`}>
         <div className="flex flex-col">
-          {day.split("").map((c) => (
-            <div>{c}</div>
+          {day.split("").map((c, i) => (
+            <div key={i}>{c}</div>
           ))}
           <div>日</div>
         </div>
         <div className="flex flex-col">
-          {month.split("").map((c) => (
-            <div>{c}</div>
+          {month.split("").map((c, i) => (
+            <div key={i}>{c}</div>
           ))}
           <div>月</div>
         </div>

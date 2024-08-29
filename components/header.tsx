@@ -13,7 +13,12 @@ const Header = () => {
     <section className="flex-col flex items-center mt-8 mb-4 h-20 md:h-28">
       <div className="flex-grow flex w-full place-content-center -translate-x-3">
         <div className="text-shadow my-0 block w-20 h-full relative text-right md:mx-3">
-          <Image src="/favicon/safari-pinned-tab.svg" alt="logo" fill />
+          <Image
+            src="/favicon/safari-pinned-tab.svg"
+            alt="logo"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </div>
         <div className="">
           <Link href="/" className="hover:underline">

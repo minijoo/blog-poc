@@ -1,6 +1,6 @@
 import PostPreview from "./post-preview";
 import type Post from "../interfaces/post";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Header from "./header";
 import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
@@ -13,7 +13,7 @@ type Props = {
 const MoreStories = ({ posts, travel }: Props) => {
   const [windowWidth, setWindowWidth] = useState(1);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setWindowWidth(window.innerWidth);
   });
 
@@ -35,7 +35,10 @@ const MoreStories = ({ posts, travel }: Props) => {
           <div
             className="absolute w-full"
             key={index}
-            style={{ left: coord[0], top: coord[1] }}
+            style={{
+              left: Math.round(coord[0] * 10000) / 10000,
+              top: Math.round(coord[1] * 10000) / 10000,
+            }}
           >
             <div className="px-2">
               <PostPreview
