@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer
       className={cn(
-        "relative bg-neutral-50 border-t border-neutral-200 w-full duration-700",
+        "relative bg-neutral-50 border-t border-neutral-200 w-full duration-700 overflow-hidden",
         {
           "h-48": expand,
           "h-10": !expand,

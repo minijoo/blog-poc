@@ -8,7 +8,7 @@ const url0 =
   "https://public--asia.s3.ap-northeast-2.amazonaws.com/JYK+Scan+Images.zip";
 
 export default function DownloadPage() {
-  const ref = useRef();
+  const ref = useRef(null);
 
   useLayoutEffect(() => {
     console.log(ref.current);

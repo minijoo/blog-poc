@@ -1,4 +1,3 @@
-import { parseISO, format } from "date-fns";
 import { Kaisei_Opti } from "next/font/google";
 
 const kaisei = Kaisei_Opti({
@@ -14,7 +13,8 @@ type Props = {
 };
 
 const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
-  const date = parseISO(dateString);
+  // const date = parseISO(dateString);
+  const date = new Date(dateString);
   const month = numberMap[date.getMonth() + 1];
   const day = numberMap[date.getDate()];
   if (useKanji) {
@@ -34,16 +34,32 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
           <div>月</div>
         </div>
         <div className="flex flex-col">
-          <div>{format(date, "yy")}</div>
+          <div>{date.getFullYear() % 100}</div>
           <div>年</div>
         </div>
       </div>
     );
   }
   if (useShortForm) {
-    return <span>{format(date, "M/d/yy")}</span>;
+    return (
+      <span>
+        {date.toLocaleString("en-US", {
+          month: "numeric",
+          day: "numeric",
+          year: "2-digit",
+        })}
+      </span>
+    );
   }
-  return <div>{format(date, "LLLL	d, yyyy")}</div>;
+  return (
+    <div>
+      {date.toLocaleString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })}
+    </div>
+  );
 };
 
 const numberMap = {
