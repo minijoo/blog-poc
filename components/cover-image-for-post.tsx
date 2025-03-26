@@ -8,7 +8,7 @@ type Props = {
 };
 
 const CoverImage = ({ title, src, slug }: Props) => {
-  const ref = useRef();
+  const ref = useRef(undefined);
   useEffect(() => {
     textFit(ref.current, {
       multiLine: true,
