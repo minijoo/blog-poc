@@ -1,29 +1,20 @@
-const DB_URL = "http://localhost:3001/";
+import { JordysAPI } from "../../../lib/jordys-api";
 
-const createPost = async () => {
-  try {
-    const resp = await fetch(DB_URL + "posts/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "---",
-        excerpt: "...",
-        date: new Date().toISOString().split("T")[0],
-        postBody: "# Hello World",
-      }),
-    });
-    if (!resp.ok) {
-      alert("Response from server not OK");
+export function getStaticProps() {
+  return { props: { ip: process.env.IP } };
+}
+
+export default function NewPost({ ip }) {
+  const Jordys_API = new JordysAPI(ip);
+
+  const createPost = async () => {
+    try {
+      return Jordys_API.createPost();
+    } catch (error) {
+      alert(error);
     }
-    return await resp.json();
-  } catch (error) {
-    alert(error);
-  }
-};
+  };
 
-export default function NewPost({}) {
   return (
     <div className="max-w-2xl mx-auto grid place-content-center items-center h-screen">
       <div className="flex flex-col">

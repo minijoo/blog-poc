@@ -1,8 +1,57 @@
 import { Slide, SlideImage, SlideVideo } from "yet-another-react-lightbox";
 import GalleryItem from "../interfaces/galleryItem";
 import { Photo } from "react-photo-album";
+import { ApiGalleryItem } from "../interfaces/jordys-api";
 
 const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
+
+const injectGalleryMdx = (
+  postBody: string,
+  galleryByName: Map<string, ApiGalleryItem>
+) => {
+  let newBody = postBody;
+
+  const regex = /\$\(([\w\s,]+)\)/g;
+
+  let resultArr: RegExpExecArray;
+  while ((resultArr = regex.exec(postBody)) !== null) {
+    // const match_index = resultArr.index;
+    const matchString = resultArr[0]; // "(name1, name2)"
+    const item__names = (resultArr[1] as string).split(/\s*,\s*/);
+
+    const galleryMdx = item__names.reduce((arr, item) => {
+      const galleryItem = galleryByName.get(item.toLowerCase());
+      if (!galleryItem) return arr;
+      const mdxGalleryItem: GalleryItem = {
+        path: galleryItem.url,
+        type: galleryItem.type,
+        width: galleryItem.width,
+        height: galleryItem.height,
+      };
+      if (galleryItem.type === "video") {
+        mdxGalleryItem.path = galleryItem.video_thumb_url;
+        mdxGalleryItem.video = {
+          path: galleryItem.url,
+          type: "video/mp4",
+        };
+      }
+      arr.push(mdxGalleryItem);
+      return arr;
+    }, []);
+
+    newBody = newBody.replace(
+      matchString,
+      "<div className='not-prose'><PhotoGallery slides={" +
+        JSON.stringify(galleryMdx) +
+        ".map(mapGalleryToSlides)} /></div>"
+    );
+  }
+
+  return `import PhotoGallery from "../components/photo-gallery";
+import { mapGalleryToSlides } from "../lib/utils";
+
+${newBody}`;
+};
 
 const dbPostToStaticPostContent = (content: string): [string, string[]] => {
   const inputStr = content;
@@ -78,4 +127,4 @@ const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
   }
 };
 
-export { mapGalleryToSlides, dbPostToStaticPostContent };
+export { mapGalleryToSlides, dbPostToStaticPostContent, injectGalleryMdx };

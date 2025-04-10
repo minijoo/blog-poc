@@ -178,14 +178,6 @@ export default function Editor({ ref }) {
       }
       itNode.classList.remove("bg-black/20");
 
-      // add caretNode to current line
-      const caretNode = document.createElement("div");
-      caretNode.classList.add("inline-block");
-      caretNode.classList.add("empty");
-      caretNode.innerHTML = "<span>&#160;</span>";
-      caretNode.addEventListener("click", handleCharClick);
-      currentRow.appendChild(caretNode);
-
       const domNode = document.createElement("div");
       domNode.classList.add("mt-2");
       domNode.classList.add("block");
@@ -207,7 +199,7 @@ export default function Editor({ ref }) {
       caretRef = domNode.firstChild;
       caretRef.classList.add("bg-black/20");
 
-      saveHistory && history.push({ type: "enter", caret: caretNode });
+      saveHistory && history.push({ type: "enter", caret: itNode });
     } else if (input === "Delete") {
     } else if (input === "ArrowLeft") {
       caretRef.classList.remove("bg-black/20");

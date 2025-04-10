@@ -1,99 +1,109 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import Editor from "../../../components/editor";
-// import { assert } from "console";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ItemForUpload, JordysAPI } from "../../../lib/jordys-api";
+import { ApiPost } from "../../../interfaces/jordys-api";
+import { injectGalleryMdx } from "../../../lib/utils";
+import Head from "next/head";
+import Layout from "../../../components/layout";
+import cn from "classnames";
 
-const DB_URL = "http://localhost:3001/";
-const uploadImages = async (id, files, names: string[]) => {
-  const formData = new FormData();
-  // const names = [];
-  for (const file of files) {
-    // names.push(file.name);
-    formData.append("images", file);
-  }
-  formData.append("names", names.join(","));
+interface ItemForUploadAndPreviewing extends ItemForUpload {
+  previewUrl: string;
+  coverBlob?: Blob;
+}
 
-  // try {
-  const resp = await fetch(DB_URL + "posts/gallery-upload/" + id, {
-    method: "POST",
-    headers: {},
-    body: formData,
-  });
-  // if (!resp.ok) {
-  // alert("Response from server not OK");
-  // }
-  return await resp.json();
-  // } catch (error) {
-  // alert(error);
-  // }
-};
+export function getStaticProps() {
+  return { props: { ip: process.env.IP } };
+}
 
-const updatePost = async (id, fields) => {
-  try {
-    const resp = await fetch(DB_URL + "posts/" + id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fields),
-    });
-    if (!resp.ok) {
-      alert("Response from server not OK");
-    }
-    return await resp.json();
-  } catch (error) {
-    alert(error);
-  }
-};
+export function getStaticPaths() {
+  return { paths: [], fallback: false };
+}
 
-export default function DbPost() {
+export default function DbPost({ ip }) {
+  const Jordys_API = new JordysAPI(ip);
   const router = useRouter();
   const postId = router.query.slug;
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<ApiPost>(null);
   useEffect(() => {
     if (!postId) return;
-    const fetchPostById = async () => {
-      try {
-        const result = await fetch(DB_URL + "posts/" + postId);
-        const responseData = await result.json();
+    Jordys_API.retrievePost(postId)
+      .then((responseData: ApiPost) => {
         responseData.gallery = responseData.gallery.reverse();
         setData(responseData);
-        editorRef.current.loadContent(responseData.body);
-      } catch (error) {
-        alert(error);
-      }
-    };
-    fetchPostById();
+        bodyRef.current.value = responseData.body;
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }, [postId]);
 
-  const editorRef = useRef(null);
+  const bodyRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleHeaderClick = async () => {
+    let newName = prompt("Enter new cover image name:");
+    const item = data.gallery.filter(
+      (it) => it.name === newName && it.type === "image"
+    );
+    if (!item.length) {
+      setRedMessage(
+        "Nothing happened. No gallery item exists with name: " + newName
+      );
+      document.getElementById("red-popover").showPopover();
+      return;
+    }
+    setCoverUrl(item[0].url);
+    try {
+      await Jordys_API.updatePost(router.query.slug, {
+        cover_url: item[0].url,
+      });
+      setGreenMessage("Saved successfully");
+      // @ts-ignore
+      document.getElementById("green-popover").showPopover();
+    } catch (err) {
+      alert("Error saving cover_url");
+      console.log(err);
+    }
+  };
 
   const handleSaveClick = async () => {
-    await updatePost(router.query.slug, {
-      postBody: editorRef.current.getContent(),
-    });
-    setGreenMessage("Saved post body successfully");
-    // @ts-ignore
-    document.getElementById("green-popover").showPopover();
+    try {
+      await Jordys_API.updatePost(router.query.slug, {
+        postBody: bodyRef.current.value,
+      });
+      setGreenMessage("Saved post body successfully");
+      document.getElementById("green-popover").showPopover();
+      document.getElementById("save-button").classList.remove("outline-3");
+    } catch (err) {
+      alert("Error saving post body");
+      console.log(err);
+    }
   };
 
   const handleTitleSaveClick = async () => {
-    if (!titleRef.current.value) {
+    if (!titleRef.current.value || !dateRef.current.value) {
       titleRef.current.focus();
       setRedMessage("Entered value not allowed. Try again.");
       // @ts-ignore
       document.getElementById("red-popover").showPopover();
-    } else {
-      const newData = await updatePost(router.query.slug, {
+      return;
+    }
+
+    try {
+      const newData = await Jordys_API.updatePost(router.query.slug, {
         title: titleRef.current.value,
+        date: new Date(dateRef.current.value).toISOString().split("T")[0],
       });
+      console.log(newData);
       setData(newData);
-      setGreenMessage("Title changed successfully");
+      setGreenMessage("Title & post date changed successfully");
       // @ts-ignore
       document.getElementById("green-popover").showPopover();
-      editorRef.current.shouldListen();
       setOpenTitleModal(false);
+    } catch (err) {
+      alert("error saving post title");
+      console.log(err);
     }
   };
 
@@ -103,67 +113,210 @@ export default function DbPost() {
       setRedMessage("Entered value not allowed. Try again.");
       // @ts-ignore
       document.getElementById("red-popover").showPopover();
-    } else {
-      const newData = await updatePost(router.query.slug, {
+      return;
+    }
+    try {
+      const newData = await Jordys_API.updatePost(router.query.slug, {
         excerpt: excerptRef.current.value,
       });
       setData(newData);
       setGreenMessage("Excerpt changed successfully");
       // @ts-ignore
       document.getElementById("green-popover").showPopover();
-      editorRef.current.shouldListen();
       setOpenExcerptModal(false);
+    } catch (err) {
+      alert("error saving post excerpt");
+      console.log(err);
     }
   };
 
-  type ItemForUpload = {
-    name: string;
-    file: Blob | File;
-    preview?: Blob;
+  const getVideoElement = async (buffer) => {
+    const video = document.createElement("video");
+    video.crossOrigin = "anonymous";
+    video.src = URL.createObjectURL(buffer);
+    video.muted = true;
+    document.getElementById("video-preview").append(video);
+    await video.play();
+    return video;
   };
-  const handleFileInputChange = () => {
-    const newItemsForUpload: ItemForUpload[] = [];
-    const files = (document.getElementById("file-input") as HTMLInputElement)
-      .files;
-    for (const file of files) {
-      newItemsForUpload.push({
-        name: file.name,
-        // src: URL.createObjectURL(file),
-        file,
-      });
+
+  const handleVideoFileSelection = (
+    videoFile: File
+  ): Promise<ItemForUploadAndPreviewing> => {
+    return new Promise(async (res, rej) => {
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      let frameCount = 0;
+
+      if (HTMLVideoElement.prototype.requestVideoFrameCallback) {
+        const video = await getVideoElement(videoFile);
+        const drawingLoop = async () => {
+          if (frameCount === 10 || video.ended) {
+            const bitmap = await createImageBitmap(video, {
+              resizeHeight: video.videoHeight,
+              resizeWidth: video.videoWidth,
+            });
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+            ctx.drawImage(bitmap, 0, 0);
+            const imgBuffer: Blob = await new Promise((res) =>
+              canvas.toBlob(res)
+            );
+            video.pause();
+
+            res({
+              file: videoFile,
+              name: videoFile.name,
+              previewUrl: URL.createObjectURL(imgBuffer),
+              coverBlob: imgBuffer,
+            } as ItemForUploadAndPreviewing);
+          } else {
+            frameCount++;
+            video.requestVideoFrameCallback(drawingLoop);
+          }
+        };
+        video.requestVideoFrameCallback(drawingLoop);
+      } else {
+        console.error("your browser doesn't support this API yet");
+        rej("video file selection failed");
+      }
+    });
+  };
+
+  const handleFileInputChange = async () => {
+    setUploadErrs([]);
+    const inputElement = document.getElementById(
+      "file-input"
+    ) as HTMLInputElement;
+
+    const inputFiles = inputElement.files;
+
+    if (inputFiles[0].type.includes("video") && inputFiles.length > 1) {
+      setUploadErrs(["Video uploads are only allowed one at a time"]);
+      return;
     }
-    setItemsForUpload(newItemsForUpload);
+
+    if (inputFiles.length === 1 && inputFiles[0].type.includes("video")) {
+      const videoUploadItem = await handleVideoFileSelection(inputFiles[0]);
+      setFiles([videoUploadItem]);
+      return;
+    }
+
+    // for non-video, image, files, we allow multiple items
+    const promises = [];
+    for (const file of inputFiles) {
+      if (file.type === "image/heic") {
+        promises.push(Jordys_API.convertHeic(file));
+      } else {
+        promises.push(null);
+      }
+    }
+
+    setUploadWaitingMsg("converting...");
+
+    const newFiles: ItemForUploadAndPreviewing[] = [];
+    Promise.all(promises)
+      .then((values) => {
+        console.assert(values.length === inputFiles.length);
+        values.forEach((v, i) => {
+          const file: File = v ? v : inputFiles[i];
+          newFiles.push({
+            file,
+            previewUrl: URL.createObjectURL(file),
+            name: inputFiles[i].name,
+          });
+        });
+        setFiles(newFiles);
+      })
+      .catch((errs) => {
+        console.log("One or more errors occurred during upload prep.");
+      })
+      .finally(() => {
+        setUploadWaitingMsg(null);
+      });
   };
 
   const handleUploadSaveClick = async () => {
-    // const newData = await updatePost(router.query.slug, {
-    //   excerpt: excerptRef.current.value,
-    // });
-    // setData(newData);
-    // setGreenMessage("Excerpt changed successfully");
-    // // @ts-ignore
-    // document.getElementById("green-popover").showPopover();
-    const names = [];
+    if (_uploadErrs.current.some((err) => !!err)) {
+      alert("this should be handled better; errors exists on the page");
+      return;
+    }
+
+    // Read the name changes from input
+    let i = 0;
     for (const input of document.getElementsByClassName(
       "file-names"
     ) as HTMLCollectionOf<HTMLInputElement>) {
-      names.push(input.value);
+      files[i++].name = input.value;
     }
-    const files = (document.getElementById("file-input") as HTMLInputElement)
-      .files;
-    console.assert(names.length === files.length);
-    try {
-      const resp = await uploadImages(router.query.slug, files, names);
-      data.gallery = resp.gallery.reverse();
 
-      setItemsForUpload([]);
-      editorRef.current.shouldListen();
+    try {
+      setUploadWaitingMsg("uploading...");
+      if (files.length === 1 && files[0].file.type.includes("video")) {
+        const resp = await Jordys_API.uploadVideoAndCover(
+          router.query.slug,
+          files[0],
+          files[0].coverBlob
+        );
+        data.gallery = resp.gallery.reverse();
+      } else {
+        const resp = await Jordys_API.uploadImages(router.query.slug, files);
+        data.gallery = resp.gallery.reverse();
+      }
+
+      setFiles([]);
       setOpenUploadModal(false);
     } catch (error) {
-      setRedMessage("Callout to upload image failed");
-      // @ts-ignore
-      document.getElementById("red-popover").showPopover();
+      alert("error uploading images");
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setUploadWaitingMsg(null);
+      }, 2000);
     }
+  };
+
+  const _uploadErrs = useRef<string[]>([]);
+  const handleUploadNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const index = parseInt(event.target.dataset.index);
+    if (!value) {
+      event.target.classList.add("border-3");
+      event.target.classList.add("border-red-500");
+      _uploadErrs.current[index] = `Item ${index + 1}: Value is empty`;
+    } else {
+      // check against all other names
+      let dupeFound = false;
+      for (let i = 0; i < event.target.parentElement.children.length; i++) {
+        if (i === index) continue;
+
+        console.assert(
+          event.target.parentElement.children[i] instanceof HTMLInputElement
+        );
+        if (
+          value ===
+          (event.target.parentElement.children[i] as HTMLInputElement).value
+        ) {
+          dupeFound = true;
+          break;
+        }
+      }
+
+      if (dupeFound || data.gallery.some(({ name }) => name === value)) {
+        event.target.classList.add("border-3");
+        event.target.classList.add("border-red-500");
+        _uploadErrs.current[index] = `Item ${
+          index + 1
+        }: Duplicate value found in this form or in rest of gallery`;
+      } else {
+        // all is good
+        event.target.classList.remove("border-3");
+        event.target.classList.remove("border-red-500");
+
+        _uploadErrs.current[index] = null;
+      }
+    }
+    setUploadErrs(_uploadErrs.current.filter((err) => !!err));
   };
 
   async function setClipboard(text) {
@@ -182,18 +335,27 @@ export default function DbPost() {
     document.getElementById("green-popover").showPopover();
   };
 
-  const [itemsForUpload, setItemsForUpload] = useState<ItemForUpload[]>([]);
+  const [files, setFiles] = useState<ItemForUploadAndPreviewing[]>([]);
+  const [filenames, setFilenames] = useState<string[][]>([]);
+  const [uploadErrs, setUploadErrs] = useState<string[]>([]);
+  const [uploadWaitingMsg, setUploadWaitingMsg] = useState<string>(null);
+  const [coverUrl, setCoverUrl] = useState<string>(null);
 
   const [openTitleModal, setOpenTitleModal] = useState(false);
   const [openExcerptModal, setOpenExcerptModal] = useState(false);
   const [openUploadModal, setOpenUploadModal] = useState(false);
   const titleRef = useRef(null);
+  const dateRef = useRef(null);
   const excerptRef = useRef(null);
 
   const [greenPopoverMessage, setGreenMessage] = useState("");
   const [redPopoverMessage, setRedMessage] = useState("");
+
   return (
-    <>
+    <Layout>
+      <Head>
+        <title>{`[E] ${data?.title} | Edit Post`}</title>
+      </Head>
       <div
         className="fixed bottom-0 bg-red-200 rounded-md px-2"
         popover="auto"
@@ -208,32 +370,46 @@ export default function DbPost() {
       >
         {greenPopoverMessage}
       </div>
-      <div className="max-w-2xl mx-auto flex flex-col h-screen">
+      <div className="max-w-2xl mx-auto flex flex-col h-dvh">
         <>
-          <div className="text-4xl my-4 text-center">
+          <div
+            className="relative flex-none text-4xl py-3 mb-1 text-center"
+            onClick={handleHeaderClick}
+          >
+            <div className="absolute -z-50 top-0 w-full h-full overflow-hidden">
+              {coverUrl ? (
+                <img
+                  src={coverUrl}
+                  alt="cover image"
+                  className="top-1/2 -translate-y-1/2 opacity-60"
+                />
+              ) : (
+                <></>
+              )}
+            </div>
             {router.query.slug ? "Edit Post" : "New Post"}
           </div>
-          <div className="flex flex-col mx-4 flex-grow">
-            <div className="text-xs flex-none">Title</div>
+          <div className="grow flex flex-col mx-4 overflow-hidden">
+            {/* <div className="text-xs flex-none">Title</div>
             <div className="pl-4 flex-none">{data.title}</div>
             <div className="text-xs flex-none">Excerpt</div>
-            <div className="pl-4 flex-none">{data.excerpt}</div>
-            <div className="text-xs flex-none">Body</div>
-            <div className="flex-grow border-2 py-3 px-8 mx-2 mb-4 h-48 overflow-scroll">
-              <Editor ref={editorRef} />
+            <div className="pl-4 flex-none">{data.excerpt}</div> */}
+            {/* <div className="text-xs flex-none">Body</div> */}
+            <div className="grow `overflow-scroll pb-4">
+              <textarea
+                className="px-2 font-mono w-full h-full"
+                ref={bodyRef}
+                onChange={() => {
+                  document
+                    .getElementById("save-button")
+                    .classList.add("outline-3");
+                }}
+              ></textarea>
             </div>
           </div>
-          <div className="h-14 min-h-14 flex bg-gray-100 overflow-x-auto justify-items-center items-center">
-            <div
-              className="h-8 mx-3 border-2 px-2 hover:bg-gray-300 active:bg-gray-300 items-center flex rounded-md"
-              onClick={() => {
-                editorRef.current.shouldNotListen();
-                setOpenUploadModal(true);
-              }}
-            >
-              Upload
-            </div>
-            {data.gallery?.map((galleryItem) => (
+
+          <div className="flex-none h-14 min-h-14 flex bg-gray-100 overflow-x-auto justify-items-center items-center">
+            {data?.gallery?.map((galleryItem) => (
               <div
                 className="h-8 min-w-32 mx-3 grid grid-cols-4 bg-gray-300 rounded-md"
                 key={galleryItem.name}
@@ -247,7 +423,10 @@ export default function DbPost() {
                     {galleryItem.type === "image" ? (
                       <img src={galleryItem.url} className="w-full h-full" />
                     ) : galleryItem.type === "video" ? (
-                      <div className="text-center">🎥</div>
+                      <img
+                        src={galleryItem.video_thumb_url}
+                        className="w-full h-full"
+                      />
                     ) : (
                       <></>
                     )}
@@ -263,78 +442,77 @@ export default function DbPost() {
               </div>
             ))}
           </div>
-          <div className="h-16 min-h-16 grid grid-rows-1 grid-flow-col gap-x-2 place-content-center items-center border-t-2">
-            <button
-              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
-              onClick={handleSaveClick}
-            >
-              Save
-            </button>
+
+          <div className="flex-none h-16 min-h-16 grid grid-rows-1 grid-flow-col gap-x-2 place-content-center items-center border-t-2">
             <button
               className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
               onClick={() => {
-                editorRef.current.shouldNotListen();
                 setOpenTitleModal(true);
               }}
             >
-              X-Ttl
+              Title/Date
             </button>
             <button
               className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
               onClick={() => {
-                editorRef.current.shouldNotListen();
                 setOpenExcerptModal(true);
               }}
             >
-              X-Exc
+              Excerpt
+            </button>
+            <button
+              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+              onClick={handleSaveClick}
+              id="save-button"
+            >
+              💾
             </button>
             <button
               className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
               onClick={() => {
-                if (!editorRef.current.callUndo()) {
-                  setRedMessage("Nothing left to undo");
-                  // @ts-ignore
-                  document.getElementById("red-popover").showPopover();
-                }
+                setOpenUploadModal(true);
               }}
             >
-              ⤴️
-            </button>
-            <button
-              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
-              onClick={async () => {
-                const text = await navigator.clipboard.readText();
-                editorRef.current.callPaste(text);
-                // setRedMessage("Nothing left to undo");
-                // @ts-ignore
-                // document.getElementById("red-popover").showPopover();
-              }}
-            >
-              🖌
+              🏞
             </button>
             <a
               className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
               href="./preview"
               target="_blank"
               onClick={() => {
-                localStorage.setItem("cat", editorRef.current.getContent());
+                const titleExcerptBody =
+                  (coverUrl
+                    ? `<img src="${coverUrl}" />`
+                    : `No cover image\n\n`) +
+                  `Title: ${data.title}\n\nDate: ${data.date}\n\nExcerpt: ${data.excerpt}\n\nBody:\n\n` +
+                  bodyRef.current.value;
+                localStorage.setItem("cat", titleExcerptBody);
               }}
             >
-              Preview
+              👀
             </a>
           </div>
         </>
       </div>
+
       {openTitleModal ? (
         <div className="h-screen w-screen top-0 fixed grid grid-rows-1 grid-flow-col place-content-center items-center backdrop-blur-sm">
           <div className="flex flex-col min-h-48 bg-white border-2 rounded-md -translate-y-1/2">
-            <div className="p-5 text-2xl border-b">Edit Post Title</div>
-            <div className="p-5 flex-grow">
+            <div className="p-5 text-2xl border-b">Edit Post Title & Date</div>
+            <div className="p-5 flex-grow grid grid-cols-1">
+              <div className="text-xs col-span-1">Title</div>
               <input
-                defaultValue={data.title}
-                className="text-center"
+                defaultValue={data?.title}
+                className="text-center col-span-1 border-1"
                 type="text"
                 ref={titleRef}
+              ></input>
+              <div className="text-xs col-span-1 mt-2">Post Date</div>
+              <input
+                defaultValue={new Date(data?.date).toISOString().split("T")[0]}
+                className="col-span-1 border-1"
+                type="date"
+                ref={dateRef}
               ></input>
             </div>
             <div className="p-5 bg-gray-100 grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2">
@@ -347,7 +525,6 @@ export default function DbPost() {
               <button
                 className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
                 onClick={() => {
-                  editorRef.current.shouldListen();
                   setOpenTitleModal(false);
                 }}
               >
@@ -359,17 +536,17 @@ export default function DbPost() {
       ) : (
         <></>
       )}
+
       {openExcerptModal ? (
         <div className="h-screen w-screen top-0 fixed grid grid-rows-1 grid-flow-col place-content-center items-start backdrop-blur-sm">
           <div className="flex flex-col min-h-48 max-h-[80vh] mt-[15vh] bg-white border-2 rounded-md">
             <div className="p-5 text-2xl border-b">Edit Post Excerpt</div>
             <div className="p-5 flex-grow">
-              <input
-                defaultValue={data.excerpt}
-                className="text-center w-[80vw] h-40"
-                type="text"
+              <textarea
+                defaultValue={data?.excerpt}
+                className="px-2 w-[80vw] h-40"
                 ref={excerptRef}
-              ></input>
+              ></textarea>
             </div>
             <div className="p-5 bg-gray-100 grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2">
               <button
@@ -381,7 +558,6 @@ export default function DbPost() {
               <button
                 className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
                 onClick={() => {
-                  editorRef.current.shouldListen();
                   setOpenExcerptModal(false);
                 }}
               >
@@ -396,9 +572,16 @@ export default function DbPost() {
 
       {openUploadModal ? (
         <div className="h-screen w-screen top-0 fixed grid grid-rows-1 grid-flow-col place-content-center items-start backdrop-blur-sm">
-          <div className="flex flex-col min-h-48 max-h-[80vh] mt-[15vh] bg-white border-2 rounded-md overflow-scroll">
+          <div className="relative flex flex-col min-h-48 max-h-[80vh] mt-[15vh] bg-white border-2 rounded-md overflow-scroll mx-2">
+            {uploadWaitingMsg ? (
+              <div className="absolute top-0 w-full h-full flex place-content-center items-center bg-white/90 z-50">
+                <div className="text-lg">{uploadWaitingMsg}</div>
+              </div>
+            ) : (
+              <></>
+            )}
             <div className="p-5 text-2xl border-b">Upload</div>
-            <div className="p-5 flex-grow grid grid-cols-1 gap-2">
+            <div className="p-5 grow grid grid-cols-1 gap-2">
               <input
                 id="file-input"
                 type="file"
@@ -407,28 +590,42 @@ export default function DbPost() {
                 multiple
                 onChange={handleFileInputChange}
               />
-              {itemsForUpload.map((el) => (
-                <div
-                  key={el.name}
-                  className="h-10 min-w-40 mx-3 grid grid-cols-4 bg-gray-300 rounded-md"
-                >
-                  <div className="h-10 w-12 col-span-1 relative rounded-md">
-                    <Image
-                      className="object-cover rounded-l-md"
-                      src={URL.createObjectURL(
-                        el.preview ? el.preview : el.file
-                      )}
-                      alt={el.name}
-                      fill
-                    ></Image>
-                  </div>
-                  <input
-                    type="text"
-                    className="file-names col-span-3"
-                    defaultValue={el.name}
-                  />
+              <canvas className="w-20 hidden"></canvas>
+              <div className="w-20 hidden" id="video-preview"></div>
+              <div className="flex flex-row">
+                <div className="w-12 grid grid-cols-1 gap-2">
+                  {files.map((el, i) => (
+                    <div className="h-10 w-12 relative rounded-md">
+                      <Image
+                        className="object-cover rounded-l-md"
+                        src={el.previewUrl}
+                        alt={el.name}
+                        fill
+                      ></Image>
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div className="flex-grow grid grid-cols-1 gap-2 ml-2">
+                  {files.map((el, index) => (
+                    <input
+                      type="text"
+                      data-index={index}
+                      className="pl-2 file-names col-span-3"
+                      defaultValue={el.name}
+                      onChange={handleUploadNameChange}
+                    />
+                  ))}
+                </div>
+              </div>
+              {uploadErrs.length ? (
+                <ul className="text-red-500">
+                  {uploadErrs.map((err) => (
+                    <li>{err}</li>
+                  ))}
+                </ul>
+              ) : (
+                <></>
+              )}
             </div>
             <div className="p-5 bg-gray-100 grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2">
               <button
@@ -440,7 +637,16 @@ export default function DbPost() {
               <button
                 className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
                 onClick={() => {
-                  editorRef.current.shouldListen();
+                  setUploadErrs([]);
+                  setFiles([]);
+                }}
+              >
+                Clear
+              </button>
+              <button
+                className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
+                onClick={() => {
+                  setUploadErrs([]);
                   setOpenUploadModal(false);
                 }}
               >
@@ -452,6 +658,6 @@ export default function DbPost() {
       ) : (
         <></>
       )}
-    </>
+    </Layout>
   );
 }

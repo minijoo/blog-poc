@@ -1,6 +1,4 @@
-import getAllPosts from "../../components/testData";
 import { useRouter } from "next/router";
-import ErrorPage from "next/error";
 import Container from "../../components/container";
 import PostBody2 from "../../components/post-body-2";
 import Header from "../../components/header";
@@ -8,18 +6,20 @@ import PostHeader from "../../components/post-header";
 import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
 import Head from "next/head";
-import type PostType from "../../interfaces/post";
 import Footer from "../../components/footer";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useRef } from "react";
 import Author from "../../interfaces/author";
 import { bundleMDX } from "mdx-bundler";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import GalleryItem from "../../interfaces/galleryItem";
-import { dbPostToStaticPostContent } from "../../lib/utils";
+import { injectGalleryMdx } from "../../lib/utils";
+import { JordysAPI } from "../../lib/jordys-api";
+import CoverImage from "../../components/cover-image-for-post";
+
+const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
 type Props = {
-  jbBody: string;
   code: string;
   metadata: {
     title: string;
@@ -32,40 +32,41 @@ type Props = {
   slug: string;
 };
 
-export default function Post({ jbBody, code, metadata, gallery, slug }: Props) {
+export default function Post({ code, metadata, gallery, slug }: Props) {
   useEffect(() => {
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
     // this adds scrollbar to the page
   });
   const router = useRouter();
   const headerTitle = `${metadata.title} | Jordy's Site`;
+  const mainRef = useRef(null);
   return (
     <Layout preview={false}>
-      <Container>
-        <Header />
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
+      <Header />
+      {router.isFallback ? (
+        <PostTitle>Loading…</PostTitle>
+      ) : (
+        <>
+          <Head>
+            <title>{headerTitle}</title>
+            <meta property="og:image" content={metadata.coverImage} />
+          </Head>
+          <div className="md:max-w-2xl mb-8 mx-auto">
+            <CoverImage title={metadata.title} src={metadata.coverImage} />
+          </div>
+          <Container>
+            <PostHeader
+              title={metadata.title}
+              coverImage={metadata.coverImage}
+              date={metadata.date}
+              author={metadata.author}
+            />
             <article className="pb-10">
-              <Head>
-                <title>{headerTitle}</title>
-                <meta property="og:image" content={metadata.coverImage} />
-              </Head>
-              <PostHeader
-                title={metadata.title}
-                coverImage={metadata.coverImage}
-                date={metadata.date}
-                author={metadata.author}
-              />
-              <PostBody2 code={code} gallery={gallery} />
-              <div className="h-[50vh] bg-radial-[at_50%_100%] from-blue-400 to-white to-65% items-end flex text-center">
-                <div className="w-full text-white">Into the nothing-ness</div>
-              </div>
+              <PostBody2 code={code} />
             </article>
-          </>
-        )}
-      </Container>
+          </Container>
+        </>
+      )}
       <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 justify-items-center place-items-center">
         <Footer />
       </div>
@@ -80,51 +81,19 @@ type Params = {
 };
 
 export async function getStaticProps({ params }: Params) {
-  const allPosts = await getAllPosts();
-  const post = allPosts.find((el) => el._id === params.slug);
+  const post = await Jordys_API.retrievePostWithToken(params.slug);
 
-  const [finalBody, imgOrder] = dbPostToStaticPostContent(post.body);
+  const galleryByName = new Map();
+  post.gallery.forEach((item) =>
+    galleryByName.set(item.name.toLowerCase(), item)
+  );
 
-  const galleryItemByName: Map<string, GalleryItem> = new Map();
-  post.gallery?.forEach((el) => {
-    if (el.type === "video") {
-      //hard-code for now
-      galleryItemByName.set(el.name, {
-        type: "video",
-        name: el.name,
-        path: el.url,
-        video: {
-          path: el.url,
-          type: el.mimetype === "video/quicktime" ? "video/mp4" : el.mimetype,
-        },
-      });
-    } else if (el.type === "image") {
-      galleryItemByName.set(el.name, {
-        name: el.name,
-        path: el.url,
-      });
-    } else {
-      console.log(
-        "Gallery item",
-        el.name,
-        "is of a type that is not supported. Skipping.."
-      );
-    }
-  });
-  const finalGallery = imgOrder.reduce((prev, el) => {
-    console.log(el);
-    const itemFound = galleryItemByName.get(el);
-    if (itemFound) {
-      prev.push(itemFound);
-    } else {
-      console.log("gallery item not found for img name", el);
-    }
-    return prev;
-  }, []);
-  console.log("FINAL");
-  console.log(finalGallery);
+  let mdxBody = injectGalleryMdx(post.body, galleryByName);
+
+  mdxBody = mdxBody.replaceAll("@preview-escape\n", "");
+
   const result = await bundleMDX({
-    source: finalBody,
+    source: mdxBody,
     mdxOptions(options: Record<string, any>) {
       options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath];
       options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypeKatex];
@@ -134,26 +103,36 @@ export async function getStaticProps({ params }: Params) {
       };
     },
   });
+
+  const quickAuthorMap: Map<string, Author> = new Map();
+  quickAuthorMap.set("seconduser@test.com", {
+    name: "Bird",
+    picture: "../assets/blog/authors/bird.jpg",
+  });
+  quickAuthorMap.set("firstuser@test.com", {
+    name: "Jordy",
+    picture: "../assets/blog/authors/jord.jpg",
+  });
+
   return {
     props: {
-      jbBody: post.body,
       code: result.code,
       metadata: {
         title: post.title,
-        author: {
-          name: "Jordy",
-        },
-        coverImage: "",
-        date: post.date.toISOString(),
+        author: quickAuthorMap.get(
+          post.author_email ? post.author_email : "firstuser@test.com"
+        ),
+        coverImage: post.cover_url || "",
+        date: post.date,
         excerpt: post.excerpt,
       },
-      gallery: finalGallery,
+      gallery: [],
     } as Props,
   };
 }
 
 export async function getStaticPaths() {
-  const allPosts = await getAllPosts();
+  const allPosts = await Jordys_API.retrieveAllPostsWithToken();
   return {
     paths: allPosts.map((post) => {
       return {

@@ -15,12 +15,33 @@ export default function PreviewPage({}) {
   const [MdxContent, setMdx] = useState<ReactMDXContent>(() => () => null);
   useEffect(() => {
     const body = localStorage.getItem("cat");
-    // trick to unescape html
-    // var txt = document.createElement("textarea");
-    // txt.innerHTML = body;
-    const body2 = `export const a = 1;
-`;
-    evaluate(body, runtime).then((r) => setMdx(() => r.default));
+    let body2 = body;
+
+    const regex = /\$\(([\w\s,]+)\)/g;
+
+    let resultArr: RegExpExecArray;
+    while ((resultArr = regex.exec(body)) !== null) {
+      const matchString = resultArr[0]; // "$(name1, name2)"
+      body2 = body2.replace(
+        matchString,
+        `<p className="text-center">${matchString}</p>`
+      );
+    }
+
+    const regex2 = /import.+\;/g;
+    while ((resultArr = regex2.exec(body)) !== null) {
+      const matchString = resultArr[0];
+      body2 = body2.replace(matchString, "");
+    }
+
+    const regex3 = /@preview-escape\n(.+)/g;
+    while ((resultArr = regex3.exec(body)) !== null) {
+      const matchString = resultArr[0];
+      const escaped = resultArr[1] as string;
+      body2 = body2.replace(matchString, "`" + escaped + "`");
+    }
+
+    evaluate(body2.trimStart(), runtime).then((r) => setMdx(() => r.default));
   }, []);
   return (
     <div className="max-w-2xl mx-auto">

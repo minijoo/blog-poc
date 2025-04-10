@@ -16,10 +16,6 @@
     @apply !no-underline;
   }
 }
-.testing .moveable-control,
-.testing .moveable-control.moveable-origin {
-  display: none;
-}
 /* Hide scrollbar for Chrome, Safari and Opera */
 /* .no-scrollbar::-webkit-scrollbar { */
 *::-webkit-scrollbar {
