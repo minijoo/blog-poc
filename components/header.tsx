@@ -22,7 +22,7 @@ const Header = () => {
         </div>
         <div className="">
           <Link href="/" className="hover:underline">
-            <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight">
+            <h1 className="text-5xl md:text-7xl text-center tracking-tighter leading-tight">
               Jordy's.Site
             </h1>
           </Link>

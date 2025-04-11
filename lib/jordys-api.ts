@@ -8,13 +8,15 @@ export type ItemForUpload = {
 export class JordysAPI {
   API_URL =
     process.env.NODE_ENV === "production"
-      ? "http://notsetupforproduction"
-      : `not set`;
+      ? "https://api.jordys.site/"
+      : `http://localhost:3001/`;
+
   constructor(dev_ip?) {
     if (process.env.NODE_ENV === "production") return;
     const validIp = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/.test(dev_ip);
-    this.API_URL =
-      dev_ip && validIp ? `http://${dev_ip}:3001/` : "http://localhost:3001/";
+    if (dev_ip && validIp) {
+      this.API_URL = `http://${dev_ip}:3001/`;
+    }
     console.log("contructor", this.API_URL);
   }
   async register(formData: FormData) {
@@ -184,6 +186,7 @@ export class JordysAPI {
       console.log("Response not ok");
       throw new Error(JSON.stringify(await resp.text()));
     }
+
     return await resp.json();
   }
 

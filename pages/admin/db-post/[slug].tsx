@@ -26,6 +26,9 @@ export default function DbPost({ ip }) {
   const router = useRouter();
   const postId = router.query.slug;
   const [data, setData] = useState<ApiPost>(null);
+  const [hasBodyChangedSinceSave, setHasBodyChangedSinceSave] =
+    useState<boolean>(false);
+
   useEffect(() => {
     if (!postId) return;
     Jordys_API.retrievePost(postId)
@@ -38,6 +41,20 @@ export default function DbPost({ ip }) {
         alert(err);
       });
   }, [postId]);
+
+  useEffect(() => {
+    if (!hasBodyChangedSinceSave) return;
+
+    function beforeUnload(e: BeforeUnloadEvent) {
+      e.preventDefault();
+    }
+
+    window.addEventListener("beforeunload", beforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnload);
+    };
+  }, [hasBodyChangedSinceSave]);
 
   const bodyRef = useRef<HTMLTextAreaElement>(null);
 
@@ -74,7 +91,7 @@ export default function DbPost({ ip }) {
       });
       setGreenMessage("Saved post body successfully");
       document.getElementById("green-popover").showPopover();
-      document.getElementById("save-button").classList.remove("outline-3");
+      setHasBodyChangedSinceSave(false);
     } catch (err) {
       alert("Error saving post body");
       console.log(err);
@@ -400,9 +417,7 @@ export default function DbPost({ ip }) {
                 className="px-2 font-mono w-full h-full"
                 ref={bodyRef}
                 onChange={() => {
-                  document
-                    .getElementById("save-button")
-                    .classList.add("outline-3");
+                  setHasBodyChangedSinceSave(true);
                 }}
               ></textarea>
             </div>
@@ -461,7 +476,10 @@ export default function DbPost({ ip }) {
               Excerpt
             </button>
             <button
-              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+              className={cn(
+                "h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded",
+                { "outline-3": hasBodyChangedSinceSave }
+              )}
               onClick={handleSaveClick}
               id="save-button"
             >

@@ -2640,10 +2640,10 @@ react-grid-gallery@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-grid-gallery/-/react-grid-gallery-1.0.1.tgz#51e9e920cb83df6c61fbd1f2c7eed7db3b6e5a1b"
   integrity sha512-+fVd6fH9tm0W+UMgzRHET/gmzSs2/l2sGOuELLaHXMto6UhuZdscj9ILHOYe7hn0GBRUJiczMllsEs7OJz9uPA==
 
-react-icons@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.5.0.tgz#8aa25d3543ff84231685d3331164c00299cdfaf2"
-  integrity sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==
+react-icons@5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.4.0.tgz#443000f6e5123ee1b21ea8c0a716f6e7797f7416"
+  integrity sha512-7eltJxgVt7X64oHh6wSWNwwbKTCtMfK35hcjvJS0yxEAhPM8oUKdS3+kqaW1vicIltw+kR2unHaa12S9pPALoQ==
 
 react-intersection-observer@^9.8.2:
   version "9.16.0"
