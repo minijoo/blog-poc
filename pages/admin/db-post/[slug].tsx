@@ -67,6 +67,7 @@ export default function DbPost({ ip }) {
       setRedMessage(
         "Nothing happened. No gallery item exists with name: " + newName
       );
+      // @ts-ignore
       document.getElementById("red-popover").showPopover();
       return;
     }
@@ -90,6 +91,7 @@ export default function DbPost({ ip }) {
         postBody: bodyRef.current.value,
       });
       setGreenMessage("Saved post body successfully");
+      // @ts-ignore
       document.getElementById("green-popover").showPopover();
       setHasBodyChangedSinceSave(false);
     } catch (err) {

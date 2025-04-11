@@ -22,16 +22,19 @@ export default function LoginPage({ ip }) {
           redirPath ? redirPath : "admin"
         } in 3 seconds..`
       );
+      // @ts-ignore
       document.getElementById("green-popover").showPopover();
       setTimeout(() => {
         window.location.replace(redirPath ? "/" + redirPath : "/admin");
         setGreenMessage("Redirect!");
+        // @ts-ignore
         document.getElementById("green-popover").showPopover();
       }, 3000);
     } catch (err) {
       if (err instanceof AuthenticationError) {
         target.removeAttribute("disabled");
         setRedMessage("Username or password incorrect. 🧐");
+        // @ts-ignore
         document.getElementById("red-popover").showPopover();
         return;
       }
