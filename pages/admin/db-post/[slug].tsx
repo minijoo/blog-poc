@@ -14,7 +14,7 @@ interface ItemForUploadAndPreviewing extends ItemForUpload {
 }
 
 export function getStaticProps() {
-  return { props: { ip: process.env.IP } };
+  return { props: { ip: process.env.IP || "" } };
 }
 
 export function getStaticPaths() {

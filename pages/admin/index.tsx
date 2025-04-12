@@ -296,5 +296,5 @@ export default function AdminPage({ ip }) {
 }
 
 export async function getStaticProps() {
-  return { props: { ip: process.env.IP } };
+  return { props: { ip: process.env.IP || "" } };
 }

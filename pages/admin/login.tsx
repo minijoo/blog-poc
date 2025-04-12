@@ -115,5 +115,5 @@ export default function LoginPage({ ip }) {
 }
 
 export async function getStaticProps() {
-  return { props: { ip: process.env.IP } };
+  return { props: { ip: process.env.IP || "" } };
 }

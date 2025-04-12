@@ -1,10 +1,11 @@
 import { JordysAPI } from "../../../lib/jordys-api";
 
 export function getStaticProps() {
-  return { props: { ip: process.env.IP } };
+  return { props: { ip: process.env.IP || "" } };
 }
 
 export default function NewPost({ ip }) {
+  console.log("ip", ip);
   const Jordys_API = new JordysAPI(ip);
 
   const createPost = async () => {
