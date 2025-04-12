@@ -3,6 +3,7 @@
 /public/assets/blog
 !/public/assets/blog/author
 !/public/assets/blog/intro
+jarfile
 
 # dependencies
 /node_modules
