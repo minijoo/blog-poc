@@ -5,7 +5,6 @@ export function getStaticProps() {
 }
 
 export default function NewPost({ ip }) {
-  console.log("ip", ip);
   const Jordys_API = new JordysAPI(ip);
 
   const createPost = async () => {
@@ -25,7 +24,7 @@ export default function NewPost({ ip }) {
             className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
             onClick={async () => {
               const result = await createPost();
-              window.location.replace("./" + result._id);
+              window.location.replace("./edit?id=" + result._id);
             }}
           >
             Yes

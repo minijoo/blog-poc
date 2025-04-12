@@ -69,7 +69,7 @@ export default function DbPost({ ip }) {
     }
     setCoverUrl(item[0].url);
     try {
-      await Jordys_API.updatePost(router.query.slug, {
+      await Jordys_API.updatePost(router.query.id, {
         cover_url: item[0].url,
       });
       setGreenMessage("Saved successfully");
@@ -83,7 +83,7 @@ export default function DbPost({ ip }) {
 
   const handleSaveClick = async () => {
     try {
-      await Jordys_API.updatePost(router.query.slug, {
+      await Jordys_API.updatePost(router.query.id, {
         postBody: bodyRef.current.value,
       });
       setGreenMessage("Saved post body successfully");
@@ -106,7 +106,7 @@ export default function DbPost({ ip }) {
     }
 
     try {
-      const newData = await Jordys_API.updatePost(router.query.slug, {
+      const newData = await Jordys_API.updatePost(router.query.id, {
         title: titleRef.current.value,
         date: new Date(dateRef.current.value).toISOString().split("T")[0],
       });
@@ -131,7 +131,7 @@ export default function DbPost({ ip }) {
       return;
     }
     try {
-      const newData = await Jordys_API.updatePost(router.query.slug, {
+      const newData = await Jordys_API.updatePost(router.query.id, {
         excerpt: excerptRef.current.value,
       });
       setData(newData);
@@ -269,13 +269,13 @@ export default function DbPost({ ip }) {
       setUploadWaitingMsg("uploading...");
       if (files.length === 1 && files[0].file.type.includes("video")) {
         const resp = await Jordys_API.uploadVideoAndCover(
-          router.query.slug,
+          router.query.id,
           files[0],
           files[0].coverBlob
         );
         data.gallery = resp.gallery.reverse();
       } else {
-        const resp = await Jordys_API.uploadImages(router.query.slug, files);
+        const resp = await Jordys_API.uploadImages(router.query.id, files);
         data.gallery = resp.gallery.reverse();
       }
 
@@ -402,7 +402,7 @@ export default function DbPost({ ip }) {
                 <></>
               )}
             </div>
-            {router.query.slug ? "Edit Post" : "New Post"}
+            {router.query.id ? "Edit Post" : "New Post"}
           </div>
           <div className="grow flex flex-col mx-4 overflow-hidden">
             {/* <div className="text-xs flex-none">Title</div>
@@ -519,14 +519,14 @@ export default function DbPost({ ip }) {
               <div className="text-xs col-span-1">Title</div>
               <input
                 defaultValue={data?.title}
-                className="text-center col-span-1 border-1"
+                className="text-center col-span-1 border-1 px-1"
                 type="text"
                 ref={titleRef}
               ></input>
               <div className="text-xs col-span-1 mt-2">Post Date</div>
               <input
                 defaultValue={new Date(data?.date).toISOString().split("T")[0]}
-                className="col-span-1 border-1"
+                className="col-span-1 border-1 px-1"
                 type="date"
                 ref={dateRef}
               ></input>
