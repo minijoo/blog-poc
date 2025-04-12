@@ -83,6 +83,19 @@ type Params = {
 export async function getStaticProps({ params }: Params) {
   const post = await Jordys_API.retrievePostWithToken(params.slug);
 
+  const author: Author = {
+    name: "Anonymous",
+    picture: "",
+  };
+
+  if (post.author) {
+    const authorApi = await Jordys_API.getAuthorInfo(post.author.toString());
+    if (authorApi) {
+      author.name = authorApi.username;
+      if (authorApi.picture) author.picture = authorApi.picture;
+    }
+  }
+
   const galleryByName = new Map();
   post.gallery.forEach((item) =>
     galleryByName.set(item.name.toLowerCase(), item)
@@ -104,24 +117,12 @@ export async function getStaticProps({ params }: Params) {
     },
   });
 
-  const quickAuthorMap: Map<string, Author> = new Map();
-  quickAuthorMap.set("seconduser@test.com", {
-    name: "Bird",
-    picture: "../assets/blog/authors/bird.jpg",
-  });
-  quickAuthorMap.set("firstuser@test.com", {
-    name: "Jordy",
-    picture: "../assets/blog/authors/jord.jpg",
-  });
-
   return {
     props: {
       code: result.code,
       metadata: {
         title: post.title,
-        author: quickAuthorMap.get(
-          post.author_email ? post.author_email : "firstuser@test.com"
-        ),
+        author,
         coverImage: post.cover_url || "",
         date: post.date,
         excerpt: post.excerpt,

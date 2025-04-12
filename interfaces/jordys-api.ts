@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export type ApiPost = {
   _id: string;
   title: string;
@@ -5,7 +7,7 @@ export type ApiPost = {
   excerpt: string;
   body: string;
   cover_url: string;
-  author_email: string;
+  author: ObjectId;
   gallery: ApiGalleryItem[];
 };
 
@@ -17,6 +19,13 @@ export type ApiGalleryItem = {
   width: number;
   height: number;
   video_thumb_url: string;
+};
+
+export type Author = {
+  username: string;
+  email: string;
+  _id: string;
+  picture: string;
 };
 
 export class AuthenticationError extends Error {}

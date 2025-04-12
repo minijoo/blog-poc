@@ -1,4 +1,4 @@
-import { ApiPost, AuthenticationError } from "../interfaces/jordys-api";
+import { ApiPost, AuthenticationError, Author } from "../interfaces/jordys-api";
 
 export type ItemForUpload = {
   name: string;
@@ -18,6 +18,25 @@ export class JordysAPI {
       this.API_URL = `http://${dev_ip}:3001/`;
     }
     console.log("contructor", this.API_URL);
+  }
+  async getAuthorInfo(authorId: string): Promise<Author> {
+    console.log(authorId);
+    const resp = await fetch(this.API_URL + "backend/author/" + authorId, {
+      headers: {
+        Authorization:
+          "Basic " +
+          (process.env.JORDYS_API_KEY
+            ? process.env.JORDYS_API_KEY
+            : "not-found"),
+      },
+    });
+
+    if (!resp.ok) {
+      console.log("Response not ok");
+      throw new Error(JSON.stringify(await resp.text()));
+    }
+
+    return await resp.json();
   }
   async register(formData: FormData) {
     // nothing yet b/c i don't want to allow registering from .site yet.
