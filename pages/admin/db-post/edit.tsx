@@ -17,14 +17,10 @@ export function getStaticProps() {
   return { props: { ip: process.env.IP || "" } };
 }
 
-export function getStaticPaths() {
-  return { paths: [], fallback: false };
-}
-
 export default function DbPost({ ip }) {
   const Jordys_API = new JordysAPI(ip);
   const router = useRouter();
-  const postId = router.query.slug;
+  const postId = router.query.id;
   const [data, setData] = useState<ApiPost>(null);
   const [hasBodyChangedSinceSave, setHasBodyChangedSinceSave] =
     useState<boolean>(false);
