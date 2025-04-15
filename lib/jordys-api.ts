@@ -20,7 +20,6 @@ export class JordysAPI {
     console.log("contructor", this.API_URL);
   }
   async getAuthorInfo(authorId: string): Promise<Author> {
-    console.log(authorId);
     const resp = await fetch(this.API_URL + "backend/author/" + authorId, {
       headers: {
         Authorization:
@@ -125,6 +124,14 @@ export class JordysAPI {
       headers: {},
       body: formData,
     });
+
+    if (!resp.ok) {
+      console.log("Response from server not OK");
+      if (resp.status === 401) {
+        throw new AuthenticationError();
+      }
+      throw new Error(JSON.stringify(await resp.json()));
+    }
 
     return await resp.blob();
   }

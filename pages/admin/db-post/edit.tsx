@@ -242,9 +242,15 @@ export default function DbPost({ ip }) {
           });
         });
         setFiles(newFiles);
+        (
+          document.getElementById("upload-save-button") as HTMLButtonElement
+        ).disabled = false;
       })
       .catch((errs) => {
-        console.log("One or more errors occurred during upload prep.");
+        console.log("One or more errors occurred during jpeg conversion.");
+        setUploadErrs([
+          "Error occurred during JPEG conversion. Please try a different image.",
+        ]);
       })
       .finally(() => {
         setUploadWaitingMsg(null);
@@ -645,8 +651,9 @@ export default function DbPost({ ip }) {
             </div>
             <div className="p-5 bg-gray-100 grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2">
               <button
-                className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded"
+                className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded disabled:opacity-20"
                 onClick={handleUploadSaveClick}
+                id="upload-save-button"
               >
                 Save
               </button>
