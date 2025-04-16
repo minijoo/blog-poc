@@ -20,7 +20,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
       <div
         className="w-full h-36 bg-cover bg-center"
         style={{
-          backgroundImage: `url(${src})`,
+          backgroundImage: `url(${encodeURI(src)})`,
         }}
       >
         <div className="h-full w-full bg-black/40 active:bg-transparent hover:bg-transparent px-5 md:px-10">
