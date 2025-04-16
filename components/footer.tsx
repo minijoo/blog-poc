@@ -43,6 +43,11 @@ const Footer = () => {
               <Link href="/contact">Contact</Link>
             </div>
           </div>
+          <div className="flex">
+            <div className="active:scale-120 hover:scale-120 duration-200">
+              <Link href="/admin">Admin</Link>
+            </div>
+          </div>
         </div>
         <div className="text-md">
           © <span className="text-sm">2025</span>
