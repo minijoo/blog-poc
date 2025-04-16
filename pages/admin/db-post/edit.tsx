@@ -635,7 +635,7 @@ export default function DbPost({ ip }) {
                 onChange={handleFileInputChange}
               />
               <canvas className="w-20 hidden"></canvas>
-              <div className="w-20 hidden" id="video-preview"></div>
+              <div className="w-10" id="video-preview"></div>
               <div className="flex flex-row">
                 <div className="w-12 grid grid-cols-1 gap-2">
                   {files.map((el, i) => (
