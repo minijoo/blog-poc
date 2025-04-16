@@ -8,6 +8,7 @@ export type ApiPost = {
   body: string;
   cover_url: string;
   author: ObjectId;
+  published: boolean;
   gallery: ApiGalleryItem[];
 };
 
@@ -24,7 +25,7 @@ export type ApiGalleryItem = {
 export type Author = {
   username: string;
   email: string;
-  _id: string;
+  _id: ObjectId;
   picture: string;
 };
 

@@ -31,6 +31,7 @@ export default function DbPost({ ip }) {
       .then((responseData: ApiPost) => {
         responseData.gallery = responseData.gallery.reverse();
         setData(responseData);
+        setCoverUrl(responseData.cover_url);
         bodyRef.current.value = responseData.body;
       })
       .catch((err) => {
@@ -51,6 +52,21 @@ export default function DbPost({ ip }) {
       window.removeEventListener("beforeunload", beforeUnload);
     };
   }, [hasBodyChangedSinceSave]);
+
+  const handlePublishToggle = async () => {
+    try {
+      const newData = await Jordys_API.updatePost(router.query.id, {
+        published: data.published ? "no" : "yes",
+      });
+      setData(newData);
+      setGreenMessage("Saved published successfully");
+      // @ts-ignore
+      document.getElementById("green-popover").showPopover();
+    } catch (err) {
+      alert("Error saving published");
+      console.log(err);
+    }
+  };
 
   const bodyRef = useRef<HTMLTextAreaElement>(null);
 
@@ -513,6 +529,12 @@ export default function DbPost({ ip }) {
             >
               👀
             </a>
+            <button
+              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+              onClick={handlePublishToggle}
+            >
+              {data?.published ? "❌" : "✅"}
+            </button>
           </div>
         </>
       </div>
@@ -608,7 +630,7 @@ export default function DbPost({ ip }) {
                 id="file-input"
                 type="file"
                 name="images"
-                accept=".heic, .jpg, .jpeg, .png, .svg, .gif, .mp4, .mpeg, .mpg, .mov"
+                accept=".heic, .jpg, .jpeg, .png, .svg, .gif, .mp4, .mpeg, .mpg, .mov, .m4v"
                 multiple
                 onChange={handleFileInputChange}
               />

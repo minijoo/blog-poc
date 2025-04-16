@@ -236,7 +236,7 @@ export default function AdminPage({ ip }) {
         </Head>
         <ContainerHome>
           <h1 className="text-5xl text-center">All Posts</h1>
-          <div className="px-2 mb-32">
+          <div className="px-2 pb-32">
             {cardsReady ? (
               <div
                 className={cn("grid grid-cols-2 md:grid-cols-3 gap-x-2")}
@@ -264,20 +264,14 @@ export default function AdminPage({ ip }) {
                       <div className="flex place-content-evenly items-end text-center">
                         <div>{post.gallery.length} 🏞</div>
                         <div>{post.body.split(/\s+/).length} 🔤</div>
-                        <div>❌ 📖</div>
+                        <div>{post.published ? "✅" : "❌"} 📖</div>
                       </div>
                       <div className="grid grid-cols-2 gap-1">
                         <a
                           href={`/admin/db-post/edit?id=${post._id}`}
-                          className="text-center h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+                          className="col-span-2 text-center h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
                         >
                           Edit
-                        </a>
-                        <a
-                          href={`/404`}
-                          className="text-center h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
-                        >
-                          📖 ✅
                         </a>
                       </div>
                     </div>

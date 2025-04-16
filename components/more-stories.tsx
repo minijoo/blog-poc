@@ -1,12 +1,12 @@
-import PostPreview from "./post-preview";
-import type Post from "../interfaces/post";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./header";
 import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
+import { PreviewPost } from "../interfaces/preview-post";
+import { Textfit } from "react-textfit";
 
 type Props = {
-  posts: Post[];
+  posts: PreviewPost[];
   travel: number;
 };
 
@@ -26,45 +26,73 @@ const MoreStories = ({ posts, travel }: Props) => {
 
   const radius = windowWidth * 2;
   const thetas = [180, 120, 60, 0, 300, 240];
-  const coords = thetas.map((theta) => convertCoords(theta + travel, radius));
+  const coords = thetas
+    .map((theta) => convertCoords(theta + travel, radius))
+    .reduce(
+      (prev, curr) => {
+        if (--prev.countdown >= 0) prev.arr.push(curr);
+        return prev;
+      },
+      { countdown: posts.length, arr: [] }
+    ).arr;
   return (
-    <section className="w-full max-w-xl fixed left-1/2 -translate-x-1/2 text-center">
+    <section className="w-full h-dvh max-w-xl fixed left-1/2 -translate-x-1/2 text-center flex flex-col">
       <Header />
-      <div className="relative w-full">
+      <div className="relative w-full grow mb-10">
         {coords.map((coord, index) => (
           <div
-            className="absolute w-full"
+            className="absolute w-full h-full flex flex-col hover:cursor-pointer"
             key={index}
             style={{
               left: Math.round(coord[0] * 10000) / 10000,
               top: Math.round(coord[1] * 10000) / 10000,
             }}
+            onClick={(e) => {
+              window.location.href = `/posts2/${posts[index].slug}`;
+              e.preventDefault();
+            }}
           >
-            <div className="px-2">
-              <PostPreview
-                key={posts[index].slug}
-                title={posts[index].title}
-                coverImage={posts[index].coverImage}
-                date={posts[index].date}
-                author={posts[index].author}
-                slug={posts[index].slug}
-                excerpt={posts[index].excerpt}
-              />
+            <div className="grow-0 font-bold leading-none pr-1">
+              <Textfit mode="single" max={175}>
+                <em>{posts[index].metadata.title}</em>
+              </Textfit>
+            </div>
+            <div className="grow px-2 pt-2 text-black text-left">
+              <Textfit
+                className="leading-none"
+                mode="multi"
+                max={400}
+                throttle={2000}
+                style={{ maxHeight: "100%", height: "100%" }}
+              >
+                {posts[index].metadata.excerpt}
+              </Textfit>
             </div>
 
-            <div className="scale-[1.01] h-[35vh]">
-              <CoverImage
-                title={posts[index].title}
-                src={posts[index].coverImage}
-                slug={posts[index].slug}
-              />
-            </div>
-            <div className="mt-2 text-lg">
+            {posts[index].metadata.coverImage ? (
+              <div className="grow-0 scale-100 h-2/5 flex-none">
+                <CoverImage
+                  title={posts[index].metadata.title}
+                  src={posts[index].metadata.coverImage}
+                  slug={posts[index].slug}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="grow-0 mt-2 text-lg">
               Posted on{" "}
-              <DateFormatter dateString={posts[index].date} useShortForm />
+              <DateFormatter
+                dateString={posts[index].metadata.date}
+                useShortForm
+              />
+              ; by {posts[index].metadata.author_name}
             </div>
           </div>
         ))}
+        <div className="absolute bottom-0 right-0 w-12 mb-2 text-xl text-white text-center bg-neutral-500/75 rounded-md">
+          {Math.ceil(travel / 60)} / 6
+        </div>
       </div>
     </section>
   );

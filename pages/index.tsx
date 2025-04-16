@@ -6,9 +6,14 @@ import Head from "next/head";
 import Post from "../interfaces/post";
 import Footer from "../components/footer";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { JordysAPI } from "../lib/jordys-api";
+import Author from "../interfaces/author";
+import { PreviewPost } from "../interfaces/preview-post";
+
+const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
 type Props = {
-  allPosts: Post[];
+  allPosts: PreviewPost[];
 };
 
 export default function Index({ allPosts }: Props) {
@@ -17,7 +22,6 @@ export default function Index({ allPosts }: Props) {
     // start page at second occurrence of first post
     window.scroll({
       top: 3600,
-      // @ts-expect-error
       behavior: "instant",
     });
   }, []); // empty array forces this fn to run only once (on load) and not on any other rerenders
@@ -38,7 +42,6 @@ export default function Index({ allPosts }: Props) {
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
-        // @ts-expect-error
         behavior: "instant",
       });
     }
@@ -70,10 +73,7 @@ export default function Index({ allPosts }: Props) {
             {scrollDivs}
           </div>
         </ContainerHome>
-        <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 justify-items-center place-items-center">
-          <div className="w-12 text-xl text-white text-center bg-neutral-500/75 rounded-md">
-            {Math.ceil(travel / 60)} / 6
-          </div>
+        <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 place-items-center">
           <Footer />
         </div>
       </Layout>
@@ -82,14 +82,31 @@ export default function Index({ allPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const allPosts = await getAllPosts([
-    "title",
-    "date",
-    "slug",
-    "author",
-    "coverImage",
-    "excerpt",
-  ]);
+  const apiPosts = await Jordys_API.retrieveAllPostsWithToken();
+
+  const authors = await Jordys_API.getAuthorInfos(
+    apiPosts.map((p) => p.author?.toString()).filter((a) => !!a)
+  );
+  const authorMap = new Map<string, Author>();
+  authors.forEach((author) =>
+    authorMap.set(author._id.toString(), {
+      name: author.username,
+      picture: author.picture,
+    })
+  );
+  authorMap.set(undefined, { name: "Anonymous", picture: "" });
+
+  const allPosts: PreviewPost[] = apiPosts.map((apiPost) => ({
+    metadata: {
+      title: apiPost.title,
+      date: apiPost.date,
+      coverImage: apiPost.cover_url || "",
+      author_name: authorMap.get(apiPost.author?.toString()).name,
+      author_picture: authorMap.get(apiPost.author?.toString()).picture,
+      excerpt: apiPost.excerpt,
+    },
+    slug: apiPost._id,
+  }));
 
   return {
     props: { allPosts },

@@ -19,16 +19,19 @@ export class JordysAPI {
     }
     console.log("contructor", this.API_URL);
   }
-  async getAuthorInfo(authorId: string): Promise<Author> {
-    const resp = await fetch(this.API_URL + "backend/author/" + authorId, {
-      headers: {
-        Authorization:
-          "Basic " +
-          (process.env.JORDYS_API_KEY
-            ? process.env.JORDYS_API_KEY
-            : "not-found"),
-      },
-    });
+  async getAuthorInfos(authorIds: string[]): Promise<Author[]> {
+    const resp = await fetch(
+      this.API_URL + "backend/author?ids=" + authorIds.join(","),
+      {
+        headers: {
+          Authorization:
+            "Basic " +
+            (process.env.JORDYS_API_KEY
+              ? process.env.JORDYS_API_KEY
+              : "not-found"),
+        },
+      }
+    );
 
     if (!resp.ok) {
       console.log("Response not ok");
@@ -79,7 +82,7 @@ export class JordysAPI {
     return await resp.json();
   }
 
-  async retrieveAllPostsWithToken() {
+  async retrieveAllPostsWithToken(): Promise<ApiPost[]> {
     const resp = await fetch(this.API_URL + "backend/posts/all", {
       headers: {
         Authorization:

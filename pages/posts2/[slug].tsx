@@ -57,7 +57,6 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
           <Container>
             <PostHeader
               title={metadata.title}
-              coverImage={metadata.coverImage}
               date={metadata.date}
               author={metadata.author}
             />
@@ -89,10 +88,10 @@ export async function getStaticProps({ params }: Params) {
   };
 
   if (post.author) {
-    const authorApi = await Jordys_API.getAuthorInfo(post.author.toString());
-    if (authorApi) {
-      author.name = authorApi.username;
-      if (authorApi.picture) author.picture = authorApi.picture;
+    const authors = await Jordys_API.getAuthorInfos([post.author.toString()]);
+    if (authors && authors.length) {
+      author.name = authors[0].username;
+      if (authors[0].picture) author.picture = authors[0].picture;
     }
   }
 

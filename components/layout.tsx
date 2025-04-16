@@ -79,7 +79,7 @@ const Layout = ({ preview, children }: Props) => {
   return (
     <>
       <Meta />
-      <div className="min-h-dvh">
+      <div className="max-h-dvh">
         <Alert preview={preview} />
         <main>{children}</main>
       </div>

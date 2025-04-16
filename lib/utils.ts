@@ -11,7 +11,7 @@ const injectGalleryMdx = (
 ) => {
   let newBody = postBody;
 
-  const regex = /\$\(([\w\s,]+)\)/g;
+  const regex = /\$\(([\w\s\.,]+)\)/g;
 
   let resultArr: RegExpExecArray;
   while ((resultArr = regex.exec(postBody)) !== null) {
