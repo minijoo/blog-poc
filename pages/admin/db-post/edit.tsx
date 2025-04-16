@@ -407,7 +407,7 @@ export default function DbPost({ ip }) {
       >
         {greenPopoverMessage}
       </div>
-      <div className="max-w-2xl mx-auto flex flex-col h-dvh">
+      <div className="max-w-3xl mx-auto flex flex-col h-dvh">
         <>
           <div
             className="relative flex-none text-4xl py-3 mb-1 text-center"

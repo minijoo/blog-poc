@@ -16,7 +16,7 @@ const PostBody = ({ code }: Props) => {
         integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
         crossOrigin="anonymous"
       />
-      <div className="prose prose-lg md:prose-2xl leading-normal md:leading-normal tracking-tighter">
+      <div className="prose prose-xl md:prose-2xl leading-normal md:leading-normal tracking-tighter">
         <Component />
       </div>
     </div>

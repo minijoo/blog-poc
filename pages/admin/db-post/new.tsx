@@ -16,7 +16,7 @@ export default function NewPost({ ip }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto grid place-content-center items-center h-screen">
+    <div className="max-w-3xl mx-auto grid place-content-center items-center h-screen">
       <div className="flex flex-col">
         <div className="text-2xl">Create a New Post?</div>
         <div className="grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2 mt-2">

@@ -1,11 +1,9 @@
 import ContainerHome from "../components/container-home";
 import MoreStories from "../components/more-stories";
 import Layout from "../components/layout";
-import { getAllPosts } from "../lib/api";
 import Head from "next/head";
-import Post from "../interfaces/post";
 import Footer from "../components/footer";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { JordysAPI } from "../lib/jordys-api";
 import Author from "../interfaces/author";
 import { PreviewPost } from "../interfaces/preview-post";
@@ -75,7 +73,7 @@ export default function Index({ allPosts }: Props) {
             {scrollDivs}
           </div>
         </ContainerHome>
-        <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 place-items-center">
+        <div className="fixed bottom-0 w-full flex flex-col gap-y-2 place-items-center">
           <Footer />
         </div>
       </Layout>
@@ -85,6 +83,9 @@ export default function Index({ allPosts }: Props) {
 
 export const getStaticProps = async () => {
   const apiPosts = await Jordys_API.retrieveAllPostsWithToken();
+  apiPosts.sort(
+    (postA, postB) => Date.parse(postB.date) - Date.parse(postA.date)
+  );
 
   const authors = await Jordys_API.getAuthorInfos(
     apiPosts.map((p) => p.author?.toString()).filter((a) => !!a)

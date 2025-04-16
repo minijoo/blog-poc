@@ -44,7 +44,7 @@ export default function PreviewPage({}) {
     evaluate(body2.trimStart(), runtime).then((r) => setMdx(() => r.default));
   }, []);
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-3xl mx-auto">
       <div className="prose prose-lg md:prose-2xl leading-normal md:leading-normal tracking-tighter">
         <MdxContent />
       </div>

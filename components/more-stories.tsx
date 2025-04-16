@@ -36,7 +36,7 @@ const MoreStories = ({ posts, travel }: Props) => {
       { countdown: posts.length, arr: [] }
     ).arr;
   return (
-    <section className="w-full h-dvh max-w-xl fixed left-1/2 -translate-x-1/2 text-center flex flex-col">
+    <section className="w-full h-dvh max-w-3xl fixed left-1/2 -translate-x-1/2 text-center flex flex-col">
       <Header />
       <div className="relative w-full grow mb-10">
         {coords.map((coord, index) => (
@@ -52,12 +52,26 @@ const MoreStories = ({ posts, travel }: Props) => {
               e.preventDefault();
             }}
           >
-            <div className="grow-0 font-bold leading-none pr-1">
+            {posts[index].metadata.coverImage ? (
+              <div className="grow-0 scale-100 h-2/5 flex-none mb-2">
+                <CoverImage
+                  title={posts[index].metadata.title}
+                  src={posts[index].metadata.coverImage}
+                  slug={posts[index].slug}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="grow-0 font-bold leading-none">
               <Textfit mode="single" max={175}>
-                <em>{posts[index].metadata.title}</em>
+                {posts[index].metadata.title}
               </Textfit>
             </div>
-            <div className="grow px-2 pt-2 text-black text-left">
+            <div className="w-1/2 mx-auto pt-4 pb-3 md:pt-5 md:pb-4">
+              <div className="border border-black/50" />
+            </div>
+            <div className="grow px-2 `pt-2 text-black text-left">
               <Textfit
                 className="leading-none"
                 mode="multi"
@@ -69,17 +83,6 @@ const MoreStories = ({ posts, travel }: Props) => {
               </Textfit>
             </div>
 
-            {posts[index].metadata.coverImage ? (
-              <div className="grow-0 scale-100 h-2/5 flex-none">
-                <CoverImage
-                  title={posts[index].metadata.title}
-                  src={posts[index].metadata.coverImage}
-                  slug={posts[index].slug}
-                />
-              </div>
-            ) : (
-              <></>
-            )}
             <div className="grow-0 mt-2 text-lg">
               Posted on{" "}
               <DateFormatter
@@ -90,7 +93,7 @@ const MoreStories = ({ posts, travel }: Props) => {
             </div>
           </div>
         ))}
-        <div className="absolute bottom-0 right-0 w-12 mb-2 text-xl text-white text-center bg-neutral-500/75 rounded-md">
+        <div className="absolute bottom-0 right-0 w-12 mb-2 mr-2 text-xl text-white text-center bg-neutral-500/75 rounded-md">
           {Math.ceil(travel / 60)} / 6
         </div>
       </div>

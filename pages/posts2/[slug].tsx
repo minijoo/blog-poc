@@ -51,7 +51,7 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
             <title>{headerTitle}</title>
             <meta property="og:image" content={metadata.coverImage} />
           </Head>
-          <div className="md:max-w-2xl mb-8 mx-auto">
+          <div className="max-w-2xl mb-8 mx-auto">
             <CoverImage title={metadata.title} src={metadata.coverImage} />
           </div>
           <Container>
