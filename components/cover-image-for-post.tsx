@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
-import textFit from "textfit";
+import { Textfit } from "react-textfit";
 
 type Props = {
   title: string;
@@ -8,29 +8,23 @@ type Props = {
 };
 
 const CoverImage = ({ title, src, slug }: Props) => {
-  const ref = useRef(undefined);
-  useEffect(() => {
-    textFit(ref.current, {
-      multiLine: true,
-      alignVert: true,
-    });
-  });
   const image = (
     <div>
       <div
-        className="w-full h-36 bg-cover bg-center"
+        className="w-full h-42 bg-cover bg-center"
         style={{
           backgroundImage: `url(${encodeURI(src)})`,
         }}
       >
-        <div className="h-full w-full bg-black/40 active:bg-transparent hover:bg-transparent px-5 md:px-10">
-          <div
-            ref={ref}
-            style={{ textAlignLast: "justify" }}
-            className="h-36 select-none text-gray-100 text-shadow-lg text-shadow-black text-justify"
+        <div className="h-full w-full backdrop-blur-sm bg-white/40 text-black font-semibold active:text-transparent hover:text-transparent active:bg-transparent hover:backdrop-blur-none active:backdrop-blur-none hover:bg-transparent px-5 md:px-10">
+          <Textfit
+            mode="multi"
+            max={1000}
+            style={{ textAlignLast: "left" }}
+            className="h-full select-none tracking-normal text-justify grid leading-tight items-center"
           >
             {title}
-          </div>
+          </Textfit>
         </div>
       </div>
     </div>

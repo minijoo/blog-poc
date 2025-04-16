@@ -16,17 +16,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
       style={{ objectFit: "cover" }}
     />
   );
-  return (
-    <div className="sm:mx-0 h-full">
-      {slug ? (
-        <Link as={`/posts/${slug}`} href="/posts/[slug]" aria-label={title}>
-          {image}
-        </Link>
-      ) : (
-        image
-      )}
-    </div>
-  );
+  return <div className="sm:mx-0 h-full">{image}</div>;
 };
 
 export default CoverImage;

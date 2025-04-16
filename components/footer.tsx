@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="max-w-3xl flex flex-row mt-2 mx-auto px-5">
         <div className="grow flex flex-col text-xl gap-2">
           <div
-            className="flex flex-col gap-1 w-16 cursor-pointer"
+            className="flex flex-col gap-1 w-16 cursor-pointer duration-200 active:scale-120 hover:scale-120"
             onClick={() => {
               setExpand(!expand);
             }}
@@ -28,14 +28,20 @@ const Footer = () => {
             <div className="h-[1px] border border-gray-500 w-full" />
             <div className="h-[1px] border border-gray-400 w-full" />
           </div>
-          <div>
-            <Link href="/">Home</Link>
+          <div className="flex">
+            <div className="active:scale-120 hover:scale-120 duration-200">
+              <Link href="/">Home</Link>
+            </div>
           </div>
-          <div>
-            <Link href="/posts">All Posts</Link>
+          <div className="flex">
+            <div className="active:scale-120 hover:scale-120 duration-200">
+              <Link href="/posts">All Posts</Link>
+            </div>
           </div>
-          <div>
-            <Link href="/contact">Contact</Link>
+          <div className="flex">
+            <div className="active:scale-120 hover:scale-120 duration-200">
+              <Link href="/contact">Contact</Link>
+            </div>
           </div>
         </div>
         <div className="text-md">

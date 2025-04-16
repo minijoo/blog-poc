@@ -2996,11 +2996,6 @@ tapable@^2.2.0:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-textfit@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/textfit/-/textfit-2.4.0.tgz#80cba8006bfb9c3d9d552739257957bdda95c79c"
-  integrity sha512-/x4aoY5+/tJmu+iwpBH1yw75TFp86M6X15SvaaY/Eep7YySQYtqdOifEtfvVyMwzl7SZ+G4RQw00FD9g5R6i1Q==
-
 toml@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/toml/-/toml-3.0.0.tgz#342160f1af1904ec9d204d03a5d61222d762c5ee"
