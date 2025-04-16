@@ -86,6 +86,7 @@ export default function LoginPage({ ip }) {
               name="email"
               type="text"
               autoComplete="email"
+              autoCapitalize="none"
               required
               autoFocus
             />

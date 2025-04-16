@@ -73,7 +73,7 @@ export default function DbPost({ ip }) {
   const handleHeaderClick = async () => {
     let newName = prompt("Enter new cover image name:");
     const item = data.gallery.filter(
-      (it) => it.name === newName && it.type === "image"
+      (it) => it.name === newName.toLowerCase() && it.type === "image"
     );
     if (!item.length) {
       setRedMessage(
@@ -366,11 +366,30 @@ export default function DbPost({ ip }) {
     await navigator.clipboard.write([clipboardItem]);
   }
 
-  const handleImageClick = async (event) => {
-    await setClipboard(event.currentTarget.dataset.name);
-    setGreenMessage("Copied image name to clipboard");
+  function insertAtCursor(myField: HTMLTextAreaElement, myValue) {
+    //IE support
     // @ts-ignore
-    document.getElementById("green-popover").showPopover();
+    if (document.selection) {
+      myField.focus();
+      // @ts-ignore
+      const sel = document.selection.createRange();
+      sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == 0) {
+      var startPos = myField.selectionStart;
+      var endPos = myField.selectionEnd;
+      myField.value =
+        myField.value.substring(0, startPos) +
+        myValue +
+        myField.value.substring(endPos, myField.value.length);
+    } else {
+      myField.value += myValue;
+    }
+  }
+
+  const handleImageClick = async (event) => {
+    insertAtCursor(bodyRef.current, event.currentTarget.dataset.name);
   };
 
   const [files, setFiles] = useState<ItemForUploadAndPreviewing[]>([]);
@@ -654,6 +673,7 @@ export default function DbPost({ ip }) {
                   {files.map((el, index) => (
                     <input
                       type="text"
+                      autoCapitalize="none"
                       data-index={index}
                       className="pl-2 file-names col-span-3"
                       defaultValue={el.name}
