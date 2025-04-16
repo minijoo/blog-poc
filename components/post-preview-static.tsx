@@ -23,7 +23,7 @@ const PostPreviewStatic = ({
     <Link as={`/posts2/${slug}`} href="/posts2/[slug]">
       <div
         style={{
-          backgroundImage: `url(${coverImage})`,
+          backgroundImage: `url(${encodeURI(coverImage)})`,
         }}
         className="bg-cover bg-center min-h-16 duration-200 active:translate-x-[-1.5rem] md:active:translate-x-[-5.5rem] active:-rotate-[4deg] active:scale-75"
       >
