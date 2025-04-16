@@ -22,6 +22,7 @@ export default function Index({ allPosts }: Props) {
     // start page at second occurrence of first post
     window.scroll({
       top: 3600,
+      // @ts-expect-error
       behavior: "instant",
     });
   }, []); // empty array forces this fn to run only once (on load) and not on any other rerenders
@@ -42,6 +43,7 @@ export default function Index({ allPosts }: Props) {
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
+        // @ts-expect-error
         behavior: "instant",
       });
     }
