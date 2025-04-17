@@ -285,7 +285,7 @@ export default function DbPost({ ip }) {
     for (const input of document.getElementsByClassName(
       "file-names"
     ) as HTMLCollectionOf<HTMLInputElement>) {
-      files[i++].name = input.value;
+      files[i++].name = input.value.trim();
     }
 
     try {
@@ -393,7 +393,6 @@ export default function DbPost({ ip }) {
   };
 
   const [files, setFiles] = useState<ItemForUploadAndPreviewing[]>([]);
-  const [filenames, setFilenames] = useState<string[][]>([]);
   const [uploadErrs, setUploadErrs] = useState<string[]>([]);
   const [uploadWaitingMsg, setUploadWaitingMsg] = useState<string>(null);
   const [coverUrl, setCoverUrl] = useState<string>(null);
