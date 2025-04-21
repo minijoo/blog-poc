@@ -41,7 +41,7 @@ const MoreStories = ({ posts, travel }: Props) => {
       <div className="relative w-full grow mb-10">
         {coords.map((coord, index) => (
           <div
-            className="absolute w-full h-full flex flex-col hover:cursor-pointer hover:border active:bg-blue-300 select-none"
+            className="absolute w-full h-full flex flex-col hover:cursor-pointer hover:bg-blue-300 active:bg-blue-300 select-none"
             key={index}
             style={{
               left: Math.round(coord[0] * 10000) / 10000,

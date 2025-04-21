@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "source .env && next",
+    "dev": "export IP=$(ipconfig getifaddr en0) && next",
     "dev-https": "next --experimental-https",
     "build": "next build",
     "start": "next start",
@@ -19,6 +19,8 @@
     "classnames": "^2.3.1",
     "esbuild": "^0.25.0",
     "gray-matter": "^4.0.3",
+    "hyphenation.en-us": "^0.2.1",
+    "hypher": "^0.2.5",
     "mdx-bundler": "^9.2.1",
     "mongodb": "^6.14.1",
     "next": "latest",
@@ -28,7 +30,6 @@
     "react-grid-gallery": "^1.0.0",
     "react-icons": "5.4.0",
     "react-intersection-observer": "^9.8.2",
-    "react-moveable": "^0.56.0",
     "react-photo-album": "^3.1.0",
     "react-responsive": "^10.0.0",
     "react-textfit": "^1.1.1",
@@ -37,6 +38,7 @@
     "remark-html": "^15.0.1",
     "remark-math": "^6.0.0",
     "swr": "^2.3.2",
+    "tex-linebreak": "^0.7.1",
     "typescript": "^4.7.4",
     "yet-another-react-lightbox": "github:igordanchenko/yet-another-react-lightbox#yarl-343"
   },

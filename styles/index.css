@@ -32,12 +32,18 @@
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
   }
   a.lightbox {
-    @apply !decoration-red-400;
+    @apply !decoration-red-400 hover:cursor-pointer;
   }
   a.no-decoration {
     @apply !no-underline;
   }
 }
+
+.yarl__navigation_prev,
+.yarl__navigation_next {
+  @apply hidden md:block;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 /* .no-scrollbar::-webkit-scrollbar { */
 *::-webkit-scrollbar {

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { ColumnsPhotoAlbum, Photo } from "react-photo-album";
-import Lightbox, { SlideImage, SlideVideo } from "yet-another-react-lightbox";
+import { SlideVideo } from "yet-another-react-lightbox";
+
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"));
 
 // Lightbox plugins
 import Download from "yet-another-react-lightbox/plugins/download";
@@ -9,6 +11,7 @@ import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 import { FaRegCirclePlay } from "react-icons/fa6";
+import dynamic from "next/dynamic";
 
 type MyPhoto = Photo & {
   usePlayWatermark?: boolean;
@@ -20,25 +23,18 @@ const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
     src: slide.poster,
     width: slide.width,
     height: slide.height,
-    srcSet: [1080, 640, 384, 256, 128, 96, 64, 48].map((breakpoint) => {
-      const height = Math.round((slide.height / slide.width) * breakpoint);
-      return {
-        src: slide.poster,
-        width: breakpoint,
-        height,
-      };
-    }),
   };
   return simage;
 };
 
 export default function PhotoGallery({ slides }) {
-  const [index, setIndex] = useState(-1);
+  const [index, setIndex] = useState(-2);
+  // initialized to -2 to indicate first load.
 
   const albumThumbs: MyPhoto[] = slides.map((sld) =>
     sld.type === "video" ? convertToAlbumThumb(sld) : sld
   );
-  console.log(albumThumbs);
+
   return (
     <>
       <ColumnsPhotoAlbum
@@ -60,29 +56,31 @@ export default function PhotoGallery({ slides }) {
             ),
         }}
       />
-      <Lightbox
-        slides={slides}
-        open={index >= 0}
-        index={index}
-        close={() => setIndex(-1)}
-        carousel={{
-          finite: true,
-          padding: 0,
-        }}
-        animation={{
-          fade: 80,
-          swipe: 80,
-          zoom: 100,
-        }}
-        controller={{
-          closeOnPullDown: true,
-        }}
-        zoom={{
-          maxZoomPixelRatio: 4,
-          doubleClickMaxStops: 1,
-        }}
-        plugins={[Zoom, Fullscreen, Video, Download]}
-      />
+      {index !== -2 && (
+        <Lightbox
+          slides={slides}
+          open={index >= 0}
+          index={index}
+          close={() => setIndex(-1)}
+          carousel={{
+            finite: true,
+            padding: 0,
+          }}
+          animation={{
+            fade: 80,
+            swipe: 80,
+            zoom: 100,
+          }}
+          controller={{
+            closeOnPullDown: true,
+          }}
+          zoom={{
+            maxZoomPixelRatio: 2,
+            doubleClickMaxStops: 1,
+          }}
+          plugins={[Zoom, Fullscreen, Video, Download]}
+        />
+      )}
     </>
   );
 }

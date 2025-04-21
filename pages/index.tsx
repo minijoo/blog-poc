@@ -86,7 +86,9 @@ export const getStaticProps = async () => {
   apiPosts.sort(
     (postA, postB) => Date.parse(postB.date) - Date.parse(postA.date)
   );
-
+  if (!apiPosts.length) {
+    return { props: { allPosts: [] } };
+  }
   const authors = await Jordys_API.getAuthorInfos(
     apiPosts.map((p) => p.author?.toString()).filter((a) => !!a)
   );

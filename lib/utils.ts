@@ -11,9 +11,41 @@ const injectGalleryMdx = (
 ) => {
   let newBody = postBody;
 
-  const regex = /\$\(([\w\s\.,]+)\)/g;
+  const linkRegex = /\$\[(.+)\]\(([\w\s\.,]+)\)/g;
 
   let resultArr: RegExpExecArray;
+  while ((resultArr = linkRegex.exec(postBody)) !== null) {
+    const matchString = resultArr[0]; // entire string
+    const text_string = resultArr[1] as string;
+    const item___name = resultArr[2] as string;
+
+    const galleryItem = galleryByName.get(item___name.toLowerCase());
+    if (!galleryItem) continue;
+    const mdxGalleryItem: GalleryItem = {
+      path: galleryItem.url,
+      type: galleryItem.type,
+      width: galleryItem.width,
+      height: galleryItem.height,
+    };
+    if (galleryItem.type === "video") {
+      mdxGalleryItem.path = galleryItem.video_thumb_url;
+      mdxGalleryItem.video = {
+        path: galleryItem.url,
+        type: "video/mp4",
+      };
+    }
+
+    newBody = newBody.replace(
+      matchString,
+      `<LightboxLink slide={${JSON.stringify(
+        mapGalleryToSlides(mdxGalleryItem)
+      )}}>${text_string}</LightboxLink>`
+    );
+  }
+
+  const regex = /\$\(([\w\s\.,]+)\)/g;
+
+  // let resultArr: RegExpExecArray;
   while ((resultArr = regex.exec(postBody)) !== null) {
     // const match_index = resultArr.index;
     const matchString = resultArr[0]; // "(name1, name2)"
@@ -49,6 +81,7 @@ const injectGalleryMdx = (
 
   return `import PhotoGallery from "../components/photo-gallery";
 import { mapGalleryToSlides } from "../lib/utils";
+import LightboxLink from "../components/lightbox-link-2";
 
 ${newBody}`;
 };
@@ -112,16 +145,16 @@ const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
       src: galleryItem.path,
       width: galleryItem.width,
       height: galleryItem.height,
-      srcSet: breakpoints.map((breakpoint) => {
-        const height = Math.round(
-          (galleryItem.height / galleryItem.width) * breakpoint
-        );
-        return {
-          src: galleryItem.path,
-          width: breakpoint,
-          height,
-        };
-      }),
+      // srcSet: breakpoints.map((breakpoint) => {
+      //   const height = Math.round(
+      //     (galleryItem.height / galleryItem.width) * breakpoint
+      //   );
+      //   return {
+      //     src: galleryItem.path,
+      //     width: breakpoint,
+      //     height,
+      //   };
+      // }),
     };
     return slide;
   }

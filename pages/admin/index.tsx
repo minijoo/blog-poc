@@ -159,7 +159,6 @@ export default function AdminPage({ ip }) {
       },
       [-1, Infinity]
     )[0];
-    console.log(shortestTailCol);
 
     setCardsReady(true);
   }, [ref]);

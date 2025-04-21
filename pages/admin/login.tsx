@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 export default function LoginPage({ ip }) {
   const redirPath = useRouter().query["redirectPath"];
-  console.log(redirPath);
+  // console.log(redirPath);
   const Jordys_API = new JordysAPI(ip);
 
   const handleLogin: MouseEventHandler<HTMLButtonElement> = async (e) => {

@@ -7,7 +7,7 @@ import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
 import Head from "next/head";
 import Footer from "../../components/footer";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Author from "../../interfaces/author";
 import { bundleMDX } from "mdx-bundler";
 import remarkMath from "remark-math";
@@ -16,6 +16,8 @@ import GalleryItem from "../../interfaces/galleryItem";
 import { injectGalleryMdx } from "../../lib/utils";
 import { JordysAPI } from "../../lib/jordys-api";
 import CoverImage from "../../components/cover-image-for-post";
+import { createHyphenator, justifyContent } from "tex-linebreak";
+import enUsPatterns from "hyphenation.en-us";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
@@ -33,10 +35,15 @@ type Props = {
 };
 
 export default function Post({ code, metadata, gallery, slug }: Props) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
-    // this adds scrollbar to the page
-  });
+    //   // this adds scrollbar to the page
+    const hyphenate = createHyphenator(enUsPatterns);
+    const paragraphs = Array.from(document.querySelectorAll("p"));
+    if (!paragraphs.length) return;
+    justifyContent(paragraphs, hyphenate);
+  }, []);
+
   const router = useRouter();
   const headerTitle = `${metadata.title} | Jordy's Site`;
   const mainRef = useRef(null);
