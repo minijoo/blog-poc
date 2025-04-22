@@ -39,9 +39,10 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
     //   // this adds scrollbar to the page
     const hyphenate = createHyphenator(enUsPatterns);
-    const paragraphs = Array.from(document.querySelectorAll("p"));
-    if (!paragraphs.length) return;
-    justifyContent(paragraphs, hyphenate);
+    const paragraphs = Array.from(document.querySelectorAll("p")).filter(
+      (p) => !p.id // no elements in prose should have ids
+    );
+    paragraphs.length && justifyContent(paragraphs, hyphenate);
   }, []);
 
   const router = useRouter();
