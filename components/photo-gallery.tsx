@@ -9,6 +9,7 @@ import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Captions from "yet-another-react-lightbox/plugins/captions";
 
 import { FaRegCirclePlay } from "react-icons/fa6";
 import dynamic from "next/dynamic";
@@ -78,7 +79,10 @@ export default function PhotoGallery({ slides }) {
             maxZoomPixelRatio: 0.5,
             doubleClickMaxStops: 1,
           }}
-          plugins={[Zoom, Fullscreen, Video, Download]}
+          captions={{
+            descriptionTextAlign: "center",
+          }}
+          plugins={[Captions, Zoom, Fullscreen, Video, Download]}
         />
       )}
     </>

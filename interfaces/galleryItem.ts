@@ -8,6 +8,7 @@ type GalleryItem = {
     path: string; // Path to mp4 file
     type: "video/mp4"; // Only known supported file is "video/mp4"
   };
+  caption?: string;
 };
 
 export default GalleryItem;

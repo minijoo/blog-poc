@@ -1,6 +1,5 @@
 import { Slide, SlideImage, SlideVideo } from "yet-another-react-lightbox";
 import GalleryItem from "../interfaces/galleryItem";
-import { Photo } from "react-photo-album";
 import { ApiGalleryItem } from "../interfaces/jordys-api";
 
 const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
@@ -43,15 +42,17 @@ const injectGalleryMdx = (
     );
   }
 
-  const regex = /\$\(([\w\s\.,]+)\)/g;
+  const regex = /\$\((.+)\)/g;
 
-  // let resultArr: RegExpExecArray;
   while ((resultArr = regex.exec(postBody)) !== null) {
-    // const match_index = resultArr.index;
-    const matchString = resultArr[0]; // "(name1, name2)"
+    const matchString = resultArr[0]; // "$(name1[caption], name2)"
     const item__names = (resultArr[1] as string).split(/\s*,\s*/);
 
     const galleryMdx = item__names.reduce((arr, item) => {
+      const captionResult = /\[(.+)\]/g.exec(item);
+      if (captionResult !== null) {
+        item = item.replace(captionResult[0], "");
+      }
       const galleryItem = galleryByName.get(item.toLowerCase());
       if (!galleryItem) return arr;
       const mdxGalleryItem: GalleryItem = {
@@ -59,6 +60,7 @@ const injectGalleryMdx = (
         type: galleryItem.type,
         width: galleryItem.width,
         height: galleryItem.height,
+        caption: captionResult !== null ? captionResult[1] : undefined,
       };
       if (galleryItem.type === "video") {
         mdxGalleryItem.path = galleryItem.video_thumb_url;
@@ -125,7 +127,6 @@ const dbPostToStaticPostContent = (content: string): [string, string[]] => {
 
 const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
   if (galleryItem.type === "video") {
-    console.log(galleryItem.name, "is a video");
     const slide: SlideVideo = {
       type: "video",
       sources: [
@@ -138,6 +139,7 @@ const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
       width: galleryItem.width,
       height: galleryItem.height,
       autoPlay: true,
+      description: galleryItem.caption,
     };
     return slide;
   } else {
@@ -145,16 +147,7 @@ const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
       src: galleryItem.path,
       width: galleryItem.width,
       height: galleryItem.height,
-      // srcSet: breakpoints.map((breakpoint) => {
-      //   const height = Math.round(
-      //     (galleryItem.height / galleryItem.width) * breakpoint
-      //   );
-      //   return {
-      //     src: galleryItem.path,
-      //     width: breakpoint,
-      //     height,
-      //   };
-      // }),
+      description: galleryItem.caption,
     };
     return slide;
   }
