@@ -75,7 +75,7 @@ export default function PhotoGallery({ slides }) {
             closeOnPullDown: true,
           }}
           zoom={{
-            maxZoomPixelRatio: 1,
+            maxZoomPixelRatio: 0.5,
             doubleClickMaxStops: 1,
           }}
           plugins={[Zoom, Fullscreen, Video, Download]}

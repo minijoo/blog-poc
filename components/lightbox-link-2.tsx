@@ -47,7 +47,7 @@ export default function LightboxLink({ slide, children }: Props) {
             closeOnPullDown: true,
           }}
           zoom={{
-            maxZoomPixelRatio: 2,
+            maxZoomPixelRatio: 0.5,
             doubleClickMaxStops: 1,
           }}
           render={{
