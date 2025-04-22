@@ -4,6 +4,7 @@
 !/public/assets/blog/author
 !/public/assets/blog/intro
 jarfile
+tmp
 
 # dependencies
 /node_modules

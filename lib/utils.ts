@@ -37,9 +37,9 @@ const injectGalleryMdx = (
 
     newBody = newBody.replace(
       matchString,
-      `<LightboxLink slide={${JSON.stringify(
+      `<LightboxLink2 slide={${JSON.stringify(
         mapGalleryToSlides(mdxGalleryItem)
-      )}}>${text_string}</LightboxLink>`
+      )}}>${text_string}</LightboxLink2>`
     );
   }
 
@@ -81,7 +81,7 @@ const injectGalleryMdx = (
 
   return `import PhotoGallery from "../components/photo-gallery";
 import { mapGalleryToSlides } from "../lib/utils";
-import LightboxLink from "../components/lightbox-link-2";
+import LightboxLink2 from "../components/lightbox-link-2";
 
 ${newBody}`;
 };
