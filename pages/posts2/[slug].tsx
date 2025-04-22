@@ -40,8 +40,12 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
     //   // this adds scrollbar to the page
     const hyphenate = createHyphenator(enUsPatterns);
     const paragraphs = Array.from(document.querySelectorAll("p")).filter(
-      (p) => !p.id // no elements in prose should have ids
+      (p) =>
+        !p.id && // no elements in prose should have ids
+        (!p.firstElementChild || // skip katex texts
+          !p.firstElementChild.classList.contains("katex"))
     );
+    console.log(paragraphs);
     paragraphs.length && justifyContent(paragraphs, hyphenate);
   }, []);
 
