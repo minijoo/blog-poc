@@ -60,13 +60,12 @@ export default function DbPost({ ip }) {
     );
     if (!confirmDelete) return;
 
-    console.log("delete", event.currentTarget.dataset.name);
     try {
-      const newData = await Jordys_API.removeGalleryItem(
+      const resp = await Jordys_API.removeGalleryItem(
         router.query.id,
         event.currentTarget.dataset.name
       );
-      setData(newData);
+      data.gallery = resp.gallery.reverse();
       setGreenMessage("Removed item successfully");
       // @ts-ignore
       document.getElementById("green-popover").showPopover();
