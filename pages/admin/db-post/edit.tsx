@@ -7,6 +7,7 @@ import { injectGalleryMdx } from "../../../lib/utils";
 import Head from "next/head";
 import Layout from "../../../components/layout";
 import cn from "classnames";
+import { AiTwotoneCloseCircle } from "react-icons/ai";
 
 interface ItemForUploadAndPreviewing extends ItemForUpload {
   previewUrl: string;
@@ -52,6 +53,28 @@ export default function DbPost({ ip }) {
       window.removeEventListener("beforeunload", beforeUnload);
     };
   }, [hasBodyChangedSinceSave]);
+
+  const handleImageDelete = async (event) => {
+    const confirmDelete = confirm(
+      "Delete " + event.currentTarget.dataset.name + "?"
+    );
+    if (!confirmDelete) return;
+
+    console.log("delete", event.currentTarget.dataset.name);
+    try {
+      const newData = await Jordys_API.removeGalleryItem(
+        router.query.id,
+        event.currentTarget.dataset.name
+      );
+      setData(newData);
+      setGreenMessage("Removed item successfully");
+      // @ts-ignore
+      document.getElementById("green-popover").showPopover();
+    } catch (err) {
+      alert("Error removing gallery item");
+      console.log(err);
+    }
+  };
 
   const handlePublishToggle = async () => {
     try {
@@ -462,13 +485,20 @@ export default function DbPost({ ip }) {
             </div>
           </div>
 
-          <div className="flex-none h-14 min-h-14 flex bg-gray-100 overflow-x-auto justify-items-center items-center">
+          <div className="flex-none h-16 min-h-20 flex bg-gray-100 overflow-x-auto justify-items-center items-center">
             {data?.gallery?.map((galleryItem) => (
               <div
-                className="h-8 min-w-32 mx-3 grid grid-cols-4 bg-gray-300 rounded-md"
+                className="relative h-12 flex-1 min-w-32 mx-3 grid grid-cols-4 bg-gray-300 rounded-md"
                 key={galleryItem.name}
               >
-                <div className="h-8 col-span-1 relative rounded-l-md flex place-content-center items-center overflow-hidden">
+                <div
+                  data-name={galleryItem.name}
+                  className="absolute -top-2 -right-2 text-2xl"
+                  onClick={handleImageDelete}
+                >
+                  <AiTwotoneCloseCircle />
+                </div>
+                <div className="h-12 col-span-1 relative rounded-l-md flex place-content-center items-center overflow-hidden">
                   <a
                     href={galleryItem.url}
                     target="_blank"
@@ -487,7 +517,7 @@ export default function DbPost({ ip }) {
                   </a>
                 </div>
                 <div
-                  className="col-span-3 pt-1 flex place-content-center items-start text-center overflow-hidden"
+                  className="col-span-3 pt-1 flex place-content-center items-center text-center overflow-hidden"
                   data-name={galleryItem.name}
                   onClick={handleImageClick}
                 >

@@ -19,6 +19,7 @@ export class JordysAPI {
     }
     console.log("contructor", this.API_URL);
   }
+
   async getAuthorInfos(authorIds: string[]): Promise<Author[]> {
     const resp = await fetch(
       this.API_URL + "backend/author?ids=" + authorIds.join(","),
@@ -40,9 +41,11 @@ export class JordysAPI {
 
     return await resp.json();
   }
+
   async register(formData: FormData) {
     // nothing yet b/c i don't want to allow registering from .site yet.
   }
+
   async login(formData: FormData) {
     const resp = await fetch(this.API_URL + "login", {
       method: "POST",
@@ -58,6 +61,7 @@ export class JordysAPI {
     }
     return;
   }
+
   async createPost() {
     const resp = await fetch(this.API_URL + "posts/new", {
       method: "POST",
@@ -156,6 +160,25 @@ export class JordysAPI {
     if (!resp.ok) {
       console.log("Response from server not OK");
       throw new Error(await resp.json());
+    }
+    return await resp.json();
+  }
+
+  async removeGalleryItem(id, itemName) {
+    const resp = await fetch(
+      this.API_URL + "posts/gallery/delete/" + id + "/" + itemName,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
+    if (!resp.ok) {
+      console.log("Response from server not OK");
+      if (resp.status === 401) {
+        throw new AuthenticationError();
+      }
+      const respjson = await resp.json();
+      throw new Error(JSON.stringify(respjson));
     }
     return await resp.json();
   }

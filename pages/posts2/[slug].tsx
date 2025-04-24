@@ -45,7 +45,6 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
         (!p.firstElementChild || // skip katex texts
           !p.firstElementChild.classList.contains("katex"))
     );
-    console.log(paragraphs);
     paragraphs.length && justifyContent(paragraphs, hyphenate);
   }, []);
 
