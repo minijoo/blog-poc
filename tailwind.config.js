@@ -23,9 +23,6 @@ module.exports = {
           },
         },
       },
-      fontFamily: {
-        serif: ["var(--font-crimson)"],
-      },
 
       colors: {
         "accent-1": "#FAFAFA",

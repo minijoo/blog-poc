@@ -1,29 +1,22 @@
-import * as React from "react";
+import { useMemo } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
 
 type Props = {
-  // content: string;
   code: string;
-  // children: React.ReactNode;
 };
 
-const components = {};
-
 const PostBody = ({ code }: Props) => {
-  const Component = React.useMemo(() => getMDXComponent(code), [code]);
+  const Component = useMemo(() => getMDXComponent(code), [code]);
+
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto mb-4">
       <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
         integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
         crossOrigin="anonymous"
       />
-      {/* <div
-        className={markdownStyles["markdown"]}
-        dangerouslySetInnerHTML={{ __html: content }}
-      /> */}
-      <div className="prose prose-lg md:prose-2xl leading-normal md:leading-normal tracking-tighter">
+      <div className="prose prose-xl md:prose-2xl `leading-normal `md:leading-normal `tracking-tight">
         <Component />
       </div>
     </div>

@@ -3,6 +3,8 @@
 /public/assets/blog
 !/public/assets/blog/author
 !/public/assets/blog/intro
+jarfile
+tmp
 
 # dependencies
 /node_modules
@@ -15,6 +17,7 @@
 # next.js
 /.next/
 /out/
+nodejs.html
 
 # production
 /build
@@ -28,8 +31,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# env files
+.env
 
 # vercel
 .vercel
@@ -37,3 +40,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+certificates

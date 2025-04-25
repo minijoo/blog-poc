@@ -10,9 +10,9 @@ function getCurrentDimension() {
 
 const Header = () => {
   return (
-    <section className="flex-col flex items-center mt-8 mb-4 h-20 md:h-28">
+    <section className="flex-col flex items-center pt-8 pb-4 relative z-50 bg-white -translate-y-1">
       <div className="flex-grow flex w-full place-content-center -translate-x-3">
-        <div className="text-shadow my-0 block w-20 h-full relative text-right md:mx-3">
+        <div className="text-shadow my-0 block w-20 `h-full relative text-right md:mx-3">
           <Image
             src="/favicon/safari-pinned-tab.svg"
             alt="logo"
@@ -21,8 +21,8 @@ const Header = () => {
           />
         </div>
         <div className="">
-          <Link href="/" className="hover:underline">
-            <h1 className="text-5xl md:text-7xl text-center font-bold tracking-tighter leading-tight">
+          <Link href="/" className="hover:underline active:underline">
+            <h1 className="text-5xl md:text-7xl text-center tracking-tighter leading-tight">
               Jordy's.Site
             </h1>
           </Link>

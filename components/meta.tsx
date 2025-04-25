@@ -4,13 +4,12 @@ import { CMS_NAME, HOME_OG_IMAGE_URL } from "../lib/constants";
 const Meta = () => {
   return (
     <Head>
-      {/* https://www.npmjs.com/package/rehype-katex */}
-      <link
+      {/* <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
         integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
         crossOrigin="anonymous"
-      />
+      /> */}
       <link
         rel="apple-touch-icon"
         sizes="180x180"

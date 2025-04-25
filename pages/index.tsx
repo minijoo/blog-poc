@@ -1,14 +1,17 @@
 import ContainerHome from "../components/container-home";
 import MoreStories from "../components/more-stories";
 import Layout from "../components/layout";
-import { getAllPosts } from "../lib/api";
 import Head from "next/head";
-import Post from "../interfaces/post";
 import Footer from "../components/footer";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { JordysAPI } from "../lib/jordys-api";
+import Author from "../interfaces/author";
+import { PreviewPost } from "../interfaces/preview-post";
+
+const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
 type Props = {
-  allPosts: Post[];
+  allPosts: PreviewPost[];
 };
 
 export default function Index({ allPosts }: Props) {
@@ -70,10 +73,7 @@ export default function Index({ allPosts }: Props) {
             {scrollDivs}
           </div>
         </ContainerHome>
-        <div className="fixed bottom-0 w-screen flex flex-col gap-y-2 justify-items-center place-items-center">
-          <div className="w-12 text-xl text-white text-center bg-neutral-500/75 rounded-md">
-            {Math.ceil(travel / 60)} / 6
-          </div>
+        <div className="fixed bottom-0 w-full flex flex-col gap-y-2 place-items-center">
           <Footer />
         </div>
       </Layout>
@@ -82,14 +82,36 @@ export default function Index({ allPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const allPosts = await getAllPosts([
-    "title",
-    "date",
-    "slug",
-    "author",
-    "coverImage",
-    "excerpt",
-  ]);
+  const apiPosts = await Jordys_API.retrieveAllPostsWithToken();
+  apiPosts.sort(
+    (postA, postB) => Date.parse(postB.date) - Date.parse(postA.date)
+  );
+  if (!apiPosts.length) {
+    return { props: { allPosts: [] } };
+  }
+  const authors = await Jordys_API.getAuthorInfos(
+    apiPosts.map((p) => p.author?.toString()).filter((a) => !!a)
+  );
+  const authorMap = new Map<string, Author>();
+  authors.forEach((author) =>
+    authorMap.set(author._id.toString(), {
+      name: author.username,
+      picture: author.picture,
+    })
+  );
+  authorMap.set(undefined, { name: "Anonymous", picture: "" });
+
+  const allPosts: PreviewPost[] = apiPosts.map((apiPost) => ({
+    metadata: {
+      title: apiPost.title,
+      date: apiPost.date,
+      coverImage: apiPost.cover_url || "",
+      author_name: authorMap.get(apiPost.author?.toString()).name,
+      author_picture: authorMap.get(apiPost.author?.toString()).picture,
+      excerpt: apiPost.excerpt,
+    },
+    slug: apiPost._id,
+  }));
 
   return {
     props: { allPosts },
