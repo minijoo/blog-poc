@@ -245,6 +245,11 @@ export default function DbPost({ ip }) {
 
     const inputFiles = inputElement.files;
 
+    if (!inputFiles.length) {
+      setFiles([]);
+      return;
+    }
+
     if (inputFiles[0].type.includes("video") && inputFiles.length > 1) {
       setUploadErrs(["Video uploads are only allowed one at a time"]);
       return;
@@ -404,7 +409,11 @@ export default function DbPost({ ip }) {
       myField.value =
         myField.value.substring(0, startPos) +
         myValue +
+        "," +
         myField.value.substring(endPos, myField.value.length);
+      myField.selectionStart = startPos + myValue.length + 1;
+      myField.selectionEnd = myField.selectionStart;
+      myField.focus();
     } else {
       myField.value += myValue;
     }
@@ -706,6 +715,9 @@ export default function DbPost({ ip }) {
                       className="pl-2 file-names col-span-3"
                       defaultValue={el.name}
                       onChange={handleUploadNameChange}
+                      onFocus={(event) => {
+                        event.currentTarget.select();
+                      }}
                     />
                   ))}
                 </div>
