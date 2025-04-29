@@ -48,30 +48,32 @@ const injectGalleryMdx = (
     const matchString = resultArr[0]; // "$(name1[caption], name2)"
     const item__names = (resultArr[1] as string).split(/\s*,\s*/);
 
-    const galleryMdx = item__names.reduce((arr, item) => {
-      const captionResult = /\[(.+)\]/g.exec(item);
-      if (captionResult !== null) {
-        item = item.replace(captionResult[0], "");
-      }
-      const galleryItem = galleryByName.get(item.toLowerCase());
-      if (!galleryItem) return arr;
-      const mdxGalleryItem: GalleryItem = {
-        path: galleryItem.url,
-        type: galleryItem.type,
-        width: galleryItem.width,
-        height: galleryItem.height,
-        caption: captionResult !== null ? captionResult[1] : undefined,
-      };
-      if (galleryItem.type === "video") {
-        mdxGalleryItem.path = galleryItem.video_thumb_url;
-        mdxGalleryItem.video = {
+    const galleryMdx = item__names
+      .filter((el) => el.length)
+      .reduce((arr, item) => {
+        const captionResult = /\[(.+)\]/g.exec(item);
+        if (captionResult !== null) {
+          item = item.replace(captionResult[0], "");
+        }
+        const galleryItem = galleryByName.get(item.toLowerCase());
+        if (!galleryItem) return arr;
+        const mdxGalleryItem: GalleryItem = {
           path: galleryItem.url,
-          type: "video/mp4",
+          type: galleryItem.type,
+          width: galleryItem.width,
+          height: galleryItem.height,
+          caption: captionResult !== null ? captionResult[1] : undefined,
         };
-      }
-      arr.push(mdxGalleryItem);
-      return arr;
-    }, []);
+        if (galleryItem.type === "video") {
+          mdxGalleryItem.path = galleryItem.video_thumb_url;
+          mdxGalleryItem.video = {
+            path: galleryItem.url,
+            type: "video/mp4",
+          };
+        }
+        arr.push(mdxGalleryItem);
+        return arr;
+      }, []);
 
     newBody = newBody.replace(
       matchString,
