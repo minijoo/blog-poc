@@ -10,7 +10,7 @@ const injectGalleryMdx = (
 ) => {
   let newBody = postBody;
 
-  const linkRegex = /\$\[(.+)\]\(([\w\s\.,]+)\)/g;
+  const linkRegex = /\$\[([^\[\]]+)\]\(([\w\s\.\-0,]+)\)/g;
 
   let resultArr: RegExpExecArray;
   while ((resultArr = linkRegex.exec(postBody)) !== null) {
