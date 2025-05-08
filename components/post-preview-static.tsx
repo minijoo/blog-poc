@@ -22,8 +22,8 @@ const PostPreviewStatic = ({
 }: Props) => {
   return (
     <Link as={`/posts2/${slug}`} href="/posts2/[slug]">
-      <div className="relative bg-cover bg-center min-h-16 duration-200 hover:translate-x-[-1.5rem] md:hover:translate-x-[-5.5rem] hover:-rotate-[4deg] hover:scale-115 active:translate-x-[-1.5rem] md:active:translate-x-[-5.5rem] active:-rotate-[4deg] active:scale-115 z-50">
-        <div className="relative z-50 pl-3 pr-2 py-2 flex flex-row gap-2 bg-white/60 min-h-16">
+      <div className="relative bg-cover bg-center min-h-16 duration-200 hover:translate-x-[-1.5rem] md:hover:translate-x-[-5.5rem] hover:-rotate-[4deg] hover:scale-115 active:translate-x-[-1.5rem] md:active:translate-x-[-5.5rem] active:-rotate-[4deg] active:scale-115 z-49">
+        <div className="relative z-49 pl-3 pr-2 py-2 flex flex-row gap-2 bg-white/60 min-h-16">
           <div
             className={cn("grow font-bold text-3xl leading-snug duration-500")}
           >
