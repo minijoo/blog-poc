@@ -16,36 +16,34 @@ import GalleryItem from "../../interfaces/galleryItem";
 import { injectGalleryMdx } from "../../lib/utils";
 import { JordysAPI } from "../../lib/jordys-api";
 import CoverImage from "../../components/cover-image-for-post";
-import { createHyphenator, justifyContent } from "tex-linebreak";
-import enUsPatterns from "hyphenation.en-us";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
 type Props = {
   code: string;
+  encryptedCode: string;
   metadata: {
     title: string;
     date: string;
     coverImage: string;
     excerpt: string;
     author: Author;
+    private: boolean;
   };
   gallery: GalleryItem[];
   slug: string;
 };
 
-export default function Post({ code, metadata, gallery, slug }: Props) {
+export default function Post({
+  code,
+  encryptedCode,
+  metadata,
+  gallery,
+  slug,
+}: Props) {
   useLayoutEffect(() => {
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
     //   // this adds scrollbar to the page
-    const hyphenate = createHyphenator(enUsPatterns);
-    const paragraphs = Array.from(document.querySelectorAll("p")).filter(
-      (p) =>
-        !p.id && // no elements in prose should have ids
-        (!p.firstElementChild || // skip katex texts
-          !p.firstElementChild.classList.contains("katex"))
-    );
-    paragraphs.length && justifyContent(paragraphs, hyphenate);
   }, []);
 
   const router = useRouter();
@@ -72,7 +70,7 @@ export default function Post({ code, metadata, gallery, slug }: Props) {
               author={metadata.author}
             />
             <article className="pb-10">
-              <PostBody2 code={code} />
+              <PostBody2 code={code} isEncrypted={metadata.private} />
             </article>
           </Container>
         </>
@@ -127,15 +125,30 @@ export async function getStaticProps({ params }: Params) {
     },
   });
 
+  let code;
+  if (post.private) {
+    const KEY = parseInt(process.env.PRIVATE_PAGE_KEY);
+
+    code = "";
+
+    for (let i = 0; i < result.code.length; i++) {
+      const ch = result.code.charCodeAt(i);
+      code += String.fromCharCode(ch ^ KEY);
+    }
+  } else {
+    code = result.code;
+  }
+
   return {
     props: {
-      code: result.code,
+      code,
       metadata: {
         title: post.title,
         author,
         coverImage: post.cover_url || "",
         date: post.date,
         excerpt: post.excerpt,
+        private: !!post.private,
       },
       gallery: [],
     } as Props,
