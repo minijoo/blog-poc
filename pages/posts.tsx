@@ -32,6 +32,7 @@ export default function Posts({ allPosts }: Props) {
                   key={post.slug}
                   coverImage={post.metadata.coverImage}
                   title={post.metadata.title}
+                  excerpt={post.metadata.excerpt}
                   date={post.metadata.date}
                   author_name={post.metadata.author_name}
                   slug={post.slug}
@@ -46,6 +47,7 @@ export default function Posts({ allPosts }: Props) {
                   key={post.slug}
                   coverImage={post.metadata.coverImage}
                   title={"🔑 " + post.metadata.title}
+                  excerpt={post.metadata.excerpt}
                   date={post.metadata.date}
                   author_name={post.metadata.author_name}
                   slug={post.slug}
