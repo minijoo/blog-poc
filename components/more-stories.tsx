@@ -63,7 +63,7 @@ const MoreStories = ({ posts, travel }: Props) => {
             ) : (
               <></>
             )}
-            <div className="grow-0 font-bold leading-none mt-1">
+            <div className="grow-0 font-bold leading-none mt-1 px-1">
               <Textfit mode="single" max={175}>
                 {posts[index].metadata.title}
               </Textfit>

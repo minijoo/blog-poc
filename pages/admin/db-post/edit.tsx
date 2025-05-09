@@ -75,6 +75,21 @@ export default function DbPost({ ip }) {
     }
   };
 
+  const handlePrivateToggle = async () => {
+    try {
+      const newData = await Jordys_API.updatePost(router.query.id, {
+        private: data.private ? "no" : "yes",
+      });
+      setData(newData);
+      setGreenMessage("Saved privacy successfully");
+      // @ts-ignore
+      document.getElementById("green-popover").showPopover();
+    } catch (err) {
+      alert("Error saving privacy");
+      console.log(err);
+    }
+  };
+
   const handlePublishToggle = async () => {
     try {
       const newData = await Jordys_API.updatePost(router.query.id, {
@@ -579,13 +594,21 @@ export default function DbPost({ ip }) {
                   (coverUrl
                     ? `<img src="${coverUrl}" />`
                     : `No cover image\n\n`) +
-                  `Title: ${data.title}\n\nDate: ${data.date}\n\nExcerpt: ${data.excerpt}\n\nBody:\n\n` +
+                  `Title: ${data.private ? "(🔑)" : ""}${data.title}\n\nDate: ${
+                    data.date
+                  }\n\nExcerpt: ${data.excerpt}\n\nBody:\n\n` +
                   bodyRef.current.value;
                 localStorage.setItem("cat", titleExcerptBody);
               }}
             >
               👀
             </a>
+            <button
+              className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+              onClick={handlePrivateToggle}
+            >
+              {data?.private ? "🔓" : "🔑"}
+            </button>
             <button
               className="h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
               onClick={handlePublishToggle}

@@ -10,7 +10,7 @@ function getCurrentDimension() {
 
 const Header = () => {
   return (
-    <section className="flex-col flex items-center pt-8 pb-4 relative z-50 bg-white -translate-y-1">
+    <section className="flex-col flex items-center pt-8 pb-4 relative z-48 bg-white -translate-y-1">
       <div className="flex-grow flex w-full place-content-center -translate-x-3">
         <div className="text-shadow my-0 block w-20 `h-full relative text-right md:mx-3">
           <Image

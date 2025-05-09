@@ -15,7 +15,8 @@ type Props = {
 };
 
 export default function Posts({ allPosts }: Props) {
-  const posts = allPosts;
+  const posts = allPosts.filter((p) => !p.metadata.private);
+  const privatePosts = allPosts.filter((p) => p.metadata.private);
   return (
     <>
       <Layout>
@@ -37,10 +38,24 @@ export default function Posts({ allPosts }: Props) {
                   index={i}
                 />
               ))}
+              <div className="w-1/2 mx-auto pt-4 pb-3 md:pt-5 md:pb-4">
+                <div className="border border-black/50" />
+              </div>
+              {privatePosts.map((post, i) => (
+                <PostPreviewStatic
+                  key={post.slug}
+                  coverImage={post.metadata.coverImage}
+                  title={"🔑 " + post.metadata.title}
+                  date={post.metadata.date}
+                  author_name={post.metadata.author_name}
+                  slug={post.slug}
+                  index={i}
+                />
+              ))}
             </div>
           </section>
         </Container>
-        <div className="fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">
+        <div className="z-50 fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">
           <Footer />
         </div>
       </Layout>
@@ -74,6 +89,7 @@ export const getStaticProps = async () => {
       author_name: authorMap.get(apiPost.author?.toString()).name,
       author_picture: authorMap.get(apiPost.author?.toString()).picture,
       excerpt: apiPost.excerpt,
+      private: apiPost.private ? true : false,
     },
     slug: apiPost._id,
   }));

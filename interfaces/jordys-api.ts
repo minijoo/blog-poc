@@ -9,6 +9,7 @@ export type ApiPost = {
   cover_url: string;
   author: ObjectId;
   published: boolean;
+  private: boolean;
   gallery: ApiGalleryItem[];
 };
 

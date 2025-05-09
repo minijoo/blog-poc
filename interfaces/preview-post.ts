@@ -6,6 +6,7 @@ export type PreviewPost = {
     excerpt: string;
     author_name: string;
     author_picture: string;
+    private?: boolean;
   };
   slug: string;
 };

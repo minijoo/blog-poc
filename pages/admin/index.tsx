@@ -264,6 +264,7 @@ export default function AdminPage({ ip }) {
                         <div>{post.gallery.length} 🏞</div>
                         <div>{post.body.split(/\s+/).length} 🔤</div>
                         <div>{post.published ? "✅" : "❌"} 📖</div>
+                        <div>{post.private ? "🔑" : "🔓"} 👀</div>
                       </div>
                       <div className="grid grid-cols-2 gap-1">
                         <a

@@ -1,24 +1,36 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getMDXComponent } from "mdx-bundler/client";
+import PostMdx from "./post-mdx";
 
 type Props = {
   code: string;
+  isEncrypted: boolean;
 };
 
-const PostBody = ({ code }: Props) => {
-  const Component = useMemo(() => getMDXComponent(code), [code]);
+const PostBody = ({ code, isEncrypted }: Props) => {
+  const [decrypted, setDecrypted] = useState(null);
+
+  useEffect(() => {
+    if (!isEncrypted) return;
+
+    const INPUT_KEY = parseInt(prompt("Key?"));
+    let decryptedCode = "";
+    for (let i = 0; i < code.length; i++) {
+      const ch = code.charCodeAt(i);
+      decryptedCode += String.fromCharCode(ch ^ INPUT_KEY);
+    }
+    setDecrypted(decryptedCode);
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto mb-4">
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
-        integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
-        crossOrigin="anonymous"
-      />
-      <div className="prose prose-lg md:prose-xl `leading-normal `md:leading-normal `tracking-tight">
-        <Component />
-      </div>
+      {!isEncrypted ? (
+        <PostMdx code={code} />
+      ) : decrypted ? (
+        <PostMdx code={decrypted} />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
