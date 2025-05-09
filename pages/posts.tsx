@@ -55,7 +55,7 @@ export default function Posts({ allPosts }: Props) {
             </div>
           </section>
         </Container>
-        <div className="fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">
+        <div className="z-50 fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">
           <Footer />
         </div>
       </Layout>
