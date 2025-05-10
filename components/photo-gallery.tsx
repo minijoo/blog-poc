@@ -10,6 +10,7 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Captions from "yet-another-react-lightbox/plugins/captions";
+import Counter from "yet-another-react-lightbox/plugins/counter";
 
 import { FaRegCirclePlay } from "react-icons/fa6";
 import dynamic from "next/dynamic";
@@ -82,7 +83,16 @@ export default function PhotoGallery({ slides }) {
           captions={{
             descriptionTextAlign: "center",
           }}
-          plugins={[Captions, Zoom, Fullscreen, Video, Download]}
+          plugins={[Counter, Captions, Zoom, Fullscreen, Video, Download]}
+          counter={{
+            container: {
+              style: {
+                top: 0,
+                bottom: "unset",
+                left: 0,
+              },
+            },
+          }}
         />
       )}
     </>
