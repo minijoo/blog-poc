@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createHyphenator, justifyContent } from "tex-linebreak";
 import enUsPatterns from "hyphenation.en-us";
+import Image from "next/image";
 
 type Props = {
   title: string;
@@ -38,20 +39,14 @@ const CoverImage = ({ title, src, slug }: Props) => {
       titleWords.splice(0, midIdx + 1).join(" ") +
       "<br />" +
       titleWords.join(" ");
-    console.log(newTitle);
 
     title.innerHTML = newTitle;
   }, []);
 
   const image = (
     <div>
-      <div
-        className="w-full `h-42 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${encodeURI(src)})`,
-        }}
-      >
-        <div className="`h-full w-full backdrop-blur-sm bg-white/50 text-black font-semibold active:text-transparent hover:text-transparent active:bg-transparent hover:backdrop-blur-none active:backdrop-blur-none hover:bg-transparent px-5 md:px-10">
+      <div className="relative w-full">
+        <div className="relative z-49 w-full backdrop-blur-sm bg-white/50 text-black font-semibold active:text-transparent hover:text-transparent active:bg-transparent hover:backdrop-blur-none active:backdrop-blur-none hover:bg-transparent px-5 md:px-10">
           <div
             id="post-title"
             className="min-h-32 select-none tracking-normal grid leading-tight items-center text-6xl text-center"
@@ -59,6 +54,14 @@ const CoverImage = ({ title, src, slug }: Props) => {
             {title}
           </div>
         </div>
+        <Image
+          src={encodeURI(src)}
+          alt={title}
+          objectFit="cover"
+          fill
+          quality={40}
+          className="absolute z-0"
+        />
       </div>
     </div>
   );
