@@ -20,7 +20,7 @@ const PostBody = ({ code, isEncrypted }: Props) => {
       decryptedCode += String.fromCharCode(ch ^ INPUT_KEY);
     }
     setDecrypted(decryptedCode);
-  }, []);
+  }, [code]);
 
   return (
     <div className="max-w-2xl mx-auto mb-4">
