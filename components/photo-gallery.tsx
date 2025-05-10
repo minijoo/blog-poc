@@ -69,9 +69,10 @@ export default function PhotoGallery({ slides }) {
             padding: 0,
           }}
           animation={{
-            fade: 80,
-            swipe: 80,
-            zoom: 100,
+            fade: 0,
+            swipe: 0,
+            zoom: 0,
+            navigation: 0,
           }}
           controller={{
             closeOnPullDown: true,
