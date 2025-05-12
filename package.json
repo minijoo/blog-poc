@@ -59,5 +59,11 @@
     "os": false,
     "path": false
   },
-  "version": "0.0.0"
+  "overrides": {
+    "react-textfit": {
+      "react": ">=16.0.0",
+      "react-dom": ">=16.0.0"
+    }
+  },
+  "version": "0.0.1"
 }
