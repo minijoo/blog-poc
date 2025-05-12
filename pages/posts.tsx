@@ -16,7 +16,6 @@ type Props = {
 
 export default function Posts({ allPosts }: Props) {
   const posts = allPosts.filter((p) => !p.metadata.private);
-  const privatePosts = allPosts.filter((p) => p.metadata.private);
   return (
     <>
       <Layout>
@@ -32,21 +31,6 @@ export default function Posts({ allPosts }: Props) {
                   key={post.slug}
                   coverImage={post.metadata.coverImage}
                   title={post.metadata.title}
-                  excerpt={post.metadata.excerpt}
-                  date={post.metadata.date}
-                  author_name={post.metadata.author_name}
-                  slug={post.slug}
-                  index={i}
-                />
-              ))}
-              <div className="w-1/2 mx-auto pt-4 pb-3 md:pt-5 md:pb-4">
-                <div className="border border-black/50" />
-              </div>
-              {privatePosts.map((post, i) => (
-                <PostPreviewStatic
-                  key={post.slug}
-                  coverImage={post.metadata.coverImage}
-                  title={"🔑 " + post.metadata.title}
                   excerpt={post.metadata.excerpt}
                   date={post.metadata.date}
                   author_name={post.metadata.author_name}

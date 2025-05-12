@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import "yet-another-react-lightbox/plugins/captions.css";
+import "yet-another-react-lightbox/plugins/counter.css";
 import "yet-another-react-lightbox/styles.css";
 import "../styles/index.css";
 import "react-photo-album/columns.css";
