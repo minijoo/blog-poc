@@ -89,7 +89,8 @@ type Params = {
 };
 
 export async function getStaticProps({ params }: Params) {
-  const post = await Jordys_API.retrievePostWithToken(params.slug);
+  const resp = await Jordys_API.retrievePostWithToken(params.slug);
+  const post = resp.post;
 
   const author: Author = {
     name: "Anonymous",

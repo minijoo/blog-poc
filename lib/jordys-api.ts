@@ -5,6 +5,12 @@ export type ItemForUpload = {
   file: Blob | File;
 };
 
+type RetrievePostResp = {
+  post: ApiPost;
+  prevPostId: string;
+  nextPostId: string;
+};
+
 export class JordysAPI {
   API_URL =
     process.env.NODE_ENV === "production"
@@ -223,7 +229,7 @@ export class JordysAPI {
     return await resp.json();
   }
 
-  async retrievePostWithToken(id): Promise<ApiPost> {
+  async retrievePostWithToken(id): Promise<RetrievePostResp> {
     const resp = await fetch(this.API_URL + "backend/posts/" + id, {
       headers: {
         Authorization:
