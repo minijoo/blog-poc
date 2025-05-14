@@ -16,6 +16,8 @@ import GalleryItem from "../../interfaces/galleryItem";
 import { injectGalleryMdx } from "../../lib/utils";
 import { JordysAPI } from "../../lib/jordys-api";
 import CoverImage from "../../components/cover-image-for-post";
+import Link from "next/link";
+import DateFormatter from "../../components/date-formatter";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
@@ -29,6 +31,8 @@ type Props = {
     excerpt: string;
     author: Author;
     private: boolean;
+    prevPost: string[]; // [id, title, excerpt, date]
+    nextPost: string[];
   };
   gallery: GalleryItem[];
   slug: string;
@@ -45,6 +49,9 @@ export default function Post({
     document.getElementsByTagName("html")[0].classList.remove("no-scrollbar");
     //   // this adds scrollbar to the page
   }, []);
+
+  console.log(metadata.prevPost);
+  console.log(metadata.nextPost);
 
   const router = useRouter();
   const headerTitle = `${metadata.title} | Jordy's Site`;
@@ -70,7 +77,72 @@ export default function Post({
               author={metadata.author}
             />
             <article className="pb-10">
-              <PostBody2 code={code} isEncrypted={metadata.private} />
+              <div className="max-w-2xl mx-auto mb-4">
+                <PostBody2 code={code} isEncrypted={metadata.private} />
+                <br />
+                <hr />
+                <br />
+                <div>
+                  Continue to other posts below or go to the{" "}
+                  <a className="decoration-green-600 underline" href="/posts">
+                    All Posts
+                  </a>{" "}
+                  page.
+                </div>
+                <div className="flex flex-row place-content-around gap-4 md:gap-8 mt-3 mx-2 md:mx-5">
+                  {metadata.prevPost.length ? (
+                    <Link
+                      href={`/posts2/${metadata.prevPost[0]}`}
+                      className="contents"
+                    >
+                      <div className="basis-1/2 relative border-1 border-gray-400 hover:border-black active:border-black rounded p-2">
+                        <div>
+                          <div className="text-lg md:text-xl underline text-center">
+                            {metadata.prevPost[1]}
+                          </div>
+                          <div className="mb-1.5">{metadata.prevPost[2]}</div>
+                        </div>
+                        <div className="absolute -bottom-3 left-2 md:left-5 bg-white text-sm">
+                          Previous Post
+                        </div>
+                        <div className="absolute -bottom-3 right-2 md:right-5 bg-white text-sm">
+                          <DateFormatter
+                            dateString={metadata.prevPost[3]}
+                            useShortForm
+                          />
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                  {metadata.nextPost.length ? (
+                    <Link
+                      href={`/posts2/${metadata.nextPost[0]}`}
+                      className="contents"
+                    >
+                      <div className="basis-1/2 relative border-1 border-gray-400 hover:border-black active:border-black rounded p-2">
+                        <div className="text-lg md:text-xl underline text-center">
+                          {metadata.nextPost[1]}
+                        </div>
+                        <div className="mb-1.5">{metadata.nextPost[2]}</div>
+                        <div>{metadata.prevPost[3]}</div>
+                        <div className="absolute -bottom-3 right-2 md:right-5 bg-white text-sm">
+                          Next Post
+                        </div>
+                        <div className="absolute -bottom-3 left-2 md:left-5 bg-white text-sm">
+                          <DateFormatter
+                            dateString={metadata.nextPost[3]}
+                            useShortForm
+                          />
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
             </article>
           </Container>
         </>
@@ -140,6 +212,13 @@ export async function getStaticProps({ params }: Params) {
     code = result.code;
   }
 
+  const prevPost = resp.prevPostId
+    ? (await Jordys_API.retrievePostWithToken(resp.prevPostId)).post
+    : null;
+  const nextPost = resp.nextPostId
+    ? (await Jordys_API.retrievePostWithToken(resp.nextPostId)).post
+    : null;
+
   return {
     props: {
       code,
@@ -150,6 +229,12 @@ export async function getStaticProps({ params }: Params) {
         date: post.date,
         excerpt: post.excerpt,
         private: !!post.private,
+        prevPost: prevPost
+          ? [prevPost._id, prevPost.title, prevPost.excerpt, prevPost.date]
+          : [],
+        nextPost: nextPost
+          ? [nextPost._id, nextPost.title, nextPost.excerpt, nextPost.date]
+          : [],
       },
       gallery: [],
     } as Props,
