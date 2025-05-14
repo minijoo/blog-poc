@@ -43,7 +43,8 @@ const DateFormatter = ({ dateString, useKanji, useShortForm }: Props) => {
   if (useShortForm) {
     return (
       <span>
-        {date.toLocaleString("en-US", {
+        {date.toLocaleDateString("en-US", {
+          timeZone: "UTC",
           month: "numeric",
           day: "numeric",
           year: "2-digit",

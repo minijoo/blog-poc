@@ -23,7 +23,7 @@ const PostBody = ({ code, isEncrypted }: Props) => {
   }, [code]);
 
   return (
-    <div className="max-w-2xl mx-auto mb-4">
+    <>
       {!isEncrypted ? (
         <PostMdx code={code} />
       ) : decrypted ? (
@@ -31,7 +31,7 @@ const PostBody = ({ code, isEncrypted }: Props) => {
       ) : (
         <div></div>
       )}
-    </div>
+    </>
   );
 };
 
