@@ -50,9 +50,6 @@ export default function Post({
     //   // this adds scrollbar to the page
   }, []);
 
-  console.log(metadata.prevPost);
-  console.log(metadata.nextPost);
-
   const router = useRouter();
   const headerTitle = `${metadata.title} | Jordy's Site`;
   const mainRef = useRef(null);
