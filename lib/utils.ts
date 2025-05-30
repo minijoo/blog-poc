@@ -58,6 +58,7 @@ const injectGalleryMdx = (
         const galleryItem = galleryByName.get(item.toLowerCase());
         if (!galleryItem) return arr;
         const mdxGalleryItem: GalleryItem = {
+          name: item.toLowerCase(),
           path: galleryItem.url,
           type: galleryItem.type,
           width: galleryItem.width,
@@ -130,6 +131,7 @@ const dbPostToStaticPostContent = (content: string): [string, string[]] => {
 const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
   if (galleryItem.type === "video") {
     const slide: SlideVideo = {
+      title: galleryItem.name,
       type: "video",
       sources: [
         {
@@ -146,6 +148,7 @@ const mapGalleryToSlides = (galleryItem: GalleryItem): Slide => {
     return slide;
   } else {
     const slide: SlideImage = {
+      title: galleryItem.name,
       src: galleryItem.path,
       width: galleryItem.width,
       height: galleryItem.height,

@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 
 type MyPhoto = Photo & {
   usePlayWatermark?: boolean;
+  isLoaded?: boolean;
 };
 
 const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
@@ -31,6 +32,7 @@ const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
 
 export default function PhotoGallery({ slides }) {
   const [index, setIndex] = useState(-2);
+  const [flicker, setFlicker] = useState(false);
   // initialized to -2 to indicate first load.
 
   const albumThumbs: MyPhoto[] = slides.map((sld) =>
@@ -40,14 +42,40 @@ export default function PhotoGallery({ slides }) {
   return (
     <>
       <ColumnsPhotoAlbum
-        photos={albumThumbs}
+        photos={albumThumbs.map((photo, index) => {
+          if (index < 4) {
+            photo.isLoaded = true;
+          }
+          return photo;
+        })}
         columns={(containerWidth) => {
           if (containerWidth < 400) return 3;
           if (containerWidth < 800) return 4;
           return 5;
         }}
-        onClick={({ index }) => setIndex(index)}
+        onClick={({ index, photo }) => {
+          if (photo.isLoaded) setIndex(index);
+          else {
+            photo.isLoaded = true;
+            setFlicker(!flicker); // forces this component to rerender and show loaded photo
+          }
+        }}
         render={{
+          image: (props, { photo }) => {
+            if (photo.isLoaded) {
+              return <img {...props} />;
+            }
+            return (
+              <div
+                className="relative w-full text-center bg-amber-200 grid place-content-center items-center"
+                style={{
+                  aspectRatio: `${photo.width} / ${photo.height}`,
+                }}
+              >
+                {photo.title}
+              </div>
+            );
+          },
           extras: (_, { photo }) =>
             photo.usePlayWatermark ? (
               <div className="absolute text-4xl text-white left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
