@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 
 type MyPhoto = Photo & {
   usePlayWatermark?: boolean;
+  isLoaded?: boolean;
 };
 
 const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
@@ -31,11 +32,17 @@ const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
 
 export default function PhotoGallery({ slides }) {
   const [index, setIndex] = useState(-2);
+  const [flicker, setFlicker] = useState(false);
   // initialized to -2 to indicate first load.
 
-  const albumThumbs: MyPhoto[] = slides.map((sld) =>
-    sld.type === "video" ? convertToAlbumThumb(sld) : sld
-  );
+  const albumThumbs: MyPhoto[] = slides
+    .map((sld) => (sld.type === "video" ? convertToAlbumThumb(sld) : sld))
+    .map((photo, index) => {
+      if (index < 3 || photo.usePlayWatermark) {
+        photo.isLoaded = true;
+      }
+      return photo;
+    });
 
   return (
     <>
@@ -46,8 +53,29 @@ export default function PhotoGallery({ slides }) {
           if (containerWidth < 800) return 4;
           return 5;
         }}
-        onClick={({ index }) => setIndex(index)}
+        onClick={({ index, photo }) => {
+          if (photo.isLoaded) setIndex(index);
+          else {
+            photo.isLoaded = true;
+            setFlicker(!flicker); // forces this component to rerender and show loaded photo
+          }
+        }}
         render={{
+          image: (props, { photo }) => {
+            if (photo.isLoaded) {
+              return <img {...props} />;
+            }
+            return (
+              <div
+                className="relative w-full text-center bg-amber-200 grid place-content-center items-center"
+                style={{
+                  aspectRatio: `${photo.width} / ${photo.height}`,
+                }}
+              >
+                {photo.title}
+              </div>
+            );
+          },
           extras: (_, { photo }) =>
             photo.usePlayWatermark ? (
               <div className="absolute text-4xl text-white left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
@@ -60,6 +88,9 @@ export default function PhotoGallery({ slides }) {
       />
       {index !== -2 && (
         <Lightbox
+          styles={{
+            captionsTitleContainer: { display: "none" },
+          }}
           slides={slides}
           open={index >= 0}
           index={index}
@@ -92,6 +123,11 @@ export default function PhotoGallery({ slides }) {
                 bottom: "unset",
                 left: 0,
               },
+            },
+          }}
+          on={{
+            view: ({ index }) => {
+              albumThumbs[index].isLoaded = true;
             },
           }}
         />
