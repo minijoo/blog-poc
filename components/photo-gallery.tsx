@@ -88,6 +88,9 @@ export default function PhotoGallery({ slides }) {
       />
       {index !== -2 && (
         <Lightbox
+          styles={{
+            captionsTitleContainer: { display: "none" },
+          }}
           slides={slides}
           open={index >= 0}
           index={index}
