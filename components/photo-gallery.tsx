@@ -35,19 +35,19 @@ export default function PhotoGallery({ slides }) {
   const [flicker, setFlicker] = useState(false);
   // initialized to -2 to indicate first load.
 
-  const albumThumbs: MyPhoto[] = slides.map((sld) =>
-    sld.type === "video" ? convertToAlbumThumb(sld) : sld
-  );
+  const albumThumbs: MyPhoto[] = slides
+    .map((sld) => (sld.type === "video" ? convertToAlbumThumb(sld) : sld))
+    .map((photo, index) => {
+      if (index < 3 || photo.usePlayWatermark) {
+        photo.isLoaded = true;
+      }
+      return photo;
+    });
 
   return (
     <>
       <ColumnsPhotoAlbum
-        photos={albumThumbs.map((photo, index) => {
-          if (index < 4) {
-            photo.isLoaded = true;
-          }
-          return photo;
-        })}
+        photos={albumThumbs}
         columns={(containerWidth) => {
           if (containerWidth < 400) return 3;
           if (containerWidth < 800) return 4;
@@ -120,6 +120,11 @@ export default function PhotoGallery({ slides }) {
                 bottom: "unset",
                 left: 0,
               },
+            },
+          }}
+          on={{
+            view: ({ index }) => {
+              albumThumbs[index].isLoaded = true;
             },
           }}
         />
