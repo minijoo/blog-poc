@@ -59,7 +59,7 @@ export default function Contact({ code }) {
 }
 
 export async function getStaticProps() {
-  const fullPath = join(join(process.cwd(), "_posts"), `contact.mdx`);
+  const fullPath = join(process.cwd(), "pages", "contact.mdx");
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const result = await bundleMDX({
     source: fileContents,
