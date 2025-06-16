@@ -10,7 +10,7 @@ const configuration = {
     return config;
   },
   // Support MDX files as pages:
-  pageExtensions: ["md", "mdx", "tsx", "ts", "jsx", "js"],
+  pageExtensions: ["tsx", "ts", "jsx", "js"],
   // Support loading `.md`, `.mdx`:
   // webpack(config, options) {
   // config.module.rules.push({
