@@ -38,7 +38,7 @@ export default function PhotoGallery({ slides }) {
   const albumThumbs: MyPhoto[] = slides
     .map((sld) => (sld.type === "video" ? convertToAlbumThumb(sld) : sld))
     .map((photo, index) => {
-      if (index < 3 || photo.usePlayWatermark) {
+      if (index < 1 || photo.usePlayWatermark) {
         photo.isLoaded = true;
       }
       return photo;
@@ -72,7 +72,7 @@ export default function PhotoGallery({ slides }) {
                   aspectRatio: `${photo.width} / ${photo.height}`,
                 }}
               >
-                {photo.title}
+                {photo.title} (~8MB)
               </div>
             );
           },
