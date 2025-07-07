@@ -88,7 +88,7 @@ export default function Post({
                 </div>
                 <div className="flex flex-row place-content-around gap-4 md:gap-8 mt-3 mx-2 md:mx-5">
                   {metadata.prevPost.length ? (
-                    <Link
+                    <a
                       href={`/posts2/${metadata.prevPost[0]}`}
                       className="contents"
                     >
@@ -109,12 +109,12 @@ export default function Post({
                           />
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   ) : (
                     <></>
                   )}
                   {metadata.nextPost.length ? (
-                    <Link
+                    <a
                       href={`/posts2/${metadata.nextPost[0]}`}
                       className="contents"
                     >
@@ -134,7 +134,7 @@ export default function Post({
                           />
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   ) : (
                     <></>
                   )}
