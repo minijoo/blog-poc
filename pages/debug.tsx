@@ -2,7 +2,7 @@ import { useState } from "react";
 import { COUNT_API_KEY } from "../lib/constants";
 
 const env = process.env.NODE_ENV;
-const counterKey = env === "development" ? "dev_counter" : "visit_counter";
+const counterKey = env === "production" ? "visit_counter":"dev_counter" 
 
 const fetchCount = async () => {
   const resp = await fetch(

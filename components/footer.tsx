@@ -8,14 +8,14 @@ const Footer = () => {
   return (
     <footer
       className={cn(
-        "z-50 relative bg-neutral-50 border-t border-neutral-200 w-full duration-400 overflow-hidden",
+        "z-50 relative bg-neutral-50 border-t border-neutral-200 w-full duration-400 overflow-hidden flex justify-center",
         {
           "h-48": expand,
           "h-10": !expand,
         }
       )}
     >
-      <div className="max-w-3xl flex flex-row mt-2 mx-auto px-5">
+      <div className="w-full max-w-3xl flex flex-row mt-2 px-5">
         <div className="grow flex flex-col text-xl gap-2">
           <div
             className="flex flex-col gap-1 w-16 cursor-pointer duration-200 active:scale-120 hover:scale-120"
@@ -51,6 +51,7 @@ const Footer = () => {
         </div>
         <div className="text-md">
           © <span className="text-sm">2025</span>
+          <span className="text-xs ml-1">(this site uses cookies)</span>
         </div>
       </div>
     </footer>

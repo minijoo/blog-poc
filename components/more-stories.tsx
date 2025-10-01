@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import Header from "./header";
 import CoverImage from "./cover-image";
 import DateFormatter from "./date-formatter";
@@ -10,8 +11,24 @@ type Props = {
   travel: number;
 };
 
+const COOKIE_NAME = "entered-jordys-site";
+const counterKey = process.env.NODE_ENV=== "production" ? "visit_counter": "dev_counter"
+
+const recordNewView = () => {
+  fetch(`https://api.api-ninjas.com/v1/counter?id=${counterKey}&hit=true`, {
+    headers: {
+      "X-Api-Key": "v9YXK1HI5TDys8z0Azf1mg==cg8Iy54a591nROCr",
+    },
+  }).then((res) => {
+    return res.json();
+  }).catch((err) => {
+    console.log("There was an error hitting counter endpoint", err);
+  });
+};
+
 const MoreStories = ({ posts, travel }: Props) => {
   const [windowWidth, setWindowWidth] = useState(1);
+  const [cookies, setCookie] = useCookies([COOKIE_NAME]);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -40,7 +57,7 @@ const MoreStories = ({ posts, travel }: Props) => {
       <Header />
       <div className="relative w-full grow mb-10">
         {coords.map((coord, index) => (
-          <div
+          <a
             className="absolute w-full h-full flex flex-col hover:cursor-pointer hover:bg-blue-300 active:bg-blue-300 select-none"
             key={index}
             style={{
@@ -48,6 +65,12 @@ const MoreStories = ({ posts, travel }: Props) => {
               top: Math.round(coord[1] * 10000) / 10000,
             }}
             onClick={(e) => {
+              if (!cookies[COOKIE_NAME]) {
+                recordNewView() 
+              }
+
+              setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 });
+
               window.location.href = `/posts2/${posts[index].slug}`;
               e.preventDefault();
             }}
@@ -91,7 +114,7 @@ const MoreStories = ({ posts, travel }: Props) => {
               />
               ; by {posts[index].metadata.author_name}
             </div>
-          </div>
+          </a>
         ))}
         <div className="absolute bottom-0 right-0 w-12 mb-2 mr-2 text-xl text-white text-center bg-neutral-500/75 rounded-md">
           {Math.ceil(travel / 60)} / 6
