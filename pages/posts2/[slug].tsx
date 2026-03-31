@@ -63,6 +63,7 @@ export default function Post({
           <Head>
             <title>{headerTitle}</title>
             <meta property="og:image" content={metadata.coverImage} />
+            <meta name="description" content={metadata.excerpt} />
           </Head>
           <div className="max-w-2xl mb-8 mx-auto">
             <CoverImage title={metadata.title} src={metadata.coverImage} />
