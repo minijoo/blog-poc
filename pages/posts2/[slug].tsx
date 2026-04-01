@@ -121,11 +121,12 @@ export default function Post({
                       className="contents"
                     >
                       <div className="basis-1/2 relative border-1 border-gray-400 hover:border-black active:border-black rounded p-2">
-                        <div className="text-lg md:text-xl underline text-center">
-                          {metadata.nextPost[1]}
-                        </div>
-                        <div className="mb-1.5">{metadata.nextPost[2]}</div>
-                        <div>{metadata.prevPost[3]}</div>
+                        <div>
+                          <div className="text-lg md:text-xl underline text-center">
+                            {metadata.nextPost[1]}
+                          </div>
+                          <div className="mb-1.5">{metadata.nextPost[2]}</div>
+			</div>
                         <div className="absolute -bottom-3 right-2 md:right-5 bg-white text-sm">
                           Next Post
                         </div>
