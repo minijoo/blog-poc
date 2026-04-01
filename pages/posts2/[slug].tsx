@@ -11,6 +11,7 @@ import { useLayoutEffect, useRef } from "react";
 import Author from "../../interfaces/author";
 import { bundleMDX } from "mdx-bundler";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import GalleryItem from "../../interfaces/galleryItem";
 import { injectGalleryMdx } from "../../lib/utils";
@@ -187,7 +188,7 @@ export async function getStaticProps({ params }: Params) {
   const result = await bundleMDX({
     source: mdxBody,
     mdxOptions(options: Record<string, any>) {
-      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath];
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath, remarkGfm];
       options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypeKatex];
       return {
         ...options,
