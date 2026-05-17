@@ -12,7 +12,7 @@ type Props = {
 };
 
 const COOKIE_NAME = "entered-jordys-site";
-const counterKey = process.env.NODE_ENV=== "production" ? "visit_counter": "dev_counter"
+const counterKey = process.env.NODE_ENV === "production" ? "visit_counter" : "dev_counter"
 
 const recordNewView = () => {
   fetch(`https://api.api-ninjas.com/v1/counter?id=${counterKey}&hit=true`, {
@@ -41,9 +41,10 @@ const MoreStories = ({ posts, travel }: Props) => {
     ];
   };
 
-  const radius = windowWidth * 2;
-  const thetas = [180, 120, 60, 0, 300, 240];
-  const coords = thetas
+  const radius = windowWidth * 2.5;
+  // const thetas = [180, 120, 60, 0, 300, 240];
+  const thetas = [40, 40 * 2, 40 * 3, 40 * 4, 40 * 5, 40 * 6, 40 * 7, 40 * 8, 0];
+  const coords = thetas.reverse().map(theta => (theta + 180) % 360)
     .map((theta) => convertCoords(theta + travel, radius))
     .reduce(
       (prev, curr) => {
@@ -66,7 +67,7 @@ const MoreStories = ({ posts, travel }: Props) => {
             }}
             onClick={(e) => {
               if (!cookies[COOKIE_NAME]) {
-                recordNewView() 
+                recordNewView()
               }
 
               setCookie(COOKIE_NAME, 1, { maxAge: 60 * 60 * 24 * 3 });
@@ -117,7 +118,7 @@ const MoreStories = ({ posts, travel }: Props) => {
           </a>
         ))}
         <div className="absolute bottom-0 right-0 w-12 mb-2 mr-2 text-xl text-white text-center bg-neutral-500/75 rounded-md">
-          {Math.ceil(travel / 60)} / 6
+          {Math.ceil(travel / 40)} / 9
         </div>
       </div>
     </section>

@@ -10,6 +10,7 @@ export type ApiPost = {
   author: ObjectId;
   published: boolean;
   private: boolean;
+  is_tech_post: boolean;
   gallery: ApiGalleryItem[];
 };
 
@@ -30,4 +31,4 @@ export type Author = {
   picture: string;
 };
 
-export class AuthenticationError extends Error {}
+export class AuthenticationError extends Error { }

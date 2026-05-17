@@ -8,9 +8,9 @@ const Footer = () => {
   return (
     <footer
       className={cn(
-        "z-50 relative bg-neutral-50 border-t border-neutral-200 w-full duration-400 overflow-hidden flex justify-center",
+        "z-5 relative bg-neutral-50 border-t border-neutral-200 w-full duration-400 overflow-hidden flex justify-center",
         {
-          "h-48": expand,
+          "h-58": expand,
           "h-10": !expand,
         }
       )}
@@ -29,22 +29,27 @@ const Footer = () => {
             <div className="h-[1px] border border-gray-400 w-full" />
           </div>
           <div className="flex">
-            <div className="active:scale-120 hover:scale-120 duration-200">
+            <div className="active:scale-80 hover:scale-120 duration-200">
               <Link href="/">Home</Link>
             </div>
           </div>
           <div className="flex">
-            <div className="active:scale-120 hover:scale-120 duration-200">
+            <div className="active:scale-80 hover:scale-120 duration-200">
+              <Link href="/tech_posts">SW Engineering Posts</Link>
+            </div>
+          </div>
+          <div className="flex">
+            <div className="active:scale-80 hover:scale-120 duration-200">
               <Link href="/posts">All Posts</Link>
             </div>
           </div>
           <div className="flex">
-            <div className="active:scale-120 hover:scale-120 duration-200">
+            <div className="active:scale-80 hover:scale-120 duration-200">
               <Link href="/contact">Contact</Link>
             </div>
           </div>
           <div className="flex">
-            <div className="active:scale-120 hover:scale-120 duration-200">
+            <div className="active:scale-80 hover:scale-120 duration-200">
               <Link href="/admin">Admin</Link>
             </div>
           </div>

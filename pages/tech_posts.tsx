@@ -22,10 +22,10 @@ export default function Posts({ allPosts }: Props) {
         <Container>
           <Header />
           <Head>
-            <title>{`All Posts - Jordy's Site`}</title>
+            <title>{`SW Engineering Posts - Jordy's Site`}</title>
           </Head>
           <section>
-            <div className="text-2xl font-bold text-center pb-2">All Posts</div>
+            <div className="text-2xl font-bold text-center pb-2">SW Engineering Posts</div>
             <div className="grid grid-cols-1 gap-4 pb-32 max-w-2xl mx-auto">
               {posts.map((post, i) => (
                 <PostPreviewStatic
@@ -51,7 +51,7 @@ export default function Posts({ allPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const apiPosts = await Jordys_API.retrieveAllPostsWithToken();
+  const apiPosts = await Jordys_API.retrieveTechPostsWithToken();
   apiPosts.sort(
     (postA, postB) => Date.parse(postB.date) - Date.parse(postA.date)
   );

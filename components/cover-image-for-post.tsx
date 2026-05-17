@@ -54,14 +54,14 @@ const CoverImage = ({ title, src, slug }: Props) => {
             {title}
           </div>
         </div>
-        <Image
+        {src && <Image
           src={encodeURI(src)}
           alt={title}
           objectFit="cover"
           fill
           quality={40}
           className="absolute z-0"
-        />
+        />}
       </div>
     </div>
   );

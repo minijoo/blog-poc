@@ -36,13 +36,13 @@ const PostPreviewStatic = ({
             <DateFormatter dateString={date} useKanji />
           </div>
         </div>
-        <Image
+        {coverImage && <Image
           src={encodeURI(coverImage)}
           alt={title}
           objectFit="cover"
           fill
           className="absolute z-0"
-        />
+        />}
       </div>
     </Link>
   );

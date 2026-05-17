@@ -204,8 +204,8 @@ export default function AdminPage({ ip }) {
                           ></div>
                         ))}
                         {yearOfMonthsOfColsOfCards.isTail &&
-                        monthOfColsOfCards.isTail &&
-                        shortestTailCol === i ? (
+                          monthOfColsOfCards.isTail &&
+                          shortestTailCol === i ? (
                           <a
                             className="w-full my-1 text-center h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
                             href="/admin/db-post/new"
@@ -236,6 +236,15 @@ export default function AdminPage({ ip }) {
         <ContainerHome>
           <h1 className="text-5xl text-center">All Posts</h1>
           <div className="px-2 pb-32">
+            {
+              !data || !data.length &&
+              <a
+                className="w-full my-1 text-center h-8 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
+                href="/admin/db-post/new"
+              >
+                ➕ New Post
+              </a>
+            }
             {cardsReady ? (
               <div
                 className={cn("grid grid-cols-2 md:grid-cols-3 gap-x-2")}

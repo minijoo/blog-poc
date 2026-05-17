@@ -162,8 +162,8 @@ export default function DbPost({ ip }) {
       const newData = await Jordys_API.updatePost(router.query.id, {
         title: titleRef.current.value,
         date: new Date(dateRef.current.value).toISOString().split("T")[0],
+        is_tech_post: techPostRef.current.checked
       });
-      console.log(newData);
       setData(newData);
       setGreenMessage("Title & post date changed successfully");
       // @ts-ignore
@@ -385,9 +385,8 @@ export default function DbPost({ ip }) {
       if (dupeFound || data.gallery.some(({ name }) => name === value)) {
         event.target.classList.add("border-3");
         event.target.classList.add("border-red-500");
-        _uploadErrs.current[index] = `Item ${
-          index + 1
-        }: Duplicate value found in this form or in rest of gallery`;
+        _uploadErrs.current[index] = `Item ${index + 1
+          }: Duplicate value found in this form or in rest of gallery`;
       } else {
         // all is good
         event.target.classList.remove("border-3");
@@ -448,6 +447,7 @@ export default function DbPost({ ip }) {
   const [openUploadModal, setOpenUploadModal] = useState(false);
   const titleRef = useRef(null);
   const dateRef = useRef(null);
+  const techPostRef = useRef<HTMLInputElement>(null);
   const excerptRef = useRef(null);
 
   const [greenPopoverMessage, setGreenMessage] = useState("");
@@ -594,8 +594,7 @@ export default function DbPost({ ip }) {
                   (coverUrl
                     ? `<img src="${coverUrl}" />`
                     : `No cover image\n\n`) +
-                  `Title: ${data.private ? "(🔑)" : ""}${data.title}\n\nDate: ${
-                    data.date
+                  `Title: ${data.private ? "(🔑)" : ""}${data.title}\n\nDate: ${data.date
                   }\n\nExcerpt: ${data.excerpt}\n\nBody:\n\n` +
                   bodyRef.current.value;
                 localStorage.setItem("cat", titleExcerptBody);
@@ -623,21 +622,30 @@ export default function DbPost({ ip }) {
         <div className="h-screen w-screen top-0 fixed grid grid-rows-1 grid-flow-col place-content-center items-center backdrop-blur-sm">
           <div className="flex flex-col min-h-48 bg-white border-2 rounded-md -translate-y-1/2">
             <div className="p-5 text-2xl border-b">Edit Post Title & Date</div>
-            <div className="p-5 flex-grow grid grid-cols-1">
-              <div className="text-xs col-span-1">Title</div>
+            <div className="p-5 grow flex flex-col">
+              <div className="text-xs">Title</div>
               <input
                 defaultValue={data?.title}
-                className="text-center col-span-1 border-1 px-1"
+                className="text-center border px-1"
                 type="text"
                 ref={titleRef}
-              ></input>
-              <div className="text-xs col-span-1 mt-2">Post Date</div>
+              />
+              <div className="text-xs mt-2">Post Date</div>
               <input
                 defaultValue={new Date(data?.date).toISOString().split("T")[0]}
-                className="col-span-1 border-1 px-1"
+                className="border px-1"
                 type="date"
                 ref={dateRef}
-              ></input>
+              />
+              <div className="flex justify-between">
+                <div className="text-xs mt-2">Tech post?</div>
+                <input
+                  defaultChecked={data?.is_tech_post}
+                  className="px-1"
+                  type="checkbox"
+                  ref={techPostRef}
+                />
+              </div>
             </div>
             <div className="p-5 bg-gray-100 grid grid-rows-1 grid-flow-col place-content-center items-center gap-x-2">
               <button
@@ -665,7 +673,7 @@ export default function DbPost({ ip }) {
         <div className="h-screen w-screen top-0 fixed grid grid-rows-1 grid-flow-col place-content-center items-start backdrop-blur-sm">
           <div className="flex flex-col min-h-48 max-h-[80vh] mt-[15vh] bg-white border-2 rounded-md">
             <div className="p-5 text-2xl border-b">Edit Post Excerpt</div>
-            <div className="p-5 flex-grow">
+            <div className="p-5 grow">
               <textarea
                 defaultValue={data?.excerpt}
                 className="px-2 w-[80vw] h-40"

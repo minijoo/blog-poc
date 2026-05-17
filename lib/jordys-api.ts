@@ -92,6 +92,24 @@ export class JordysAPI {
     return await resp.json();
   }
 
+  async retrieveTechPostsWithToken(): Promise<ApiPost[]> {
+    const resp = await fetch(this.API_URL + "backend/posts/tech", {
+      headers: {
+        Authorization:
+          "Basic " +
+          (process.env.JORDYS_API_KEY
+            ? process.env.JORDYS_API_KEY
+            : "not-found"),
+      },
+    });
+
+    if (!resp.ok) {
+      console.log("Response from server not OK");
+      throw new Error(JSON.stringify(await resp.text()));
+    }
+
+    return (await resp.json()) as ApiPost[];
+  }
   async retrieveAllPostsWithToken(): Promise<ApiPost[]> {
     const resp = await fetch(this.API_URL + "backend/posts/all", {
       headers: {
@@ -249,7 +267,6 @@ export class JordysAPI {
   }
 
   async retrievePost(id): Promise<ApiPost> {
-    console.log("retrievePost", this.API_URL);
     const resp = await fetch(this.API_URL + "posts/" + id, {
       credentials: "include",
     });

@@ -19,7 +19,7 @@ export default function Index({ allPosts }: Props) {
   useEffect(() => {
     // start page at second occurrence of first post
     window.scroll({
-      top: 3600,
+      top: 5200,
       // @ts-expect-error
       behavior: "instant",
     });
@@ -34,10 +34,10 @@ export default function Index({ allPosts }: Props) {
   });
 
   const calculateScrollAmount = () => {
-    const n = (window.scrollY / 600) * 60; // turns each 600px scroll div (in index.js) to a 60 pixel scroll.
+    const n = (window.scrollY / 600) * 40; // turns each 600px scroll div (in index.js) to a 60 pixel scroll.
     setTravel(n < 0 ? 360 + (n % 360) : n % 360);
     const isChromeIOS = navigator.userAgent.match("CriOS");
-    if (window.scrollY > 12 * 600 && !isChromeIOS) {
+    if (window.scrollY > 18 * 600 && !isChromeIOS) {
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
@@ -49,7 +49,7 @@ export default function Index({ allPosts }: Props) {
 
   const posts = allPosts;
   const scrollDivs = [];
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 20; i++) {
     scrollDivs.push(
       <div key={i} className="h-[600px] snap-start snap-always"></div>
     );
@@ -107,7 +107,7 @@ export const getStaticProps = async () => {
       date: apiPost.date,
       coverImage: apiPost.cover_url || "",
       author_name: authorMap.get(apiPost.author?.toString()).name,
-      author_picture: authorMap.get(apiPost.author?.toString()).picture,
+      author_picture: authorMap.get(apiPost.author?.toString()).picture || null,
       excerpt: apiPost.excerpt,
     },
     slug: apiPost._id,
