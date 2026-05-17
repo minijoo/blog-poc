@@ -52,6 +52,11 @@ export default function TechPosts({ techPosts }: Props) {
 
 export const getStaticProps = async () => {
   const apiPosts = await Jordys_API.retrieveTechPostsWithToken();
+
+  if (!apiPosts.length) {
+    return { props: { techPosts: [] } }
+  }
+
   apiPosts.sort(
     (postA, postB) => Date.parse(postB.date) - Date.parse(postA.date)
   );
