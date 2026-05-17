@@ -93,7 +93,7 @@ export class JordysAPI {
   }
 
   async retrieveTechPostsWithToken(): Promise<ApiPost[]> {
-    const resp = await fetch(this.API_URL + "backend/posts/tech", {
+    const resp = await fetch(this.API_URL + "backend/techposts", {
       headers: {
         Authorization:
           "Basic " +
