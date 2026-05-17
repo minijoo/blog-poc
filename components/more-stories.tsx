@@ -42,7 +42,6 @@ const MoreStories = ({ posts, travel }: Props) => {
   };
 
   const radius = windowWidth * 2.5;
-  // const thetas = [180, 120, 60, 0, 300, 240];
   const thetas = [40, 40 * 2, 40 * 3, 40 * 4, 40 * 5, 40 * 6, 40 * 7, 40 * 8, 0];
   const coords = thetas.reverse().map(theta => (theta + 180) % 360)
     .map((theta) => convertCoords(theta + travel, radius))
