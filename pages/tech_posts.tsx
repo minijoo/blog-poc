@@ -11,11 +11,11 @@ import { PreviewPost } from "../interfaces/preview-post";
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
 type Props = {
-  allPosts: PreviewPost[];
+  techPosts: PreviewPost[];
 };
 
-export default function Posts({ allPosts }: Props) {
-  const posts = allPosts.filter((p) => !p.metadata.private);
+export default function TechPosts({ techPosts }: Props) {
+  const posts = techPosts.filter((p) => !p.metadata.private);
   return (
     <>
       <Layout>
@@ -68,7 +68,7 @@ export const getStaticProps = async () => {
   );
   authorMap.set(undefined, { name: "Anonymous", picture: "" });
 
-  const allPosts: PreviewPost[] = apiPosts.map((apiPost) => ({
+  const techPosts: PreviewPost[] = apiPosts.map((apiPost) => ({
     metadata: {
       title: apiPost.title,
       date: apiPost.date,
@@ -82,6 +82,6 @@ export const getStaticProps = async () => {
   }));
 
   return {
-    props: { allPosts },
+    props: { techPosts },
   };
 };
