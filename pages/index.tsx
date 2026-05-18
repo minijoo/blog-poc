@@ -82,7 +82,7 @@ export default function Index({ allPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const allApiPosts = await Jordys_API.retrieveAllPostsWithToken();
+  const allApiPosts = await Jordys_API.retrieveHomePostsWithToken();
   const apiPosts = allApiPosts
     .filter((p) => !p.private)
     .sort((postA, postB) => Date.parse(postB.date) - Date.parse(postA.date));
