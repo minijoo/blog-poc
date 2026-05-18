@@ -46,15 +46,16 @@ export default function PhotoGallery({ slides }) {
 
   slides.forEach(async (slide) => {
     const url = slide.src as string;
-    const lastSlashIdx = url.lastIndexOf('/');
-    const path = url.substring(0, lastSlashIdx);
-    const name = url.substring(lastSlashIdx + 1);
-    const origUrl = `${path}/original/${name}`
-    const resp = await fetch(origUrl, { method: "HEAD" });
-    if (resp.status === 200) {
-      slide.downloadUrl = origUrl
+    if (url) {
+      const lastSlashIdx = url.lastIndexOf('/');
+      const path = url.substring(0, lastSlashIdx);
+      const name = url.substring(lastSlashIdx + 1);
+      const origUrl = `${path}/original/${name}`
+      const resp = await fetch(origUrl, { method: "HEAD" });
+      if (resp.status === 200) {
+        slide.downloadUrl = origUrl
+      }
     }
-
   });
 
   return (
