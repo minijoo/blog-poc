@@ -17,7 +17,6 @@ import dynamic from "next/dynamic";
 
 type MyPhoto = Photo & {
   usePlayWatermark?: boolean;
-  isLoaded?: boolean;
 };
 
 const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
@@ -32,17 +31,10 @@ const convertToAlbumThumb = (slide: SlideVideo): MyPhoto => {
 
 export default function PhotoGallery({ slides }) {
   const [index, setIndex] = useState(-2);
-  const [flicker, setFlicker] = useState(false);
   // initialized to -2 to indicate first load.
 
   const albumThumbs: MyPhoto[] = slides
     .map((sld) => (sld.type === "video" ? convertToAlbumThumb(sld) : sld))
-    .map((photo, index) => {
-      if (index < 1 || photo.usePlayWatermark) {
-        photo.isLoaded = true;
-      }
-      return photo;
-    })
 
   slides.forEach(async (slide) => {
     const url = slide.src as string;
@@ -67,29 +59,8 @@ export default function PhotoGallery({ slides }) {
           if (containerWidth < 800) return 4;
           return 5;
         }}
-        onClick={({ index, photo }) => {
-          if (photo.isLoaded) setIndex(index);
-          else {
-            photo.isLoaded = true;
-            setFlicker(!flicker); // forces this component to rerender and show loaded photo
-          }
-        }}
+        onClick={({ index }) => setIndex(index)}
         render={{
-          image: (props, { photo }) => {
-            if (photo.isLoaded) {
-              return <img {...props} />;
-            }
-            return (
-              <div
-                className="relative w-full text-center bg-amber-200 grid place-content-center items-center overflow-hidden"
-                style={{
-                  aspectRatio: `${photo.width} / ${photo.height}`,
-                }}
-              >
-                {photo.title} (~2MB)
-              </div>
-            );
-          },
           extras: (_, { photo }) =>
             photo.usePlayWatermark ? (
               <div className="absolute text-4xl text-white left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
@@ -114,16 +85,15 @@ export default function PhotoGallery({ slides }) {
             padding: 0,
           }}
           animation={{
-            fade: 0,
-            swipe: 0,
-            zoom: 0,
-            navigation: 0,
+            fade: 80,
+            swipe: 80,
+            zoom: 100,
           }}
           controller={{
             closeOnPullDown: true,
           }}
           zoom={{
-            maxZoomPixelRatio: 0.5,
+            maxZoomPixelRatio: 2,
             doubleClickMaxStops: 1,
           }}
           captions={{
@@ -137,11 +107,6 @@ export default function PhotoGallery({ slides }) {
                 bottom: "unset",
                 left: 0,
               },
-            },
-          }}
-          on={{
-            view: ({ index }) => {
-              albumThumbs[index].isLoaded = true;
             },
           }}
         />
