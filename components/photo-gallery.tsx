@@ -42,7 +42,20 @@ export default function PhotoGallery({ slides }) {
         photo.isLoaded = true;
       }
       return photo;
-    });
+    })
+
+  slides.forEach(async (slide) => {
+    const url = slide.src as string;
+    const lastSlashIdx = url.lastIndexOf('/');
+    const path = url.substring(0, lastSlashIdx);
+    const name = url.substring(lastSlashIdx + 1);
+    const origUrl = `${path}/original/${name}`
+    const resp = await fetch(origUrl, { method: "HEAD" });
+    if (resp.status === 200) {
+      slide.downloadUrl = origUrl
+    }
+
+  });
 
   return (
     <>
@@ -67,12 +80,12 @@ export default function PhotoGallery({ slides }) {
             }
             return (
               <div
-                className="relative w-full text-center bg-amber-200 grid place-content-center items-center"
+                className="relative w-full text-center bg-amber-200 grid place-content-center items-center overflow-hidden"
                 style={{
                   aspectRatio: `${photo.width} / ${photo.height}`,
                 }}
               >
-                {photo.title} (~8MB)
+                {photo.title} (~2MB)
               </div>
             );
           },
