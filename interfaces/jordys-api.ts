@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 
 export type ApiPost = {
   _id: string;
+  dashname: string;
   title: string;
   date: string;
   excerpt: string;

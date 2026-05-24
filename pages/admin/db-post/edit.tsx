@@ -170,8 +170,7 @@ export default function DbPost({ ip }) {
       document.getElementById("green-popover").showPopover();
       setOpenTitleModal(false);
     } catch (err) {
-      alert("error saving post title");
-      console.log(err);
+      alert("error saving post title\n" + err);
     }
   };
 

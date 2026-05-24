@@ -126,7 +126,7 @@ export default function Post({
                             {metadata.nextPost[1]}
                           </div>
                           <div className="mb-1.5">{metadata.nextPost[2]}</div>
-			</div>
+                        </div>
                         <div className="absolute -bottom-3 right-2 md:right-5 bg-white text-sm">
                           Next Post
                         </div>
@@ -213,10 +213,10 @@ export async function getStaticProps({ params }: Params) {
   }
 
   const prevPost = resp.prevPostId
-    ? (await Jordys_API.retrievePostWithToken(resp.prevPostId)).post
+    ? (await Jordys_API.retrievePostUsingIdWithToken(resp.prevPostId)).post
     : null;
   const nextPost = resp.nextPostId
-    ? (await Jordys_API.retrievePostWithToken(resp.nextPostId)).post
+    ? (await Jordys_API.retrievePostUsingIdWithToken(resp.nextPostId)).post
     : null;
 
   return {
@@ -230,10 +230,10 @@ export async function getStaticProps({ params }: Params) {
         excerpt: post.excerpt,
         private: !!post.private,
         prevPost: prevPost
-          ? [prevPost._id, prevPost.title, prevPost.excerpt, prevPost.date]
+          ? [prevPost.dashname, prevPost.title, prevPost.excerpt, prevPost.date]
           : [],
         nextPost: nextPost
-          ? [nextPost._id, nextPost.title, nextPost.excerpt, nextPost.date]
+          ? [nextPost.dashname, nextPost.title, nextPost.excerpt, nextPost.date]
           : [],
       },
       gallery: [],
@@ -247,7 +247,7 @@ export async function getStaticPaths() {
     paths: allPosts.map((post) => {
       return {
         params: {
-          slug: post._id,
+          slug: post.dashname,
         },
       };
     }),

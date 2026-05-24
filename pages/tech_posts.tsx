@@ -83,7 +83,7 @@ export const getStaticProps = async () => {
       excerpt: apiPost.excerpt,
       private: apiPost.private ? true : false,
     },
-    slug: apiPost._id,
+    slug: apiPost.dashname,
   }));
 
   return {

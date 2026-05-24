@@ -267,8 +267,27 @@ export class JordysAPI {
     return await resp.json();
   }
 
-  async retrievePostWithToken(id): Promise<RetrievePostResp> {
+  async retrievePostUsingIdWithToken(id: string): Promise<RetrievePostResp> {
     const resp = await fetch(this.API_URL + "backend/posts/" + id, {
+      headers: {
+        Authorization:
+          "Basic " +
+          (process.env.JORDYS_API_KEY
+            ? process.env.JORDYS_API_KEY
+            : "not-found"),
+      },
+    });
+
+    if (!resp.ok) {
+      console.log("Response not ok");
+      throw new Error(JSON.stringify(await resp.text()));
+    }
+
+    return await resp.json();
+  }
+
+  async retrievePostWithToken(dashname: string): Promise<RetrievePostResp> {
+    const resp = await fetch(this.API_URL + "backend/posts/dashname/" + dashname, {
       headers: {
         Authorization:
           "Basic " +

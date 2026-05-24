@@ -110,7 +110,7 @@ export const getStaticProps = async () => {
       author_picture: authorMap.get(apiPost.author?.toString()).picture || null,
       excerpt: apiPost.excerpt,
     },
-    slug: apiPost._id,
+    slug: apiPost.dashname,
   }));
 
   return {
