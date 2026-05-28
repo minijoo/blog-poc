@@ -11,6 +11,12 @@ function generateSiteMap(posts) {
      <url>
        <loc>https://www.jordys.site/contact</loc>
      </url>
+     <url>
+       <loc>https://www.jordys.site/tech_posts</loc>
+     </url>
+     <url>
+       <loc>https://www.jordys.site/posts</loc>
+     </url>
      ${posts
       .map(({ dashname }) => {
         return `
