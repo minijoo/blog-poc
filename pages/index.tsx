@@ -40,7 +40,6 @@ export default function Index({ allPosts }: Props) {
       // infinite scroll effect when scrolling down
       window.scroll({
         top: 0,
-        // @ts-expect-error
         behavior: "instant",
       });
     }
