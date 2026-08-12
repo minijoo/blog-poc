@@ -20,7 +20,6 @@ export default function Index({ allPosts }: Props) {
     // start page at second occurrence of first post
     window.scroll({
       top: 5200,
-      // @ts-expect-error
       behavior: "instant",
     });
   }, []); // empty array forces this fn to run only once (on load) and not on any other rerenders
