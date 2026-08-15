@@ -13,11 +13,11 @@ import { bundleMDX } from "mdx-bundler";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
+import rehypeHighlight from "rehype-highlight";
 import GalleryItem from "../../interfaces/galleryItem";
 import { injectGalleryMdx } from "../../lib/utils";
 import { JordysAPI } from "../../lib/jordys-api";
 import CoverImage from "../../components/cover-image-for-post";
-import Link from "next/link";
 import DateFormatter from "../../components/date-formatter";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
@@ -190,7 +190,7 @@ export async function getStaticProps({ params }: Params) {
     source: mdxBody,
     mdxOptions(options: Record<string, any>) {
       options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkMath, remarkGfm];
-      options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypeKatex];
+      options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypeKatex, rehypeHighlight];
       return {
         ...options,
         providerImportSource: "@mdx-js/react",
