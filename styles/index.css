@@ -31,7 +31,7 @@
 
 @layer components {
   .secondary-button {
-    @apply py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200;
+    @apply py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 hover:cursor-pointer active:scale-90 transition-transform duration-150 ease-out;;
   }
   .dropdown {
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
@@ -109,4 +109,50 @@ html {
 
 .jp-scroll {
   font-family: var(--font-kaisei);
+}
+
+.card {
+  opacity: calc(20% + var(--open) * 80%);
+  transform: scale(calc(90% + var(--open) * 10%));
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+
+.bubble-tick-left{
+  clip-path: polygon(100% 0%, 0% 0%, 0% 100%);
+}
+
+.bubble-tick-right{
+  clip-path: polygon(100% 0%, 0% 0%, 100% 100%);
+}
+
+.bubble-tick-mid{
+  clip-path: polygon(100% 0%, 0% 0%, 50% 100%);
+}
+
+.clip-pipe {
+  @apply bg-blue-600!;
+}
+
+.pipe {
+  @apply h-2 scale-x-120 bg-zinc-300;
+}
+
+.throw {
+  @apply h-2 scale-x-120;
+}
+
+.clip-throw {
+  @apply bg-blue-600!;
+}
+
+.circle {
+  @apply size-3 scale-125 border border-zinc-300 bg-white;
+}
+
+.clip-circle {
+  @apply bg-blue-600! border-blue-600! z-2 transition-transform ease-out duration-300;
+}
+
+.v-pipe {
+  @apply h-5 w-2 scale-y-120 bg-zinc-300;
 }
