@@ -146,13 +146,110 @@ html {
 }
 
 .circle {
-  @apply size-3 scale-125 border border-zinc-300 bg-white;
+  @apply size-3 border border-zinc-300 bg-white;
+  transform: scale(1.25);
 }
 
 .clip-circle {
-  @apply bg-blue-600! border-blue-600! z-2 transition-transform ease-out duration-300;
+  @apply bg-radial-[at_25%_25%] from-white to-blue-600 to-75% border-blue-600! z-2 transition-transform ease-out duration-300;
 }
 
 .v-pipe {
   @apply h-5 w-2 scale-y-120 bg-zinc-300;
+}
+
+.ufo {
+  animation-fill-mode: forwards;
+  @apply size-3 border border-transparent bg-radial-[at_35%_35%] from-white to-blue-600 to-65% z-4;
+  border: transparent;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px 3px #fff085;
+}
+
+.ufo-anim {
+  animation: throw 2s linear 0s normal 1 forwards;
+}
+
+.ufo-test {
+  transform: translateX(calc(-1 * (100vw - var(--spacing) * 11))) scale(1.25);
+}
+
+.ufo-2 {
+  transform: translateX(calc(100vw * 2)) scale(45);
+}
+
+@keyframes roam-out {
+  10% {
+    transform: scale(25);
+  }
+  20% {
+    transform: scale(25) rotate(-90deg);
+  }
+  30% {
+    transform: scale(25) rotate(-180deg);
+  }
+  40% {
+    transform: scale(25) rotate(-360deg);
+  }
+  50% {
+    transform: scale(25) rotate(-450deg);
+  }
+  100% {
+    transform: scale(25) rotate(-500deg) translateX(calc(-1 * (100vw + 200px)));
+  }
+}
+
+@keyframes roam-in {
+  100% {
+    transform: scale(1) translateX(0) rotate(180deg);
+  }
+}
+
+@keyframes throw {
+  20% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.2))
+      translateY(calc((100vh - var(--spacing) * 43)*0.2))
+      scale(6)
+      rotate(180deg)
+  }
+  40% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.4))
+      translateY(calc((100vh - var(--spacing) * 43)*0.4))
+      scale(7)
+      rotate(360deg)
+  }
+  50% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)/2))
+      translateY(calc((100vh - var(--spacing) * 43)/2))
+      scale(8)
+      rotate(450deg)
+  }
+  60% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.6))
+      translateY(calc((100vh - var(--spacing) * 43)*0.6))
+      scale(7)
+      rotate(540deg)
+  }
+  80% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.8))
+      translateY(calc((100vh - var(--spacing) * 43)*0.8))
+      scale(6)
+      rotate(720deg)
+  }
+  100% {
+    transform:
+      translateX(calc(-1 * (100vw - var(--spacing) * 11)))
+      translateY(calc(100vh - var(--spacing) * 43))
+      scale(1.05)
+      rotate(900deg)
+  }
+}
+
+.date-bubble {
+  @apply px-2 py-1 rounded-sm bg-blue-200 font-sans text-nowrap;
 }
