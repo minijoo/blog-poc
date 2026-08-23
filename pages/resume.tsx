@@ -45,7 +45,7 @@ function Card({ show, title, onNewCardNum, cardNum, divRef, children }: { show: 
       style={{ "--open": mounted ? 1 : 0 } as React.CSSProperties}
     >
       <div className="px-5 flex justify-center">
-        <div className="flex flex-col border border-black rounded-2xl px-3 py-2">
+        <div className="flex flex-col border border-black rounded-2xl px-3 py-2 max-h-[calc(100dvh_-_var(--spacing)_*_80)] overflow-scroll">
           <div className="text-2xl font-bold">{title}</div>
           {children}
           <div className="mt-3 flex gap-1.5 justify-center">
@@ -181,7 +181,7 @@ export default function Resume() {
     circles2[3].style.transform = `scale(${isFill(positsRef.current[10]) ? '1.25' : '0'})`
     circles2[4].style.transform = `scale(${positsRef.current[10] < 0 ? '1.25' : '0'})`
 
-    console.log(positsRef.current);
+    // console.log(positsRef.current);
     //
     // console.log(currentCardNum)
 
@@ -200,9 +200,9 @@ export default function Resume() {
   }
 
   useEffect(() => {
-    // setShow1(true);
-    // updateBar(0);
-    handleCardStateChange({ isForward: true, num: 1 }, false);
+    setShow1(true);
+    updateBar(0);
+    // handleCardStateChange({ isForward: true, num: 1 }, false);
     window.addEventListener("scroll", (evt) => {
       if (isAnimating.current) {
         return;
