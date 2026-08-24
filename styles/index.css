@@ -130,11 +130,11 @@ html {
 }
 
 .clip-pipe {
-  @apply bg-blue-600!;
+  @apply bg-red-600!;
 }
 
 .pipe {
-  @apply h-2 scale-x-120 bg-zinc-300;
+  @apply h-2 scale-x-120 bg-black border-y border-black;
 }
 
 .throw {
@@ -142,28 +142,27 @@ html {
 }
 
 .clip-throw {
-  @apply bg-blue-600!;
+  @apply bg-red-600!;
 }
 
 .circle {
-  @apply size-3 border border-zinc-300 bg-white;
+  @apply size-3 border border-black bg-white;
   transform: scale(1.25);
 }
 
 .clip-circle {
-  @apply bg-radial-[at_25%_25%] from-white to-blue-600 to-75% border-blue-600! z-2 transition-transform ease-out duration-300;
+  @apply bg-radial-[at_25%_25%] from-white to-red-600 to-75% border-black! z-2 transition-transform ease-out duration-300;
 }
 
 .v-pipe {
-  @apply h-5 w-2 scale-y-120 bg-zinc-300;
+  @apply h-5 w-2 scale-y-120 bg-black;
 }
 
 .ufo {
   animation-fill-mode: forwards;
-  @apply size-3 border border-transparent bg-radial-[at_35%_35%] from-white to-blue-600 to-65% z-4;
+  @apply size-3 border border-transparent bg-radial-[at_35%_35%] from-white to-red-600 to-65% z-4;
   border: transparent;
   transform: scale(1.05);
-  box-shadow: 0 0 12px 3px #fff085;
 }
 
 .ufo-anim {
@@ -181,6 +180,7 @@ html {
 @keyframes roam-out {
   10% {
     transform: scale(25);
+    box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
   }
   20% {
     transform: scale(25) rotate(-90deg);
@@ -251,5 +251,5 @@ html {
 }
 
 .date-bubble {
-  @apply px-2 py-1 rounded-sm bg-blue-200 font-sans text-nowrap;
+  @apply px-2 py-1 font-sans text-nowrap;
 }

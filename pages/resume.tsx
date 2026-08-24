@@ -12,6 +12,7 @@ const roundToNthDecimal = (x: number, n: number) => {
 }
 
 const easeFunc = (n: number) => {
+  return n;
   return roundToNthDecimal(Math.pow(Math.E, 6.003 * n - 6) - 0.0025, 5);
 }
 
@@ -118,7 +119,7 @@ export default function Resume() {
     ]
     let lastNegValAt = DIVS - 1
     for (const p of positsRef.current.toReversed()) {
-      if (p < 0) break;
+      if (p <= 0) break;
       lastNegValAt--;
     }
 
@@ -179,7 +180,7 @@ export default function Resume() {
     circles2[1].style.transform = `scale(${isFill(positsRef.current[8]) ? '1.25' : '0'})`
     circles2[2].style.transform = `scale(${isFill(positsRef.current[9]) ? '1.25' : '0'})`
     circles2[3].style.transform = `scale(${isFill(positsRef.current[10]) ? '1.25' : '0'})`
-    circles2[4].style.transform = `scale(${positsRef.current[10] < 0 ? '1.25' : '0'})`
+    circles2[4].style.transform = `scale(${positsRef.current[10] <= 0 ? '1.25' : '0'})`
 
     // console.log(positsRef.current);
     //
@@ -229,7 +230,8 @@ export default function Resume() {
       zone.style.transition = `transform 300ms ease-out, clip-path ${CLIPPATH_DUR}ms ease-out`;
     }
 
-    const scrollAmt = ((currentCardState.num) * window.innerHeight + (boost ? 50 : 0))
+    const onePageHeight = window.innerHeight - 10;
+    const scrollAmt = ((currentCardState.num) * onePageHeight + (boost ? 50 : 0))
     const result = await window.scroll(0, scrollAmt) as any;
     if (result.interrupted) {
       return;
@@ -253,28 +255,26 @@ export default function Resume() {
     handleCardStateChange({ isForward: false, num: nextNum }, false);
   };
   return <div ref={scrollRef} className="relative h-[calc((100vh_-_var(--spacing)_*_15)_*_13)]">
-    <div className="fixed w-full h-20 text-3xl font-bold pt-4 justify-center flex">
-      Timeline of Experience
+    <div className="fixed w-full h-20 text-3xl font-bold pt-4 justify-center flex gap-2 items-center">
+      Resume <span className="text-sm">(mobile-friendly!)</span>
     </div>
     <div className="fixed top-28 w-full perspective-distant">
       <div className="px-4 flex items-center w-full text-xs">
         <div className="relative z-2">
-          <div className="absolute -translate-y-10">
-            <div className="date-bubble">
-              Present
+          <div className="absolute -translate-y-10 -translate-x-2.5">
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">Present</div>
+              <BubbleLeft className="absolute top-0 left-0 z-0 overflow-visible w-full" />
             </div>
-            <div className="bubble-tick-left bg-blue-200 h-3 w-4 translate-x-1" />
           </div>
           <div className="rounded-full circle" />
         </div>
         <div className="grow pipe" />
         <div className="relative z-2">
-          <div className="absolute translate-y-4 -translate-x-[calc(50%-var(--spacing)*1.5)]">
-            <div className="flex justify-center">
-              <div className="bubble-tick-mid bg-blue-200 h-3 w-4 rotate-180" />
-            </div>
-            <div className="date-bubble">
-              JUN24
+          <div className="absolute translate-y-7 -translate-x-[calc(50%-var(--spacing)*1.5)]">
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">JUN24</div>
+              <BubbleCenter className="absolute bottom-0 left-0 z-0 overflow-visible rotate-180 w-full" />
             </div>
           </div>
           <div className="rounded-full circle" />
@@ -286,11 +286,9 @@ export default function Resume() {
               will be aligned to the start of the circle so we need to move it half the 
               circle width back to the middle */}
           <div className="absolute -translate-y-10 -translate-x-[calc(50%-var(--spacing)*1.5)]">
-            <div className="date-bubble">
-              JAN23
-            </div>
-            <div className="flex justify-center">
-              <div className="bubble-tick-mid bg-blue-200 h-3 w-4" />
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">JAN23</div>
+              <BubbleCenter className="absolute top-0 left-0 z-0 overflow-visible w-full" />
             </div>
           </div>
           <div className="rounded-full circle" />
@@ -298,11 +296,9 @@ export default function Resume() {
         <div className="grow-2 pipe" />
         <div className="relative z-2">
           <div className="absolute -translate-y-10 -translate-x-[calc(50%-var(--spacing)*1.5)]">
-            <div className="date-bubble">
-              JAN20
-            </div>
-            <div className="flex justify-center">
-              <div className="bubble-tick-mid bg-blue-200 h-3 w-4" />
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">JAN20</div>
+              <BubbleCenter className="absolute top-0 left-0 z-0 overflow-visible w-full" />
             </div>
           </div>
           <div className="rounded-full circle" />
@@ -310,11 +306,9 @@ export default function Resume() {
         <div className="grow-2 pipe" />
         <div className="relative z-2">
           <div className="absolute -translate-y-10 -translate-x-[calc(50%-var(--spacing)*1.5)]">
-            <div className="date-bubble">
-              SEP18
-            </div>
-            <div className="flex justify-center">
-              <div className="bubble-tick-mid bg-blue-200 h-3 w-4" />
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">SEP18</div>
+              <BubbleCenter className="absolute top-0 left-0 z-0 overflow-visible w-full" />
             </div>
           </div>
           <div className="rounded-full circle" />
@@ -322,23 +316,19 @@ export default function Resume() {
         <div className="grow-2 pipe" />
         <div className="relative z-2">
           <div className="absolute -translate-y-10 -translate-x-[calc(50%-var(--spacing)*1.5)]">
-            <div className="date-bubble">
-              SEP13
-            </div>
-            <div className="flex justify-center">
-              <div className="bubble-tick-mid bg-blue-200 h-3 w-4" />
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">SEP13</div>
+              <BubbleCenter className="absolute top-0 left-0 z-0 overflow-visible w-full" />
             </div>
           </div>
           <div className="rounded-full circle" />
         </div>
         <div className="grow pipe" />
         <div className="relative z-2">
-          <div className="absolute translate-y-4 right-0">
-            <div className="flex justify-end">
-              <div className="bubble-tick-left bg-blue-200 h-3 w-4 -translate-x-1 rotate-180" />
-            </div>
-            <div className="date-bubble">
-              MAY09
+          <div className="absolute translate-y-7 translate-x-2.5 right-0">
+            <div className="relative flex justify-center items-center date-bubble">
+              <div className="z-1">MAY09</div>
+              <BubbleLeft className="absolute bottom-0 left-0 z-0 overflow-visible w-full rotate-180" />
             </div>
           </div>
           <div className="rounded-full circle" />
@@ -624,15 +614,64 @@ export default function Resume() {
         </div>
         <div className="absolute px-4 w-full grid grid-cols-4 justify-center translate-y-2.5">
           <div className="col-span-3 flex justify-start items-center">
-            <div className="h-3 w-0.5 bg-blue-200" />
-            <div className="grow h-0.5 bg-blue-200" />
-            <div className="font-sans text-xs px-2 py-1 rounded-md bg-blue-200">Projects</div>
-            <div className="grow h-0.5 bg-blue-200" />
-            <div className="h-3 w-0.5 bg-blue-200" />
+            <div className="h-3 w-0.5 bg-black" />
+            <div className="grow h-0.5 bg-black" />
+            <div className="font-sans text-xs px-2 py-1 rounded-lg bg-blue-100 border border-black">
+              Projects
+            </div>
+            <div className="grow h-0.5 bg-black" />
+            <div className="h-3 w-0.5 bg-black" />
           </div>
           <div className="col-span-1" />
         </div>
       </div>
     </div>
   </div>
+}
+
+const BubbleCenter = ({ className }: { className: string }) => {
+  return <svg className={className} width="60" height="36" viewBox="-1 -1 62 38" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8,0 L52,0 A8,8 0 0 1 60,8 L60,16 A8,8 0 0 1 52,24
+L38,24 L30,36 L22,24
+L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
+      fill="#dbeafe"
+      stroke="black"
+      strokeWidth="1"
+    />
+  </svg>
+}
+const BubbleRight = ({ className }: { className: string }) => {
+  return <svg className={className} width="60" height="36" viewBox="-1 -1 62 38" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8,0 L52,0 A8,8 0 0 1 60,8 L60,16 A8,8 0 0 1 52,24
+L44,36 L36,24
+L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
+      fill="#dbeafe"
+      stroke="black"
+      strokeWidth="1"
+    />
+  </svg>
+}
+
+const BubbleLeft = ({ className }: { className: string }) => {
+  return <svg className={className} width="60" height="36" viewBox="-1 -1 62 38" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8,0
+         L52,0
+         A8,8 0 0 1 60,8
+         L60,16
+         A8,8 0 0 1 52,24
+         L24,24
+         L16,36
+         L8,24
+         A8,8 0 0 1 0,16
+         L0,8
+         A8,8 0 0 1 8,0
+         Z"
+      fill="#dbeafe"
+      stroke="black"
+      strokeWidth="1"
+    />
+  </svg>
 }
