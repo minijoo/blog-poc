@@ -321,9 +321,9 @@ export default function Resume() {
         </div>
       </div>
     </div>
-    <div className="h-[calc(100dvh_-_var(--spacing)_*_105)] relative z-5">
+    <div className="h-[calc(100dvh_-_var(--spacing)_*_100)] relative z-5">
       <div ref={scrollRef} className="absolute w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-thin z-1">
-        <div className="h-[calc((100dvh_-_var(--spacing)_*_105)_*_12)] opacity-0" />
+        <div className="h-[calc((100dvh_-_var(--spacing)_*_100)_*_12)] opacity-0" />
       </div>
       <div className="absolute w-full flex items-center h-full z-0">
         <Card
@@ -466,16 +466,16 @@ export default function Resume() {
           title="Projects (3/3)"
           cardNum={10}
         >
-          <div className="text-xl md:text-2xl font-bold mt-2">
+          <div className="text-lg md:text-2xl font-bold mt-2">
             WordPress Guru <span className="text-base md:text-lg italic">2021-2022</span>
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Built websites for small business, like coffee shops and non-profit sports orgs.
           </div>
-          <div className="text-xl md:text-2xl font-bold mt-2">
+          <div className="text-lg md:text-2xl font-bold mt-2">
             Uji Shower <span className="text-base italic">2013</span>
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Built the website and Arduino code for UjiShower, a showerhead that provides feedback for water consumption. Won 3rd place in the Tufts New Ventures comp.
           </div>
           <div className="tech-rings">
