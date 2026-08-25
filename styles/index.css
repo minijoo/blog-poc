@@ -31,7 +31,7 @@
 
 @layer components {
   .secondary-button {
-    @apply py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200;
+    @apply py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 hover:cursor-pointer active:scale-90 transition-transform duration-150 ease-out;;
   }
   .dropdown {
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
@@ -109,4 +109,114 @@ html {
 
 .jp-scroll {
   font-family: var(--font-kaisei);
+}
+
+.card {
+  opacity: calc(20% + var(--open) * 80%);
+  transform: scale(calc(90% + var(--open) * 10%));
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+
+.tech-rings {
+  @apply flex flex-wrap gap-1.5 text-xs text-zinc-600 mt-2
+}
+
+.bubble-tick-left{
+  clip-path: polygon(100% 0%, 0% 0%, 0% 100%);
+}
+
+.bubble-tick-right{
+  clip-path: polygon(100% 0%, 0% 0%, 100% 100%);
+}
+
+.bubble-tick-mid{
+  clip-path: polygon(100% 0%, 0% 0%, 50% 100%);
+}
+
+.clip-pipe {
+  @apply bg-red-600!;
+}
+
+.pipe {
+  @apply h-2 md:h-4 scale-x-120 bg-black border-y border-black;
+}
+
+.throw {
+  @apply h-2 scale-x-120;
+}
+
+.clip-throw {
+  @apply bg-red-600!;
+}
+
+.circle {
+  @apply size-3 md:size-6 border border-black bg-white;
+  transform: scale(1.25);
+}
+
+@media (width >= 48rem) { 
+}
+
+.clip-circle {
+  @apply bg-radial-[at_25%_25%] from-white to-red-600 to-75% border-black! z-2 transition-transform ease-out duration-300;
+}
+
+.v-pipe {
+  @apply h-5 w-2 scale-y-120 bg-black;
+}
+
+.ufo {
+  animation-fill-mode: forwards;
+  @apply size-3 md:size-6 border border-transparent bg-radial-[at_35%_35%] from-white to-red-600 to-65% z-7;
+  border: transparent;
+  transform: scale(1.05);
+}
+
+.ufo-2 {
+  box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
+  transform: translateX(calc(100vw * 2)) scale(45);
+}
+
+@keyframes roam-out {
+  10% {
+    transform: scale(25);
+    box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
+  }
+  20% {
+    transform: scale(25) rotate(90deg);
+  }
+  30% {
+    transform: scale(25) rotate(180deg);
+  }
+  40% {
+    transform: scale(25) rotate(360deg);
+  }
+  50% {
+    transform: scale(25) rotate(450deg);
+  }
+  100% {
+    transform: scale(25) rotate(500deg) translateX(calc(-1 * (100vw + 200px)));
+  }
+}
+
+@keyframes roam-in {
+  100% {
+    transform: scale(1) translateX(0) rotate(180deg);
+  }
+}
+
+.date-bubble-text {
+  @apply px-2 py-1 font-sans text-nowrap text-xs md:scale-120;
+}
+
+.date-bubble-top {
+  @apply -translate-y-10 md:-translate-y-13 md:scale-120;
+}
+
+.date-bubble-bottom {
+  @apply translate-y-7 md:translate-y-13 md:scale-120;
+}
+
+.date-bubble-center {
+  @apply -translate-x-[calc(50%-var(--spacing)*1.5)] md:-translate-x-[calc(50%-var(--spacing)*3)];
 }
