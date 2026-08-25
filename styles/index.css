@@ -164,7 +164,7 @@ html {
 }
 
 .pipe {
-  @apply h-2 md:h-4 scale-x-120 bg-black ring ring-black;
+  @apply h-2 md:h-4 scale-x-120 bg-[#FBF2F3] ring ring-zinc-600;
 }
 
 .throw {
@@ -172,16 +172,12 @@ html {
 }
 
 .circle {
-  @apply size-3 md:size-6 border border-black bg-white;
+  @apply size-3 md:size-6 border border-zinc-600 bg-[#FBF2F3];
   transform: scale(1.25);
 }
 
 .clip-circle {
-  @apply bg-radial-[at_25%_25%] from-[#AFEEFD] to-[#EDA659] to-75% border-black! z-2 transition-transform ease-out duration-300;
-}
-
-.v-pipe {
-  @apply h-5 w-2 scale-y-120 bg-black;
+  @apply bg-radial-[at_25%_25%] from-[#AFEEFD] to-[#EDA659] to-75% border-zinc-600! z-2 transition-transform ease-out duration-300;
 }
 
 .ufo {

@@ -47,7 +47,7 @@ function Card({ show, title, cardNum, divRef, children }: { show: boolean, title
       style={{ "--open": mounted ? 1 : 0 } as React.CSSProperties}
     >
       <div className="px-5 flex justify-center items-center h-full">
-        <div className={`flex flex-col justify-between border border-black rounded-2xl px-3 py-3 max-h-full overflow-hidden from-[#AFEEFD] via-[#F7D2D3] to-[#EDA659]'
+        <div className={`flex flex-col justify-between border border-zinc-600 rounded-2xl px-3 py-3 max-h-full overflow-hidden from-[#AFEEFD] via-[#F7D2D3] to-[#EDA659]'
           ${cardRRNum === 1
             ? 'bg-linear-to-bl'
             : cardRRNum === 2
@@ -226,8 +226,8 @@ export default function Resume() {
     handleCardStateChange({ isForward: false, num: nextNum }, false);
   };
 
-  return <div className="h-dvh w-full font-sans flex flex-col justify-between items-center overflow-hidden">
-    <div className="w-full md:w-3xl">
+  return <div className="h-dvh w-full font-sans flex justify-center overflow-hidden">
+    <div className="h-full w-full md:w-3xl flex flex-col justify-between items-center">
       <title>Jordan Kang Resume</title>
       <style jsx global>{`
         html, body {
@@ -236,7 +236,7 @@ export default function Resume() {
           height: 100%;
         }
       `}</style>
-      <div className="relative flex flex-col justify-start z-7">
+      <div className="w-full relative flex flex-col justify-start z-7">
         <div className="w-full text-3xl md:text-4xl font-bold py-4 justify-center flex gap-2 items-center">
           My Resume
           <div className="text-sm flex flex-col items-center">
@@ -356,7 +356,7 @@ export default function Resume() {
           </div>
         </div>
       </div>
-      <div className="h-[calc(100dvh_-_var(--spacing)_*_100)] relative z-5">
+      <div className="w-full h-[calc(100dvh_-_var(--spacing)_*_100)] relative z-5">
         <div ref={scrollRef} className="absolute w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-thin z-1">
           <div className="h-[calc((100dvh_-_var(--spacing)_*_100)_*_12)] opacity-0" />
         </div>
@@ -639,13 +639,13 @@ export default function Resume() {
           </div>
           <div className="absolute px-4 md:px-7.5 w-full grid grid-cols-4 justify-center translate-y-2.5">
             <div className="col-span-3 flex justify-start items-center">
-              <div className="h-3 w-0.5 md:h-6 md:w-1 bg-black" />
-              <div className="grow h-0.5 md:h-1 bg-black" />
-              <div className="font-sans text-xs md:text-base px-2 py-1 rounded-lg bg-blue-100 border border-black">
+              <div className="h-3 w-0.5 md:h-6 md:w-1 bg-zinc-600" />
+              <div className="grow h-0.5 md:h-1 bg-zinc-600" />
+              <div className="font-sans text-xs md:text-base px-2 py-1 rounded-lg bg-blue-100 border border-zinc-600">
                 Projects
               </div>
-              <div className="grow h-0.5 md:h-1 bg-black" />
-              <div className="h-3 w-0.5 md:h-6 md:w-1 bg-black" />
+              <div className="grow h-0.5 md:h-1 bg-zinc-600" />
+              <div className="h-3 w-0.5 md:h-6 md:w-1 bg-zinc-600" />
             </div>
             <div className="col-span-1" />
           </div>
@@ -664,7 +664,7 @@ const BubbleCenter = ({ className }: { className: string }) => {
 L38,24 L30,36 L22,24
 L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
       fill="#D2DEE6"
-      stroke="black"
+      stroke="#52525C"
       strokeWidth="1"
     />
   </svg>
@@ -677,7 +677,7 @@ const BubbleRight = ({ className }: { className: string }) => {
 L44,36 L36,24
 L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
       fill="#D2DEE6"
-      stroke="black"
+      stroke="#52525C"
       strokeWidth="1"
     />
   </svg>
@@ -699,7 +699,7 @@ const BubbleLeft = ({ className }: { className: string }) => {
          A8,8 0 0 1 8,0
          Z"
       fill="#D2DEE6"
-      stroke="black"
+      stroke="#52525C"
       strokeWidth="1"
     />
   </svg>
