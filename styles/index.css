@@ -189,7 +189,7 @@ html {
 
 .ufo-2 {
   box-shadow: 0 0 12px 3px #EDA659;
-  transform: translateX(calc(100vw * 2)) scale(45);
+  transform: translateX(calc(100vw * 3)) scale(45);
 }
 
 @keyframes roam-out {
