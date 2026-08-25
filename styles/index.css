@@ -121,6 +121,10 @@ html {
   @apply flex flex-wrap gap-1.5 text-xs text-zinc-600 mt-2
 }
 
+.tech-rings div {
+  @apply bg-white;
+}
+
 .bubble-tick-left{
   clip-path: polygon(100% 0%, 0% 0%, 0% 100%);
 }
@@ -134,53 +138,64 @@ html {
 }
 
 .clip-pipe {
-  @apply bg-red-600!;
+  /* @apply bg-red-600!; */
+}
+
+.pipe-fill {
+  @apply w-full h-50 bg-linear-to-bl from-[#AFEEFD] via-[#F7D2D3] to-[#EDA659];
+  animation: fake-radiate 2s linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes fake-radiate {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(calc(-1*var(--spacing)*46));
+  }
+  100% {
+    transform: translateY(calc(-1*var(--spacing)*46));
+  }
 }
 
 .pipe {
-  @apply h-2 md:h-4 scale-x-120 bg-black border-y border-black;
+  @apply h-2 md:h-4 scale-x-120 bg-[#FBF2F3] ring ring-zinc-600;
 }
 
 .throw {
   @apply h-2 scale-x-120;
 }
 
-.clip-throw {
-  @apply bg-red-600!;
-}
-
 .circle {
-  @apply size-3 md:size-6 border border-black bg-white;
+  @apply size-3 md:size-6 border border-zinc-600 bg-[#FBF2F3];
   transform: scale(1.25);
 }
 
-@media (width >= 48rem) { 
-}
-
 .clip-circle {
-  @apply bg-radial-[at_25%_25%] from-white to-red-600 to-75% border-black! z-2 transition-transform ease-out duration-300;
-}
-
-.v-pipe {
-  @apply h-5 w-2 scale-y-120 bg-black;
+  @apply bg-radial-[at_25%_25%] from-[#AFEEFD] to-[#EDA659] to-75% border-zinc-600! z-2 transition-transform ease-out duration-300;
 }
 
 .ufo {
   animation-fill-mode: forwards;
-  @apply size-3 md:size-6 border border-transparent bg-radial-[at_35%_35%] from-white to-red-600 to-65% z-7;
+  @apply size-3 md:size-6 border border-transparent bg-radial-[at_35%_35%] from-[#AFEEFD] to-[#EDA659] to-65% z-7;
   border: transparent;
   transform: scale(1.05);
 }
 
 .ufo-2 {
-  box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
+  box-shadow: 0 0 12px 3px #EDA659;
   transform: translateX(calc(100vw * 2)) scale(45);
 }
 
 @keyframes roam-out {
   10% {
     transform: scale(25);
-    box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
+    box-shadow: 0 0 12px 3px #EDA659;
   }
   20% {
     transform: scale(25) rotate(90deg);
