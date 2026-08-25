@@ -1,7 +1,5 @@
-import next from "next";
 import { useEffect, useRef, useState } from "react"
 import { GiNextButton, GiPreviousButton } from "react-icons/gi";
-import { Textfit } from "react-textfit";
 
 const DIVS = 11;
 const CLIPPATH_DUR = 900;
@@ -169,11 +167,8 @@ export default function Resume() {
       }
       const myTarget = evt.target as HTMLDivElement
       const onePageHeight = scrollRef.current?.clientHeight || 0
-      const divHeight = scrollRef.current.scrollHeight;
-      const sPoint = roundToNthDecimal(myTarget.scrollTop / (divHeight - onePageHeight), 4);
-      // const sPoint = roundTo1000th(
-      //   myTarget.scrollTop / (myTarget.scrollHeight - myTarget.offsetHeight)
-      // );
+      const divHeight = onePageHeight * 12;//scrollRef.current.children[0].clientHeight; //scrollRef.current.scrollHeight;
+      const sPoint = roundToNthDecimal(myTarget.scrollTop / (divHeight - onePageHeight), 5);
       updateBar(sPoint);
       setScollPoint(sPoint);
     });
@@ -221,6 +216,14 @@ export default function Resume() {
   };
 
   return <div className="h-dvh font-sans flex flex-col justify-between overflow-hidden">
+    <title>Jordan Kang Resume</title>
+    <style jsx global>{`
+        html, body {
+          overflow: hidden;
+          overscroll-behavior: none;
+          height: 100%;
+        }
+      `}</style>
     <div className="relative flex flex-col justify-start z-7">
       <div className="w-full text-3xl md:text-4xl font-bold py-4 justify-center flex gap-2 items-center">
         My Resume <span className="text-sm">(mobile-friendly!)</span>
