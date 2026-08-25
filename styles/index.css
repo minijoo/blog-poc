@@ -117,6 +117,10 @@ html {
   transition: opacity 350ms ease-out, transform 350ms ease-out;
 }
 
+.tech-rings {
+  @apply flex flex-wrap gap-1.5 text-xs text-zinc-600 mt-2
+}
+
 .bubble-tick-left{
   clip-path: polygon(100% 0%, 0% 0%, 0% 100%);
 }
@@ -134,7 +138,7 @@ html {
 }
 
 .pipe {
-  @apply h-2 scale-x-120 bg-black border-y border-black;
+  @apply h-2 md:h-4 scale-x-120 bg-black border-y border-black;
 }
 
 .throw {
@@ -146,8 +150,11 @@ html {
 }
 
 .circle {
-  @apply size-3 border border-black bg-white;
+  @apply size-3 md:size-6 border border-black bg-white;
   transform: scale(1.25);
+}
+
+@media (width >= 48rem) { 
 }
 
 .clip-circle {
@@ -160,20 +167,13 @@ html {
 
 .ufo {
   animation-fill-mode: forwards;
-  @apply size-3 border border-transparent bg-radial-[at_35%_35%] from-white to-red-600 to-65% z-4;
+  @apply size-3 md:size-6 border border-transparent bg-radial-[at_35%_35%] from-white to-red-600 to-65% z-7;
   border: transparent;
   transform: scale(1.05);
 }
 
-.ufo-anim {
-  animation: throw 2s linear 0s normal 1 forwards;
-}
-
-.ufo-test {
-  transform: translateX(calc(-1 * (100vw - var(--spacing) * 11))) scale(1.25);
-}
-
 .ufo-2 {
+  box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
   transform: translateX(calc(100vw * 2)) scale(45);
 }
 
@@ -183,19 +183,19 @@ html {
     box-shadow: 0 0 12px 3px oklch(88.2% 0.059 254.128);
   }
   20% {
-    transform: scale(25) rotate(-90deg);
+    transform: scale(25) rotate(90deg);
   }
   30% {
-    transform: scale(25) rotate(-180deg);
+    transform: scale(25) rotate(180deg);
   }
   40% {
-    transform: scale(25) rotate(-360deg);
+    transform: scale(25) rotate(360deg);
   }
   50% {
-    transform: scale(25) rotate(-450deg);
+    transform: scale(25) rotate(450deg);
   }
   100% {
-    transform: scale(25) rotate(-500deg) translateX(calc(-1 * (100vw + 200px)));
+    transform: scale(25) rotate(500deg) translateX(calc(-1 * (100vw + 200px)));
   }
 }
 
@@ -205,51 +205,18 @@ html {
   }
 }
 
-@keyframes throw {
-  20% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.2))
-      translateY(calc((100vh - var(--spacing) * 43)*0.2))
-      scale(6)
-      rotate(180deg)
-  }
-  40% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.4))
-      translateY(calc((100vh - var(--spacing) * 43)*0.4))
-      scale(7)
-      rotate(360deg)
-  }
-  50% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)/2))
-      translateY(calc((100vh - var(--spacing) * 43)/2))
-      scale(8)
-      rotate(450deg)
-  }
-  60% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.6))
-      translateY(calc((100vh - var(--spacing) * 43)*0.6))
-      scale(7)
-      rotate(540deg)
-  }
-  80% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)*0.8))
-      translateY(calc((100vh - var(--spacing) * 43)*0.8))
-      scale(6)
-      rotate(720deg)
-  }
-  100% {
-    transform:
-      translateX(calc(-1 * (100vw - var(--spacing) * 11)))
-      translateY(calc(100vh - var(--spacing) * 43))
-      scale(1.05)
-      rotate(900deg)
-  }
+.date-bubble-text {
+  @apply px-2 py-1 font-sans text-nowrap text-xs md:scale-120;
 }
 
-.date-bubble {
-  @apply px-2 py-1 font-sans text-nowrap;
+.date-bubble-top {
+  @apply -translate-y-10 md:-translate-y-13 md:scale-120;
+}
+
+.date-bubble-bottom {
+  @apply translate-y-7 md:translate-y-13 md:scale-120;
+}
+
+.date-bubble-center {
+  @apply -translate-x-[calc(50%-var(--spacing)*1.5)] md:-translate-x-[calc(50%-var(--spacing)*3)];
 }
