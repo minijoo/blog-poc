@@ -47,7 +47,7 @@ function Card({ show, title, cardNum, divRef, children }: { show: boolean, title
     >
       <div className="px-5 flex justify-center items-center h-full">
         <div className="flex flex-col justify-between border border-black rounded-2xl px-3 py-3 max-h-full overflow-hidden">
-          <div className="text-2xl md:text-3xl font-bold">{title}</div>
+          <div className="text-xl md:text-2xl font-bold">{title}</div>
           {children}
         </div>
       </div>
@@ -334,7 +334,7 @@ export default function Resume() {
           <div className="text-base md:text-lg italic">
             <u>Bucky.live</u>, Remote, 1 yr.
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Built it from ground-up to beta version in less than a year. Using OpenAI’s Transcribe and Response APIs, built a scalable product that translates audio from device mic into structured data, brought it to beta launch.
           </div>
           <div className="tech-rings">
@@ -364,7 +364,7 @@ export default function Resume() {
             <div className="text-base md:text-lg italic">
               <u>CM&F Group Inc.</u>, New York City, 3 yrs.
             </div>
-            <div className="text-sm md:text-lg">
+            <div className="text-xs md:text-lg">
               Owned development and deployment of AWS and Salesforce codebases. Built out a real-time insurance quote comparison tool, delivered value to millions of users. Engineered responsive backend PDF generation achieving concurrency. Proofed out and polished home-grown CI/CD automation. Mentored three associate developers, while working closely with C-suite. Developed a customer portal, providing personalized experience for the entire online customer base.
             </div>
           </div>
@@ -386,7 +386,7 @@ export default function Resume() {
           <div className="text-base md:text-lg italic">
             <u>IBM</u>, New York City, 1 yr 3 mos.
           </div>
-          <div className="text-lg md:text-xl">Worked with Engs, EMs, Sales to create solutions, present proposals to prospective clients. Responsible for reviewing code written for clients in the NE region (20-30 codebases total). Ran code reviews and workshops with the internal Salesforce developer community. Acted as tech lead on projects for companies that rank in the Fortune 500 (44th and 75th).</div>
+          <div className="text-sm md:text-xl">Worked with Engs, EMs, Sales to create solutions, present proposals to prospective clients. Responsible for reviewing code written for clients in the NE region (20-30 codebases total). Ran code reviews and workshops with the internal Salesforce developer community. Acted as tech lead on projects for companies that rank in the Fortune 500 (44th and 75th).</div>
           <div className="tech-rings">
             <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">SFDC</div>
             <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">Mulesoft</div>
@@ -403,7 +403,7 @@ export default function Resume() {
           <div className="text-base md:text-lg italic">
             <u>BlueWolf</u>, Boston/Chicago/NYC, 5 yrs.
           </div>
-          <div className="text-lg md:text-xl">Implemented solutions for small-to-medium size clients’ Salesforce instances. Learned to adapt to different situations, identifying and filling in gaps, leveraging technical expertise. Ranked among top 20 best performers out of 300+ employees. Moved to Chicago to help start new branch.</div>
+          <div className="text-base md:text-xl">Implemented solutions for small-to-medium size clients’ Salesforce instances. Learned to adapt to different situations, identifying and filling in gaps, leveraging technical expertise. Ranked among top 20 best performers out of 300+ employees. Moved to Chicago to help start new branch.</div>
         </Card>
         <Card
           divRef={lastCardInTopRow}
@@ -414,7 +414,7 @@ export default function Resume() {
           <div className="text-base md:text-lg italic">
             B.A.Sc. degree in Computer Science, Medford, MA, 4 yrs.
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Relevant coursework: Data Structures, Algorithms, Machine Structure and Assembly-Language Programming, Programming Languages, Web Programming, Web Engineering, Discrete Math, Intro to ML, OS, Networks, Computational Theory, Music Apps on the iPad
           </div>
         </Card>
@@ -444,16 +444,16 @@ export default function Resume() {
           title="Projects (2/3)"
           cardNum={9}
         >
-          <div className="text-xl md:text-2xl font-bold mt-2">
+          <div className="text-lg md:text-2xl font-bold mt-2">
             Hoop <span className="text-base md:text-lg italic">2022</span>
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Precursor to Bucky, keyboard-input stat-tracking terminal program. Used to record, share, and analyze stats at basketball tournaments.
           </div>
-          <div className="text-xl md:text-2xl font-bold mt-2">
+          <div className="text-lg md:text-2xl font-bold mt-2">
             Shazam Music Files <span className="text-base italic">2022</span>
           </div>
-          <div className="text-lg md:text-xl">
+          <div className="text-base md:text-xl">
             Bash program to get album art and metadata from Shazam for disparate music files.
           </div>
           <div className="tech-rings">
@@ -489,28 +489,28 @@ export default function Resume() {
           title="Skills"
           cardNum={11}
         >
-          <div className="text-lg md:text-xl font-bold mt-2">
+          <div className="text-base md:text-xl font-bold mt-2">
             Programming
           </div>
-          <div className="text-base md:text-lg">
+          <div className="text-xs md:text-lg">
             Java, Typescript, C++, Python, MySQL, HTML/CSS, Apex, Lightning, VF, Bash, Lua
           </div>
-          <div className="text-lg md:text-xl font-bold mt-2">
+          <div className="text-base md:text-xl font-bold mt-2">
             Languagues
           </div>
-          <div className="text-base md:text-lg">
-            Korean (native), Japanese (JLPT N4), English (native)
+          <div className="text-xs md:text-lg">
+            Korean, Japanese (JLPT N4), English
           </div>
-          <div className="text-lg md:text-xl font-bold mt-2">
+          <div className="text-base md:text-xl font-bold mt-2">
             Technical
           </div>
-          <div className="text-base md:text-lg">
+          <div className="text-xs md:text-lg">
             105 WPM, nvim, npm, Redis, PSQL, NodeJS, Redux, NextJS, GH, git, Linux, MacOS, Windows
           </div>
-          <div className="text-lg md:text-xl font-bold mt-2">
+          <div className="text-base md:text-xl font-bold mt-2">
             Interests
           </div>
-          <div className="text-base md:text-lg">
+          <div className="text-xs md:text-lg">
             Basketball, wine, food blogging, audiophile, history, TFT (game)
           </div>
         </Card>
