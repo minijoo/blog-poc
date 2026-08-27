@@ -226,7 +226,7 @@ export default function Resume() {
     handleCardStateChange({ isForward: false, num: nextNum }, false);
   };
 
-  return <div className="h-dvh w-full font-sans flex justify-center overflow-hidden">
+  return <div className="h-dvh w-full font-sans flex justify-center overflow-hidden bg-linear-to-b from-[#AFEEFD]/60 via-[#F7D2D3]/20 to-[#EDA659]/70">
     <div className="h-full w-full md:w-3xl flex flex-col justify-between items-center">
       <title>Jordan Kang Resume</title>
       <style jsx global>{`
@@ -237,7 +237,9 @@ export default function Resume() {
         }
       `}</style>
       <div className="w-full relative flex flex-col justify-start z-7">
-        <div className="w-full text-3xl md:text-4xl font-bold py-4 justify-center flex gap-2 items-center">
+        <div className="w-full text-3xl md:text-4xl font-bold py-4 justify-center flex gap-2 hover:cursor-pointer active:underline hover:underline active:scale-90 transition-transform duration-150 ease-out;"
+          onClick={() => { handleCardStateChange({ isForward: false, num: 1 }, false) }}
+        >
           My Resume
           <div className="text-sm flex flex-col items-center">
             (mobile-friendly!)
@@ -357,7 +359,7 @@ export default function Resume() {
         </div>
       </div>
       <div className="w-full h-[calc(100dvh_-_var(--spacing)_*_100)] relative z-5">
-        <div ref={scrollRef} className="absolute w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-thin z-1">
+        <div ref={scrollRef} className="absolute w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-800 z-1">
           <div className="h-[calc((100dvh_-_var(--spacing)_*_100)_*_12)] opacity-0" />
         </div>
         <div className="card-section absolute w-full flex items-center h-full z-0">
@@ -569,18 +571,22 @@ export default function Resume() {
       <div className="w-full flex flex-col gap-2">
         <div ref={navBtnsRef} className="mt-3 flex gap-1.5 justify-center">
           <div
-            className={`secondary-button py-4!
+            className={`secondary-button py-4! border-zinc-800! hover:text-black!
                 ${cardNum === 1 ? 'pointer-events-none opacity-50' : ''}
                 `}
-            onClick={() => handleNewCardNum(cardNum, Math.max(1, cardNum - 1))}
+            onClick={() => {
+              if (isAnimating.current) return;
+              handleNewCardNum(cardNum, Math.max(1, cardNum - 1))
+            }}
           >
             <GiPreviousButton />
           </div>
           <div
-            className={`secondary-button py-4! flex items-center
+            className={`secondary-button py-4! border-zinc-800! hover:text-black!
                 ${cardNum === 12 ? 'pointer-events-none opacity-50' : ''}
                 `}
             onClick={() => {
+              if (isAnimating.current) return;
               handleNewCardNum(cardNum, Math.min(DIVS + 1, cardNum + 1))
             }}
           >
@@ -641,7 +647,7 @@ export default function Resume() {
             <div className="col-span-3 flex justify-start items-center">
               <div className="h-3 w-0.5 md:h-6 md:w-1 bg-zinc-600" />
               <div className="grow h-0.5 md:h-1 bg-zinc-600" />
-              <div className="font-sans text-xs md:text-base px-2 py-1 rounded-lg bg-blue-100 border border-zinc-600">
+              <div className="font-sans text-xs md:text-base px-2 py-1 rounded-lg bg-white border border-zinc-600">
                 Projects
               </div>
               <div className="grow h-0.5 md:h-1 bg-zinc-600" />
@@ -663,7 +669,7 @@ const BubbleCenter = ({ className }: { className: string }) => {
       d="M8,0 L52,0 A8,8 0 0 1 60,8 L60,16 A8,8 0 0 1 52,24
 L38,24 L30,36 L22,24
 L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
-      fill="#D2DEE6"
+      fill="#FFF"
       stroke="#52525C"
       strokeWidth="1"
     />
@@ -676,7 +682,7 @@ const BubbleRight = ({ className }: { className: string }) => {
       d="M8,0 L52,0 A8,8 0 0 1 60,8 L60,16 A8,8 0 0 1 52,24
 L44,36 L36,24
 L8,24 A8,8 0 0 1 0,16 L0,8 A8,8 0 0 1 8,0 Z"
-      fill="#D2DEE6"
+      fill="#FFF"
       stroke="#52525C"
       strokeWidth="1"
     />
@@ -698,7 +704,7 @@ const BubbleLeft = ({ className }: { className: string }) => {
          L0,8
          A8,8 0 0 1 8,0
          Z"
-      fill="#D2DEE6"
+      fill="#FFF"
       stroke="#52525C"
       strokeWidth="1"
     />

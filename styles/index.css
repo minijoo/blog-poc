@@ -137,10 +137,6 @@ html {
   clip-path: polygon(100% 0%, 0% 0%, 50% 100%);
 }
 
-.clip-pipe {
-  /* @apply bg-red-600!; */
-}
-
 .pipe-fill {
   @apply w-full h-50 bg-linear-to-bl from-[#AFEEFD] via-[#F7D2D3] to-[#EDA659];
   animation: fake-radiate 2s linear;
