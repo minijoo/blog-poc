@@ -129,9 +129,9 @@ export default function Resume() {
         lastCardInTopRow.current.style.transform = 'scale(90%)';
       }
       ufo1[0].style.opacity = '1';
-      ufo1[0].style.animation = 'roam-out 2.5s ease-in 300ms normal 1 forwards';
+      ufo1[0].style.animation = 'roam-out 2.5s ease-in 0s normal 1 forwards';
       ufo2[0].style.opacity = '1';
-      ufo2[0].style.animation = 'roam-in 1.5s ease-out 2s normal 1';
+      ufo2[0].style.animation = 'roam-in 1s ease-out 800ms normal 1';
       isAnimating.current = true
       onOtherSide.current = true
     } else {

@@ -189,34 +189,22 @@ html {
 
 .ufo-2 {
   box-shadow: 0 0 12px 3px #EDA659;
-  transform: translateX(calc(100vw * 3)) scale(45);
+  transform: translate(calc(100vw * 2.5), -80vh) scale(35) rotate(320deg);
 }
 
 @keyframes roam-out {
-  10% {
-    transform: scale(25);
+  20% {
+    transform: scale(25) rotate(140deg);
     box-shadow: 0 0 12px 3px #EDA659;
   }
-  20% {
-    transform: scale(25) rotate(90deg);
-  }
-  30% {
-    transform: scale(25) rotate(180deg);
-  }
-  40% {
-    transform: scale(25) rotate(360deg);
-  }
-  50% {
-    transform: scale(25) rotate(450deg);
-  }
   100% {
-    transform: scale(25) rotate(500deg) translateX(calc(-1 * (100vw + 200px)));
+    transform: scale(25) rotate(320deg) translateX(calc(100vw));
   }
 }
 
 @keyframes roam-in {
   100% {
-    transform: scale(1) translateX(0) rotate(180deg);
+    transform: scale(1) translate(0,0) rotate(500deg);
   }
 }
 
