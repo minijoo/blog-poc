@@ -97,6 +97,7 @@ export default function Resume() {
       Math.min(100, easeFunc(Math.max(0, ONE_SCROLL * 10 - sPoint) / ONE_SCROLL)),
       Math.min(100, easeFunc(Math.max(0, ONE_SCROLL * 11 - sPoint) / ONE_SCROLL)),
     ]
+    console.log(positsRef.current)
     let lastNegValAt = DIVS - 1
     for (const p of positsRef.current.toReversed()) {
       if (p <= 0) break;
@@ -172,7 +173,7 @@ export default function Resume() {
   }
 
   useEffect(() => {
-    handleCardStateChange({ isForward: true, num: 1 }, false);
+    handleCardStateChange({ isForward: true, num: 11 }, false);
     scrollRef.current.addEventListener("scroll", (evt) => {
       if (isAnimating.current) {
         return;
@@ -227,6 +228,23 @@ export default function Resume() {
   };
 
   return <div className="h-dvh w-full font-sans flex justify-center overflow-hidden bg-linear-to-b from-[#AFEEFD]/60 via-[#F7D2D3]/20 to-[#EDA659]/70">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
     <div className="h-full w-full md:w-3xl flex flex-col justify-between items-center">
       <title>Jordan Kang Resume</title>
       <style jsx global>{`
@@ -360,7 +378,7 @@ export default function Resume() {
       </div>
       <div className="w-full h-[calc(100dvh_-_var(--spacing)_*_100)] relative z-5">
         <div ref={scrollRef} className="absolute w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-800 z-1">
-          <div className="h-[calc((100dvh_-_var(--spacing)_*_100)_*_12)] opacity-0" />
+          <div className="h-[calc((100dvh_-_var(--spacing)_*_100)_*_12_+_10px)] opacity-0" />
         </div>
         <div className="card-section absolute w-full flex items-center h-full z-0">
           <Card
@@ -457,16 +475,25 @@ export default function Resume() {
           </Card>
           <Card
             show={cardNum === 8}
-            title="Project — Jordys.Site"
+            title="Project (1/3)"
             cardNum={8}
           >
-            <div className="text-base md:text-lg italic">
-              2024
+            <div className="text-h2 mt-2">
+              Last I Checked <span className="text-base md:text-lg italic">2026</span>
             </div>
-            <div className="text-lg md:text-xl">
+            <div className="text-p-sm">
+              A vibe-coded app that helps users keep track of public numbers and shows what they saw last time they checked. (tinyurl.com/lastichecked)
+            </div>
+            <div className="text-h2 mt-2">
+              Jordys.Site <span className="text-base md:text-lg italic">2024</span>
+            </div>
+            <div className="text-p-sm">
               My personal blog, Jordys.site, lets me or any authenticated user make posts and upload media, leveraging SSG for speed.
             </div>
             <div className="tech-rings">
+              <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">Claude Code</div>
+              <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">Puppeteer MCP</div>
+              <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">IndexedDB</div>
               <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">MERN</div>
               <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">MongoDB</div>
               <div className="rounded-3xl px-1 py-0.5 border border-zinc-600">React</div>
@@ -481,16 +508,16 @@ export default function Resume() {
             title="Projects (2/3)"
             cardNum={9}
           >
-            <div className="text-lg md:text-2xl font-bold mt-2">
+            <div className="text-h2 mt-2">
               Hoop <span className="text-base md:text-lg italic">2022</span>
             </div>
-            <div className="text-base md:text-xl">
+            <div className="text-p-sm">
               Precursor to Bucky, keyboard-input stat-tracking terminal program. Used to record, share, and analyze stats at basketball tournaments.
             </div>
-            <div className="text-lg md:text-2xl font-bold mt-2">
+            <div className="text-h2 mt-2">
               Shazam Music Files <span className="text-base italic">2022</span>
             </div>
-            <div className="text-base md:text-xl">
+            <div className="text-p-sm">
               Bash program to get album art and metadata from Shazam for disparate music files.
             </div>
             <div className="tech-rings">
@@ -503,16 +530,16 @@ export default function Resume() {
             title="Projects (3/3)"
             cardNum={10}
           >
-            <div className="text-lg md:text-2xl font-bold mt-2">
+            <div className="text-h2 mt-2">
               WordPress Guru <span className="text-base md:text-lg italic">2021-2022</span>
             </div>
-            <div className="text-base md:text-xl">
+            <div className="text-p-sm">
               Built websites for small business, like coffee shops and non-profit sports orgs.
             </div>
-            <div className="text-lg md:text-2xl font-bold mt-2">
+            <div className="text-h2 mt-2">
               Uji Shower <span className="text-base italic">2013</span>
             </div>
-            <div className="text-base md:text-xl">
+            <div className="text-p-sm">
               Built the website and Arduino code for UjiShower, a showerhead that provides feedback for water consumption. Won 3rd place in the Tufts New Ventures comp.
             </div>
             <div className="tech-rings">
@@ -526,25 +553,25 @@ export default function Resume() {
             title="Skills"
             cardNum={11}
           >
-            <div className="text-base md:text-xl font-bold mt-2">
+            <div className="text-h2-sm mt-2">
               Programming
             </div>
-            <div className="text-xs md:text-lg">
+            <div className="text-p-sm">
               Java, Typescript, C++, Python, MySQL, HTML/CSS, Apex, Lightning, VF, Bash, Lua
             </div>
-            <div className="text-base md:text-xl font-bold mt-2">
+            <div className="text-h2-sm mt-2">
               Languagues
             </div>
             <div className="text-xs md:text-lg">
               Korean, Japanese (JLPT N4), English
             </div>
-            <div className="text-base md:text-xl font-bold mt-2">
+            <div className="text-h2-sm mt-2">
               Technical
             </div>
             <div className="text-xs md:text-lg">
               105 WPM, nvim, npm, Redis, PSQL, NodeJS, Redux, NextJS, GH, git, Linux, MacOS, Windows
             </div>
-            <div className="text-base md:text-xl font-bold mt-2">
+            <div className="text-h2-sm mt-2">
               Interests
             </div>
             <div className="text-xs md:text-lg">
@@ -556,15 +583,17 @@ export default function Resume() {
             title="Contact"
             cardNum={12}
           >
-            <div className="text-xl md:text-2xl mt-2">
-              Jordan Kang <span className="text-base md:text-lg italic">Also "Joo"</span>
+            <div className="text-h2 mt-2">
+              Jordan Kang <span className="text-sm md:text-base font-normal italic">Also "Joo"</span>
             </div>
-            <div className="text-lg md:text-xl mt-2">(Email) minijoo@gmail.com</div>
-            <div className="text-lg md:text-xl">(Phone) 212-301-7792</div>
-            <div className="text-lg md:text-xl">(LinkedIn) jyk-7r0</div>
-            <div className="text-lg md:text-xl">(GitHub) minijoo</div>
-            <div className="text-lg md:text-xl">(Location) New York City</div>
-            <div className="text-lg md:text-xl mt-2">US Citizen</div>
+            <div className="text-p">
+              <div className="mt-2">(Email) minijoo@gmail.com</div>
+              <div className="">(Phone) 212-301-7792</div>
+              <div className="">(LinkedIn) jyk-7r0</div>
+              <div className="">(GitHub) minijoo</div>
+              <div className="">(Location) New York City</div>
+              <div className="mt-2">US Citizen</div>
+            </div>
           </Card>
         </div>
       </div>

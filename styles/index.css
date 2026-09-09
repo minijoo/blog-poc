@@ -117,8 +117,24 @@ html {
   transition: opacity 350ms ease-out, transform 350ms ease-out;
 }
 
+.text-h2 {
+  @apply text-base md:text-lg font-bold;
+}
+
+.text-h2-sm {
+  @apply text-sm md:text-base font-bold;
+}
+
+.text-p {
+  @apply text-sm md:text-base;
+}
+
+.text-p-sm {
+  @apply text-xs md:text-base;
+}
+
 .tech-rings {
-  @apply flex flex-wrap gap-1.5 text-xs text-zinc-600 mt-2
+  @apply flex flex-wrap gap-1.5 text-[10px] text-zinc-600 mt-2
 }
 
 .tech-rings div {
