@@ -173,7 +173,7 @@ export default function Resume() {
   }
 
   useEffect(() => {
-    handleCardStateChange({ isForward: true, num: 11 }, false);
+    handleCardStateChange({ isForward: true, num: 1 }, false);
     scrollRef.current.addEventListener("scroll", (evt) => {
       if (isAnimating.current) {
         return;
