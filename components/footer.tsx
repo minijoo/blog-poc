@@ -1,16 +1,40 @@
 import Container from "./container";
 import cn from "classnames";
 import Link from "next/link";
-import { useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
+
+const Screen = ({ open, onScreenClick }: { open: boolean, onScreenClick: MouseEventHandler<HTMLDivElement> }) => {
+  const [doRender, setRender] = useState<boolean>(false);
+  useEffect(() => {
+    if (open) {
+      setRender(true);
+    }
+  }, [open]);
+
+  if (!doRender) {
+    return <></>;
+  }
+  return <div
+    className="drawer fixed top-0 w-full h-dvh backdrop-blur-lg"
+    onTransitionEnd={() => !open && setRender(false)}
+    style={{ "--open": open ? 1 : 0 } as React.CSSProperties}
+    onClick={onScreenClick}
+
+  />
+}
 
 const Footer = () => {
   const [expand, setExpand] = useState(false);
-  return (
+  return (<>
+    <Screen
+      open={expand}
+      onScreenClick={() => setExpand(false)}
+    />
     <footer
       className={cn(
-        "z-5 relative bg-neutral-50 border-t border-neutral-200 w-full duration-400 overflow-hidden flex justify-center",
+        "z-5 relative bg-neutral-50 border-t border-neutral-200 w-full duration-200 overflow-hidden flex justify-center ease-out",
         {
-          "h-58": expand,
+          "h-78": expand,
           "h-10": !expand,
         }
       )}
@@ -35,7 +59,12 @@ const Footer = () => {
           </div>
           <div className="flex">
             <div className="active:scale-80 hover:scale-120 duration-200">
-              <Link href="/tech_posts">SW Engineering Posts</Link>
+              <Link href="/ratings">Jordy's Ratings</Link>
+            </div>
+          </div>
+          <div className="flex">
+            <div className="active:scale-80 hover:scale-120 duration-200">
+              <Link href="/tech_posts">SE Posts</Link>
             </div>
           </div>
           <div className="flex">
@@ -55,12 +84,11 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-md">
-          © <span className="text-sm">2025</span>
-          <span className="text-xs ml-1">(this site uses cookies)</span>
+          <span className="text-sm">2026</span>
         </div>
       </div>
     </footer>
-  );
+  </>);
 };
 
 export default Footer;

@@ -239,3 +239,11 @@ html {
 .date-bubble-center {
   @apply -translate-x-[calc(50%-var(--spacing)*1.5)] md:-translate-x-[calc(50%-var(--spacing)*3)];
 }
+
+.drawer {
+  opacity: calc(var(--open) * 1);
+  transition: opacity 100ms ease-out;
+  @starting-style {
+    opacity: 0;
+  }
+}
