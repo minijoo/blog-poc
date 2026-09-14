@@ -78,7 +78,7 @@ export default function Ratings({ ratings }: Props) {
                   {ratings[index].category}
                 </div>
               </div>
-              <div className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl">
+              <div className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5">
                 {ratings[index].rating}
               </div>
             </>
