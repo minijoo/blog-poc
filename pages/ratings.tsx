@@ -14,7 +14,9 @@ import {
   Photo
 } from "react-photo-album";
 import "react-photo-album/rows.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { FaCircleChevronDown } from "react-icons/fa6";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
@@ -28,7 +30,6 @@ const DEFAULT_IMG_HEIGHT = 875;
 
 
 export default function Ratings({ ratings }: Props) {
-
   function renderNextImage(
     { alt = "", title, sizes }: RenderImageProps,
     { photo, width, height, index }: RenderImageContext,
@@ -63,8 +64,15 @@ export default function Ratings({ ratings }: Props) {
                   evt.preventDefault();
                 }}
               >
-                <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center">
-                  {ratings[index].name}
+                <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center flex flex-col gap-0">
+                  <div>{ratings[index].name}</div>
+                  <div>{
+                    ratings[index].location
+                    &&
+                    <span className="text-sm font-normal">
+                      📍 {ratings[index].location}
+                    </span>
+                  }</div>
                 </div>
                 <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center">
                   {ratings[index].category}
@@ -110,6 +118,91 @@ export default function Ratings({ ratings }: Props) {
     );
   }
 
+  function DropDown() {
+    const [open, setOpen] = useState<boolean>(false);
+    const listRef = useRef<HTMLDivElement>(null);
+    return <div className="relative font-sans">
+      <div
+        className={`h-full w-fit border border-black text-dy-sm rounded-sm z-7 hover:cursor-pointer
+                ${open ? 'border-b-0 rounded-b-none' : ''}
+                `}
+      >
+        <div
+          className="flex h-full gap-2 px-4 items-center justify-center"
+          onClick={() => setOpen(current => !current)}
+        >
+          <div>Categories</div>
+          <div><FaCircleChevronDown /></div>
+        </div>
+      </div>
+      {
+        open
+        &&
+        <div className={`absolute w-50 md:w-70 max-h-80 bg-white top-[97%] z-6 rounded-sm border border-black shadow-[0_5px_20px_#000] flex flex-col gap-2 py-2
+                  ${open ? 'rounded-tl-none' : ''}
+                  `}>
+          <div ref={listRef} className="w-full flex flex-col text-dy-lg py-2 pl-6 pr-3 overflow-y-scroll justify-start">
+            {cats.map(cat => (
+              <div
+                key={cat}
+                className="w-full flex gap-4 items-center click-icon"
+                onClick={(ev) => {
+                  const inputElem = ev.currentTarget.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+                  inputElem[0].checked = !inputElem[0].checked;
+                }}
+              >
+                <div className="h-full">
+                  <input
+                    name={cat}
+                    type="checkbox"
+                    className="scale-200"
+                    defaultChecked={catsFilter?.has(cat.toLowerCase())}
+                    onClick={(ev) => {
+                      ev.currentTarget.checked = !ev.currentTarget.checked;
+                    }} />
+                </div>
+                <div className="py-2 text-left">
+                  {cat}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="px-2 flex gap-1.5 text-center">
+            <div
+              className="w-full lg-button"
+              onClick={() => {
+                const checkboxes = listRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+                const newCats = Array.from(checkboxes).filter(elem => elem.checked).map(elem => elem.name);
+                const searchParams = new URLSearchParams({ c: newCats.join(',').toLowerCase() });
+                window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
+              }}
+            >
+              Apply
+            </div>
+            <div
+              className="w-full lg-button"
+              onClick={() => {
+                window.location.href = '/ratings';
+              }}
+            >
+              Clear
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  const catSet = new Set<string>()
+  ratings.forEach(r => catSet.add(r.category))
+  const cats = Array.from(catSet);
+
+  const router = useRouter();
+  const { c } = router.query as { c: string };
+
+  const catsFilter = c ? new Set<string>(c.toLowerCase().split(',')) : null;
+  ratings = ratings.filter(r => !catsFilter || catsFilter.has(r.category.toLowerCase()))
+
   const photos: Photo[] = ratings.map(r => {
     const imgUrl = r.imgUrl ? r.imgUrl : DEFAULT_IMG_URL;
     const imgW = r.imgWidth ? r.imgWidth : DEFAULT_IMG_WIDTH;
@@ -135,7 +228,10 @@ export default function Ratings({ ratings }: Props) {
             <title>{`All Ratings - Jordy's Site`}</title>
           </Head>
           <section className="relative pb-16">
-            <div className="text-2xl font-bold text-center pb-2">All Ratings</div>
+            <div className="text-2xl font-bold text-center">All Ratings</div>
+            <div className="h-12 py-2 flex justify-center">
+              <DropDown />
+            </div>
             <RowsPhotoAlbum
               targetRowHeight={200}
               photos={photos}
