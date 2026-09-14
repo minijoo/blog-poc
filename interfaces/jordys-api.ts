@@ -1,5 +1,20 @@
 import { ObjectId } from "mongodb";
 
+export interface Rating {
+  _id?: string
+  name: string
+  link: string
+  category: string
+  location: string
+  tags: string[]
+  notes: string
+  rating: number;
+  editDate?: string; // date string
+  imgUrl?: string
+  imgWidth?: number;
+  imgHeight?: number;
+}
+
 export type ApiPost = {
   _id: string;
   dashname: string;

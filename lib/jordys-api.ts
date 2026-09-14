@@ -1,4 +1,4 @@
-import { ApiPost, AuthenticationError, Author } from "../interfaces/jordys-api";
+import { ApiPost, AuthenticationError, Author, Rating } from "../interfaces/jordys-api";
 
 export type ItemForUpload = {
   name: string;
@@ -315,6 +315,52 @@ export class JordysAPI {
         throw new AuthenticationError();
       }
       throw new Error(await resp.json());
+    }
+    return await resp.json();
+  }
+
+  async retrieveRatings(): Promise<Rating[]> {
+    const resp = await fetch(this.API_URL + "ratings");
+    if (!resp.ok) {
+      console.log("Response not ok");
+      throw new Error(await resp.json());
+    }
+    return await resp.json();
+  }
+
+  async deleteRating(id) {
+    console.log(id)
+    const resp = await fetch(this.API_URL + "ratings/" + id, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!resp.ok) {
+      console.log("Response from server not OK");
+      if (resp.status === 401) {
+        throw new AuthenticationError();
+      }
+      const respjson = await resp.json();
+      throw new Error(JSON.stringify(respjson));
+    }
+    return await resp.json();
+  }
+
+  async upsertRating(fields) {
+    const resp = await fetch(this.API_URL + "ratings", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fields),
+    });
+    if (!resp.ok) {
+      console.log("Response from server not OK");
+      if (resp.status === 401) {
+        throw new AuthenticationError();
+      }
+      const respjson = await resp.json();
+      throw new Error(JSON.stringify(respjson));
     }
     return await resp.json();
   }
