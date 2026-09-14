@@ -134,7 +134,7 @@ export default function Ratings({ ratings }: Props) {
           <Head>
             <title>{`All Ratings - Jordy's Site`}</title>
           </Head>
-          <section className="relative">
+          <section className="relative pb-16">
             <div className="text-2xl font-bold text-center pb-2">All Ratings</div>
             <RowsPhotoAlbum
               targetRowHeight={200}
