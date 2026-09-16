@@ -247,3 +247,30 @@ html {
     opacity: 0;
   }
 }
+
+.tab-button {
+  @apply hover:cursor-pointer;
+  display: flex;
+  height: 24px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100%;
+  padding: 16px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+}
+
+.tab-button.tab-button-overlay {
+  color: #fff;
+}
+
+.tab-clip-path-container {
+  @apply h-full;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  transition: clip-path 0.25s ease;
+  clip-path: inset(0px 75% 0px 0% round 17px);
+}

@@ -1,8 +1,22 @@
 import { Slide, SlideImage, SlideVideo } from "yet-another-react-lightbox";
 import GalleryItem from "../interfaces/galleryItem";
-import { ApiGalleryItem } from "../interfaces/jordys-api";
+import { ApiGalleryItem, Rating } from "../interfaces/jordys-api";
 
 const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
+export function compareEditDate(a: Rating, b: Rating) {
+
+  if (a.editDate && b.editDate) {
+    return (new Date(b.editDate)).getTime() - (new Date(a.editDate)).getTime()
+  }
+  if (a.editDate) {
+    return -1;
+  }
+  if (b.editDate) {
+    return 1;
+  }
+  return b.rating - a.rating;
+}
+
 
 const injectGalleryMdx = (
   postBody: string,
@@ -79,8 +93,8 @@ const injectGalleryMdx = (
     newBody = newBody.replace(
       matchString,
       "<div className='not-prose'><PhotoGallery slides={" +
-        JSON.stringify(galleryMdx) +
-        ".map(mapGalleryToSlides)} /></div>"
+      JSON.stringify(galleryMdx) +
+      ".map(mapGalleryToSlides)} /></div>"
     );
   }
 

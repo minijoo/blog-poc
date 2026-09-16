@@ -3,6 +3,7 @@ import { JordysAPI } from "../../lib/jordys-api";
 import { AuthenticationError, Rating } from "../../interfaces/jordys-api";
 import Layout from "../../components/layout";
 import Head from "next/head";
+import { compareEditDate } from "../../lib/utils";
 
 export async function getStaticProps() {
   return { props: { ip: process.env.IP || "" } };
@@ -172,21 +173,6 @@ export default function Ratings({ ip }) {
       />
     </div>
   }
-
-  function compareEditDate(a: Rating, b: Rating) {
-
-    if (a.editDate && b.editDate) {
-      return (new Date(b.editDate)).getTime() - (new Date(a.editDate)).getTime()
-    }
-    if (a.editDate) {
-      return -1;
-    }
-    if (b.editDate) {
-      return 1;
-    }
-    return b.rating - a.rating;
-  }
-
 
   function sortBy(crit: string) {
     if (crit === 'rate') {

@@ -14,9 +14,10 @@ import {
   Photo
 } from "react-photo-album";
 import "react-photo-album/rows.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { FaCircleChevronDown } from "react-icons/fa6";
+import { compareEditDate } from "../lib/utils";
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
@@ -78,7 +79,13 @@ export default function Ratings({ ratings }: Props) {
                   {ratings[index].category}
                 </div>
               </div>
-              <div className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5">
+              <div
+                className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5"
+                onClick={(evt) => {
+                  setShowScreen(true);
+                  evt.preventDefault();
+                }}
+              >
                 {ratings[index].rating}
               </div>
             </>
@@ -107,7 +114,7 @@ export default function Ratings({ ratings }: Props) {
                 {
                   ratings[index].link
                     ?
-                    <a className="button py-1 px-2 text-center bg-black/40" href={ratings[index].link}>Read blog</a>
+                    <a className="button py-1 px-2 text-center bg-black/40 text-nowrap" href={ratings[index].link}>Read blog</a>
                     :
                     <span>No blog entry</span>
                 }
@@ -118,14 +125,75 @@ export default function Ratings({ ratings }: Props) {
     );
   }
 
+  function TabsClipPath({ defaultTabIndex, onTabChange }: { defaultTabIndex: number, onTabChange: (tab: string) => void }) {
+    const [activeTab, setActiveTab] = useState(TABS[defaultTabIndex].name);
+    const containerRef = useRef(null);
+    const activeTabElementRef = useRef(null);
+
+    useEffect(() => {
+      const container = containerRef.current;
+
+      if (activeTab && container) {
+        const activeTabElement = activeTabElementRef.current;
+
+        if (activeTabElement) {
+          const { offsetLeft, offsetWidth } = activeTabElement;
+
+          const clipLeft = offsetLeft;
+          const clipRight = offsetLeft + offsetWidth + 2;
+          container.style.clipPath = `inset(0 ${Number(100 - (clipRight / container.offsetWidth) * 100).toFixed()}% 0 ${Number((clipLeft / container.offsetWidth) * 100).toFixed()}% round 17px)`;
+        }
+      }
+    }, [activeTab, activeTabElementRef, containerRef]);
+
+    return (
+      <div className="relative h-full flex flex-col items-center w-fit mx-0 my-auto text-xs">
+        <ul className="relative flex w-full justify-center gap-0 h-full border border-black rounded-full ">
+          {TABS.map((tab) => (
+            <li key={tab.name}>
+              <button
+                ref={activeTab === tab.name ? activeTabElementRef : null}
+                data-tab={tab.name}
+                onClick={() => {
+                  setActiveTab(tab.name);
+                  onTabChange(tab.name);
+                }}
+                className="tab-button"
+              >
+                {tab.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <div aria-hidden className="tab-clip-path-container" ref={containerRef}>
+          <ul className="relative flex w-full justify-center gap-0 bg-gray-800">
+            {TABS.map((tab) => (
+              <li key={tab.name}>
+                <button
+                  data-tab={tab.name}
+                  onClick={() => {
+                    setActiveTab(tab.name);
+                  }}
+                  className="tab-button-overlay tab-button"
+                  tabIndex={-1}
+                >
+                  {tab.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
   function DropDown() {
     const [open, setOpen] = useState<boolean>(false);
     const listRef = useRef<HTMLDivElement>(null);
-    return <div className="relative font-sans">
+    return <div className="relative">
       <div
-        className={`h-full w-fit border border-black text-dy-sm rounded-sm z-7 hover:cursor-pointer
-                ${open ? 'border-b-0 rounded-b-none' : ''}
-                `}
+        className={`h-full w-fit border border-black text-dy-sm rounded-full z-7 hover:cursor-pointer`}
       >
         <div
           className="flex h-full gap-2 px-4 items-center justify-center"
@@ -198,10 +266,15 @@ export default function Ratings({ ratings }: Props) {
   const cats = Array.from(catSet);
 
   const router = useRouter();
-  const { c } = router.query as { c: string };
+  const initParams = router.query as { c: string, s: string };
+  const c = initParams.c;
+  const s = initParams.s;
 
   const catsFilter = c ? new Set<string>(c.toLowerCase().split(',')) : null;
-  ratings = ratings.filter(r => !catsFilter || catsFilter.has(r.category.toLowerCase()))
+  ratings = ratings.filter(r => !catsFilter || catsFilter.has(r.category.toLowerCase()));
+  if (s === 'recent') {
+    ratings.sort(compareEditDate)
+  }
 
   const photos: Photo[] = ratings.map(r => {
     const imgUrl = r.imgUrl ? r.imgUrl : DEFAULT_IMG_URL;
@@ -212,7 +285,6 @@ export default function Ratings({ ratings }: Props) {
       width: imgW,
       height: imgH,
       alt: r.name,
-      href: r.link ? r.link : '',
       key: r.name,
       label: r.name,
       title: r.name
@@ -229,8 +301,17 @@ export default function Ratings({ ratings }: Props) {
           </Head>
           <section className="relative pb-16">
             <div className="text-2xl font-bold text-center">All Ratings</div>
-            <div className="h-12 py-2 flex justify-center">
+            <div className="h-12 py-2 flex justify-center gap-2 font-sans">
               <DropDown />
+              <TabsClipPath defaultTabIndex={s === 'recent' ? 1 : 0} onTabChange={(tab) => {
+                if (tab === 'Recent') {
+                  initParams.s = 'recent';
+                } else {
+                  delete initParams.s;
+                }
+                const searchParams = new URLSearchParams(initParams);
+                window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
+              }} />
             </div>
             <RowsPhotoAlbum
               targetRowHeight={200}
@@ -270,4 +351,13 @@ export const getServerSideProps = async () => {
   return {
     props: { ratings: apiRatings },
   };
-};
+}
+
+const TABS = [
+  {
+    name: "Best",
+  },
+  {
+    name: "Recent",
+  },
+];;
