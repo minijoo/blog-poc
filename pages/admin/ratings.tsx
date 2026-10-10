@@ -50,12 +50,17 @@ export default function Ratings({ ip }) {
 
     const rating: Rating = {
       name: (el.querySelector('input[name="name"]') as HTMLInputElement).value,
+      engName: (el.querySelector('input[name="engname"]') as HTMLInputElement).value,
       rating: (el.querySelector('input[name="rating"]') as HTMLInputElement).value as any,
-      link: (el.querySelector('input[name="link"]') as HTMLInputElement).value,
+      links: (el.querySelector('input[name="links"]') as HTMLInputElement).value,
       location: (el.querySelector('input[name="location"]') as HTMLInputElement).value,
       category: cat,
       tags: (el.querySelector('input[name="tags"]') as HTMLInputElement).value?.split(','),
       imgUrl: (el.querySelector('input[name="imgurl"]') as HTMLInputElement).value,
+      gmapsUrl: (el.querySelector('input[name="gmapsurl"]') as HTMLInputElement).value,
+      tabeUrl: (el.querySelector('input[name="tabeurl"]') as HTMLInputElement).value,
+      naverUrl: (el.querySelector('input[name="naverurl"]') as HTMLInputElement).value,
+      address: (el.querySelector('input[name="address"]') as HTMLInputElement).value,
       notes: (el.querySelector('input[name="notes"]') as HTMLInputElement).value,
       editDate: (new Date()).toString()
     }
@@ -114,12 +119,17 @@ export default function Ratings({ ip }) {
     const rating: Rating = {
       _id: el.children[0].id,
       name: (el.querySelector('input[name="name"]') as HTMLInputElement).value,
+      engName: (el.querySelector('input[name="engname"]') as HTMLInputElement).value,
       rating: (el.querySelector('input[name="rating"]') as HTMLInputElement).value as any,
-      link: (el.querySelector('input[name="link"]') as HTMLInputElement).value,
+      links: (el.querySelector('input[name="links"]') as HTMLInputElement).value,
       location: (el.querySelector('input[name="location"]') as HTMLInputElement).value,
       category: cat,
       tags: (el.querySelector('input[name="tags"]') as HTMLInputElement).value?.split(','),
       imgUrl: (el.querySelector('input[name="imgurl"]') as HTMLInputElement).value,
+      gmapsUrl: (el.querySelector('input[name="gmapsurl"]') as HTMLInputElement).value,
+      tabeUrl: (el.querySelector('input[name="tabeurl"]') as HTMLInputElement).value,
+      naverUrl: (el.querySelector('input[name="naverurl"]') as HTMLInputElement).value,
+      address: (el.querySelector('input[name="address"]') as HTMLInputElement).value,
       notes: (el.querySelector('input[name="notes"]') as HTMLInputElement).value,
       editDate: (new Date()).toString()
     }
@@ -229,12 +239,17 @@ export default function Ratings({ ip }) {
             }
             <div className="px-3 flex flex-col border border-black mb-3" id="new-rating">
               <RatingAttribute attrName="name" attrValue="" />
+              <RatingAttribute attrName="engname" attrValue="" />
               <RatingAttribute attrName="rating" attrValue="" />
-              <RatingAttribute attrName="link" attrValue="" />
+              <RatingAttribute attrName="links" attrValue="" />
               <RatingAttribute attrName="location" attrValue="" />
               <CategoryDropdown attrValue="" options={categories} />
               <RatingAttribute attrName="tags" attrValue="" />
               <RatingAttribute attrName="imgurl" attrValue="" />
+              <RatingAttribute attrName="gmapsurl" attrValue="" />
+              <RatingAttribute attrName="tabeurl" attrValue="" />
+              <RatingAttribute attrName="naverurl" attrValue="" />
+              <RatingAttribute attrName="address" attrValue="" />
               <RatingAttribute attrName="notes" attrValue="" />
               <div
                 className="secondary-button self-end"
@@ -282,12 +297,17 @@ export default function Ratings({ ip }) {
                     openId === rating._id
                     && <>
                       <RatingAttribute attrName="name" attrValue={rating.name} />
+                      <RatingAttribute attrName="engname" attrValue={rating.engName} />
                       <RatingAttribute attrName="rating" attrValue={rating.rating} />
-                      <RatingAttribute attrName="link" attrValue={rating.link} />
+                      <RatingAttribute attrName="links" attrValue={rating.links} />
                       <RatingAttribute attrName="location" attrValue={rating.location} />
                       <CategoryDropdown attrValue={rating.category} options={categories} />
                       <RatingAttribute attrName="tags" attrValue={rating.tags} />
                       <RatingAttribute attrName="imgurl" attrValue={rating.imgUrl} />
+                      <RatingAttribute attrName="gmapsurl" attrValue={rating.gmapsUrl} />
+                      <RatingAttribute attrName="tabeurl" attrValue={rating.tabeUrl} />
+                      <RatingAttribute attrName="naverurl" attrValue={rating.naverUrl} />
+                      <RatingAttribute attrName="address" attrValue={rating.address} />
                       <RatingAttribute attrName="notes" attrValue={rating.notes} />
                       <div>Last Edit: {new Date(rating.editDate).toLocaleString()}</div>
                       <div className="flex gap-1 self-end pt-2">

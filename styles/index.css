@@ -46,6 +46,9 @@
   a.no-decoration {
     @apply !no-underline;
   }
+  .click-cmp {
+    @apply hover:cursor-pointer active:scale-90 transition-transform duration-150 ease-out;
+  }
 }
 
 .yarl__navigation_prev,

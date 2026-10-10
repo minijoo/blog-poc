@@ -1,16 +1,27 @@
 import { ObjectId } from "mongodb";
 
+interface LinkRead {
+  title: string;
+  url: string;
+}
+
 export interface Rating {
   _id?: string
   name: string
-  link: string
+  engName: string
+  links: string
+  linksRead?: LinkRead[]
   category: string
   location: string
   tags: string[]
   notes: string
   rating: number;
   editDate?: string; // date string
-  imgUrl?: string
+  imgUrl?: string;
+  gmapsUrl?: string;
+  tabeUrl?: string;
+  naverUrl?: string;
+  address: string;
   imgWidth?: number;
   imgHeight?: number;
 }

@@ -16,8 +16,16 @@ import {
 import "react-photo-album/rows.css";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { FaCircleChevronDown } from "react-icons/fa6";
+import { FaCircleChevronDown, FaMountainCity } from "react-icons/fa6";
+import { MdCloseFullscreen, MdOutlineDashboardCustomize } from "react-icons/md";
 import { compareEditDate } from "../lib/utils";
+import { Kaisei_Opti } from "next/font/google";
+
+const kaisei = Kaisei_Opti({
+  weight: "400",
+  subsets: ["cyrillic"],
+  variable: "--font-kaisei",
+});
 
 const Jordys_API = new JordysAPI(process.env.IP); // we can reference env var here because it will be used only at build time
 
@@ -29,13 +37,122 @@ const DEFAULT_IMG_URL = '/assets/blog/table-for-two.jpg';
 const DEFAULT_IMG_WIDTH = 700;
 const DEFAULT_IMG_HEIGHT = 875;
 
+function Modal({ rating, onClose }: { rating: Rating, onClose: () => void }) {
+  return (
+    <div className="p-3 h-fit max-h-[80dvh] w-[90dvw] bg-white rounded-3xl border border-black flex flex-col gap-1 font-sans overflow-y-scroll">
+      <div className="flex justify-between items-center">
+        <div className="flex justify-start gap-2">
+          {rating.location && <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center"><FaMountainCity /> {rating.location}</div>}
+          {rating.category && <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center"><MdOutlineDashboardCustomize /> {rating.category}</div>}
+        </div>
+        <div className="text-3xl click-cmp"
+          onClick={onClose}
+        >
+          <MdCloseFullscreen />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 text-lg mt-2">
+        <div className="flex gap-2">
+          <div className="w-8 flex justify-end">
+            <div className={`${kaisei.variable} jp-scroll text-sm border border-black rounded-full size-7 grid place-content-center`}>名</div>
+          </div>
+          <div>{rating.name}</div>
+        </div>
+        {
+          rating.engName
+          &&
+          <div className="flex gap-2">
+            <div className="w-8 flex justify-end">
+              <div className={`text-sm border border-black rounded-full size-7 grid place-content-center`}>🔤</div>
+            </div>
+            <div>{rating.engName}</div>
+          </div>
+        }
+        <div className="flex gap-2">
+          <div className="w-8 flex justify-end">
+            <div className={`text-sm border border-black rounded-full size-7 grid place-content-center`}>📍</div>
+          </div>
+          <div>{rating.address ? rating.address : "No address found"}</div>
+        </div>
+        <div className="flex gap-2">
+          <div className="w-8 flex justify-end">
+            <div className={`text-sm border border-black rounded-full size-7 grid place-content-center`}>🔗</div>
+          </div>
+          <div className="flex flex-col">
+            {
+              rating.gmapsUrl &&
+              <a className="decoration-blue-400 underline hover:cursor-pointer" href={rating.gmapsUrl}>Google Maps</a>
+            }
+            {
+              rating.tabeUrl &&
+              <a className="decoration-blue-400 underline hover:cursor-pointer" href={rating.tabeUrl}>Tabelog</a>
+            }
+            {
+              rating.naverUrl &&
+              <a className="decoration-blue-400 underline hover:cursor-pointer" href={rating.naverUrl}>Naver</a>
+            }
+            {
+              !rating.gmapsUrl && !rating.tabeUrl && !rating.naverUrl && "No map links found"
+            }
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="w-8 flex justify-end">
+            <div className={`text-sm border border-black rounded-full size-7 grid place-content-center`}>
+              <div style={{
+                width: "14px",
+                position: "relative",
+                aspectRatio: "1 / 1"
+              }}
+              >
+
+                <Image src="/favicon/favicon-32x32.png" alt="logo" fill />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col">
+            {
+              rating.linksRead && rating.linksRead.length
+                ?
+                rating.linksRead.map(({ title, url }) => (
+                  <a className="decoration-blue-400 underline hover:cursor-pointer" href={url}>"{title}"</a>
+                ))
+                : "No blog links found"
+            }
+          </div>
+        </div>
+      </div>
+      {
+        rating.imgUrl
+        &&
+        <div className="flex justify-center mt-3">
+          <div
+            className="border border-black rounded-md"
+            style={{
+              width: "100%",
+              position: "relative",
+              aspectRatio: `${rating.imgWidth} / ${rating.imgHeight}`,
+            }}
+          >
+            <Image
+              fill
+              src={rating.imgUrl}
+              alt={rating.name}
+              title={rating.name}
+            />
+          </div>
+        </div>
+      }
+    </div>
+  )
+}
 
 export default function Ratings({ ratings }: Props) {
+  const [viewingRating, setViewingRating] = useState<number>(-1);
   function renderNextImage(
     { alt = "", title, sizes }: RenderImageProps,
     { photo, width, height, index }: RenderImageContext,
   ) {
-    const [showScreen, setShowScreen] = useState<boolean>(false);
     return (
       <div
         className="border border-black"
@@ -55,13 +172,14 @@ export default function Ratings({ ratings }: Props) {
         />
 
         {
-          !showScreen
+          true
             ?
             <>
               <div
                 className="absolute size-full flex flex-col justify-between items-center gap-1 z-5"
                 onClick={(evt) => {
-                  setShowScreen(true);
+                  // setShowScreen(true);
+                  setViewingRating(index);
                   evt.preventDefault();
                 }}
               >
@@ -82,7 +200,8 @@ export default function Ratings({ ratings }: Props) {
               <div
                 className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5"
                 onClick={(evt) => {
-                  setShowScreen(true);
+                  // setShowScreen(true);
+                  setViewingRating(index);
                   evt.preventDefault();
                 }}
               >
@@ -95,7 +214,8 @@ export default function Ratings({ ratings }: Props) {
             >
               <div className="grow w-full text-sm px-2 pt-3 mb-1 overflow-y-scroll bg-black/30"
                 onClick={(evt) => {
-                  setShowScreen(false);
+                  // setShowScreen(false);
+                  setViewingRating(-1);
                   evt.preventDefault();
                 }}
               >
@@ -112,9 +232,9 @@ export default function Ratings({ ratings }: Props) {
               </div>
               <div>
                 {
-                  ratings[index].link
+                  ratings[index].links
                     ?
-                    <a className="button py-1 px-2 text-center bg-black/40 text-nowrap" href={ratings[index].link}>Read blog</a>
+                    <a className="button py-1 px-2 text-center bg-black/40 text-nowrap" href={ratings[index].links}>{ratings[index].links}</a>
                     :
                     <span>No blog entry</span>
                 }
@@ -188,7 +308,7 @@ export default function Ratings({ ratings }: Props) {
     );
   }
 
-  function DropDown() {
+  function DropDownCity() {
     const [open, setOpen] = useState<boolean>(false);
     const listRef = useRef<HTMLDivElement>(null);
     return <div className="relative">
@@ -199,7 +319,81 @@ export default function Ratings({ ratings }: Props) {
           className="flex h-full gap-2 px-4 items-center justify-center"
           onClick={() => setOpen(current => !current)}
         >
-          <div>Categories</div>
+          <div><FaMountainCity /></div>
+          <div><FaCircleChevronDown /></div>
+        </div>
+      </div>
+      {
+        open
+        &&
+        <div className={`absolute w-50 md:w-70 max-h-80 bg-white top-[97%] z-6 rounded-sm border border-black shadow-[0_5px_20px_#000] flex flex-col gap-2 py-2
+                  ${open ? 'rounded-tl-none' : ''}
+                  `}>
+          <div ref={listRef} className="w-full flex flex-col text-dy-lg py-2 pl-6 pr-3 overflow-y-scroll justify-start">
+            {cits.map(cit => (
+              <div
+                key={cit}
+                className="w-full flex gap-4 items-center click-icon"
+                onClick={(ev) => {
+                  const inputElem = ev.currentTarget.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+                  inputElem[0].checked = !inputElem[0].checked;
+                }}
+              >
+                <div className="h-full">
+                  <input
+                    name={cit}
+                    type="checkbox"
+                    className="scale-200"
+                    defaultChecked={citsFilter?.has(cit.toLowerCase())}
+                    onClick={(ev) => {
+                      ev.currentTarget.checked = !ev.currentTarget.checked;
+                    }} />
+                </div>
+                <div className="py-2 text-left">
+                  {cit}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="px-2 flex gap-1.5 text-center">
+            <div
+              className="w-full lg-button click-cmp"
+              onClick={() => {
+                const checkboxes = listRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
+                const newCits = Array.from(checkboxes).filter(elem => elem.checked).map(elem => elem.name);
+                const searchParams = new URLSearchParams({ t: newCits.join(',').toLowerCase() });
+                if (c) searchParams.append('c', c)
+                window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
+              }}
+            >
+              Apply
+            </div>
+            <div
+              className="w-full lg-button click-cmp"
+              onClick={() => {
+                window.location.href = '/ratings';
+              }}
+            >
+              Reset
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  function DropDownCats() {
+    const [open, setOpen] = useState<boolean>(false);
+    const listRef = useRef<HTMLDivElement>(null);
+    return <div className="relative">
+      <div
+        className={`h-full w-fit border border-black text-dy-sm rounded-full z-7 hover:cursor-pointer`}
+      >
+        <div
+          className="flex h-full gap-2 px-4 items-center justify-center"
+          onClick={() => setOpen(current => !current)}
+        >
+          <div><MdOutlineDashboardCustomize /></div>
           <div><FaCircleChevronDown /></div>
         </div>
       </div>
@@ -237,23 +431,24 @@ export default function Ratings({ ratings }: Props) {
           </div>
           <div className="px-2 flex gap-1.5 text-center">
             <div
-              className="w-full lg-button"
+              className="w-full lg-button click-cmp"
               onClick={() => {
                 const checkboxes = listRef.current?.getElementsByTagName('input') as HTMLCollectionOf<HTMLInputElement>;
                 const newCats = Array.from(checkboxes).filter(elem => elem.checked).map(elem => elem.name);
                 const searchParams = new URLSearchParams({ c: newCats.join(',').toLowerCase() });
+                if (t) searchParams.append('t', t)
                 window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
               }}
             >
               Apply
             </div>
             <div
-              className="w-full lg-button"
+              className="w-full lg-button click-cmp"
               onClick={() => {
                 window.location.href = '/ratings';
               }}
             >
-              Clear
+              Reset
             </div>
           </div>
         </div>
@@ -262,16 +457,23 @@ export default function Ratings({ ratings }: Props) {
   }
 
   const catSet = new Set<string>()
-  ratings.forEach(r => catSet.add(r.category))
+  const citSet = new Set<string>()
+  ratings.forEach(r => {
+    catSet.add(r.category)
+    citSet.add(r.location)
+  })
   const cats = Array.from(catSet);
+  const cits = Array.from(citSet).filter(t => !!t);
 
   const router = useRouter();
-  const initParams = router.query as { c: string, s: string };
+  const initParams = router.query as { c: string, s: string, t: string };
   const c = initParams.c;
   const s = initParams.s;
+  const t = initParams.t;
 
   const catsFilter = c ? new Set<string>(c.toLowerCase().split(',')) : null;
-  ratings = ratings.filter(r => !catsFilter || catsFilter.has(r.category.toLowerCase()));
+  const citsFilter = t ? new Set<string>(t.toLowerCase().split(',')) : null;
+  ratings = ratings.filter(r => !catsFilter || catsFilter.has(r.category.toLowerCase())).filter(r => !citsFilter || citsFilter.has(r.location?.toLowerCase()));;
   if (s === 'recent') {
     ratings.sort(compareEditDate)
   }
@@ -302,7 +504,8 @@ export default function Ratings({ ratings }: Props) {
           <section className="relative pb-16">
             <div className="text-2xl font-bold text-center">All Ratings</div>
             <div className="h-12 py-2 flex justify-center gap-2 font-sans">
-              <DropDown />
+              <DropDownCity />
+              <DropDownCats />
               <TabsClipPath defaultTabIndex={s === 'recent' ? 1 : 0} onTabChange={(tab) => {
                 if (tab === 'Recent') {
                   initParams.s = 'recent';
@@ -332,6 +535,13 @@ export default function Ratings({ ratings }: Props) {
         <div className="z-50 fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">
           <Footer />
         </div>
+        {
+          viewingRating >= 0
+          &&
+          <div className="fixed top-0 h-dvh w-full z-30 backdrop-blur-2xl grid place-content-center">
+            <Modal rating={ratings[viewingRating]} onClose={() => setViewingRating(-1)} />
+          </div>
+        }
       </Layout>
     </>
   );
