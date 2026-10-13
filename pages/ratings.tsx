@@ -16,10 +16,11 @@ import {
 import "react-photo-album/rows.css";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { FaCircleChevronDown, FaMountainCity } from "react-icons/fa6";
+import { FaCircleChevronDown, FaHandPointRight, FaMountainCity, FaRepeat, FaStar } from "react-icons/fa6";
 import { MdCloseFullscreen, MdOutlineDashboardCustomize } from "react-icons/md";
 import { compareEditDate } from "../lib/utils";
 import { Kaisei_Opti } from "next/font/google";
+import { GiShrug } from "react-icons/gi";
 
 const kaisei = Kaisei_Opti({
   weight: "400",
@@ -37,13 +38,49 @@ const DEFAULT_IMG_URL = '/assets/blog/table-for-two.jpg';
 const DEFAULT_IMG_WIDTH = 700;
 const DEFAULT_IMG_HEIGHT = 875;
 
+function RatingPills({ rating }: { rating: Rating }) {
+  return <>
+    {rating.rating &&
+      <>
+        {
+          rating.rating >= 80
+            ? <>
+              {
+                rating.rating >= 90
+                &&
+                <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center">
+                  <FaRepeat /> Go-again
+                </div>
+              }
+              {
+                rating.rating >= 80
+                &&
+                <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center">
+                  <FaHandPointRight /> Telling Friends
+                </div>
+              }
+            </>
+            :
+            rating.rating >= 70
+            &&
+            <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center">
+              <GiShrug /> Could be good
+            </div>
+        }
+        <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center">{rating.rating} / 100</div>
+      </>
+    }
+  </>
+}
+
 function Modal({ rating, onClose }: { rating: Rating, onClose: () => void }) {
   return (
-    <div className="p-3 h-fit max-h-[80dvh] w-[90dvw] bg-white rounded-3xl border border-black flex flex-col gap-1 font-sans overflow-y-scroll">
+    <div className="p-3 h-fit max-h-[80dvh] w-[90dvw] max-w-2xl bg-white rounded-3xl border border-black flex flex-col gap-1 font-sans overflow-y-scroll">
       <div className="flex justify-between items-center">
-        <div className="flex justify-start gap-2">
+        <div className="flex justify-start gap-2 flex-wrap">
           {rating.location && <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center"><FaMountainCity /> {rating.location}</div>}
           {rating.category && <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center"><MdOutlineDashboardCustomize /> {rating.category}</div>}
+          <RatingPills rating={rating} />
         </div>
         <div className="text-3xl click-cmp"
           onClick={onClose}
