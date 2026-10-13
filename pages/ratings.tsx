@@ -16,7 +16,7 @@ import {
 import "react-photo-album/rows.css";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { FaCircleChevronDown, FaHandPointRight, FaMountainCity, FaRepeat, FaStar } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaCircleChevronDown, FaHandPointRight, FaMountainCity, FaRepeat, FaStar } from "react-icons/fa6";
 import { MdCloseFullscreen, MdOutlineDashboardCustomize } from "react-icons/md";
 import { compareEditDate } from "../lib/utils";
 import { Kaisei_Opti } from "next/font/google";
@@ -73,7 +73,14 @@ function RatingPills({ rating }: { rating: Rating }) {
   </>
 }
 
-function Modal({ rating, onClose }: { rating: Rating, onClose: () => void }) {
+function Modal({
+  rating,
+  onClose,
+}: {
+  rating: Rating,
+  onClose: () => void,
+}
+) {
   return (
     <div className="p-3 h-fit max-h-[80dvh] w-[90dvw] max-w-2xl bg-white rounded-3xl border border-black flex flex-col gap-1 font-sans overflow-y-scroll">
       <div className="flex justify-between items-center">
@@ -82,10 +89,12 @@ function Modal({ rating, onClose }: { rating: Rating, onClose: () => void }) {
           {rating.category && <div className="px-1 text-zinc-700 border border-zinc-600 rounded-md text-sm flex gap-0.5 items-center"><MdOutlineDashboardCustomize /> {rating.category}</div>}
           <RatingPills rating={rating} />
         </div>
-        <div className="text-3xl click-cmp"
-          onClick={onClose}
-        >
-          <MdCloseFullscreen />
+        <div className="text-2xl flex flex-col gap-2">
+          <div className="click-cmp"
+            onClick={onClose}
+          >
+            <MdCloseFullscreen />
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 text-lg mt-2">
@@ -223,74 +232,40 @@ export default function Ratings({ ratings }: Props) {
         />
 
         {
-          true
-            ?
-            <>
-              <div
-                className="absolute size-full flex flex-col justify-between items-center gap-1 z-5"
-                onClick={(evt) => {
-                  // setShowScreen(true);
-                  setViewingRating(index);
-                  evt.preventDefault();
-                }}
-              >
-                <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center flex flex-col gap-0">
-                  <div>{ratings[index].name}</div>
-                  <div>{
-                    ratings[index].location
-                    &&
-                    <span className="text-sm font-normal">
-                      📍 {ratings[index].location}
-                    </span>
-                  }</div>
-                </div>
-                <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center">
-                  {ratings[index].category}
-                </div>
-              </div>
-              <div
-                className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5"
-                onClick={(evt) => {
-                  // setShowScreen(true);
-                  setViewingRating(index);
-                  evt.preventDefault();
-                }}
-              >
-                {ratings[index].rating}
-              </div>
-            </>
-            :
+          <>
             <div
-              className="absolute size-full pb-3 flex flex-col justify-between items-center gap-1 backdrop-blur-3xl text-white font-sans"
+              className="absolute size-full flex flex-col justify-between items-center gap-1 z-5"
+              onClick={(evt) => {
+                // setShowScreen(true);
+                setViewingRating(index);
+                evt.preventDefault();
+              }}
             >
-              <div className="grow w-full text-sm px-2 pt-3 mb-1 overflow-y-scroll bg-black/30"
-                onClick={(evt) => {
-                  // setShowScreen(false);
-                  setViewingRating(-1);
-                  evt.preventDefault();
-                }}
-              >
-                {
-                  ratings[index].notes
-                    ?
-                    <>
-                      <p className="underline-offset-3 underline">Notes</p>
-                      <p>{ratings[index].notes}</p>
-                    </>
-                    :
-                    <p className="text-center">No notes</p>
-                }
+              <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center flex flex-col gap-0">
+                <div>{ratings[index].name}</div>
+                <div>{
+                  ratings[index].location
+                  &&
+                  <span className="text-sm font-normal">
+                    📍 {ratings[index].location}
+                  </span>
+                }</div>
               </div>
-              <div>
-                {
-                  ratings[index].links
-                    ?
-                    <a className="button py-1 px-2 text-center bg-black/40 text-nowrap" href={ratings[index].links}>{ratings[index].links}</a>
-                    :
-                    <span>No blog entry</span>
-                }
+              <div className="w-full px-1 bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-center">
+                {ratings[index].category}
               </div>
             </div>
+            <div
+              className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5"
+              onClick={(evt) => {
+                // setShowScreen(true);
+                setViewingRating(index);
+                evt.preventDefault();
+              }}
+            >
+              {ratings[index].rating}
+            </div>
+          </>
         }
       </div>
     );
@@ -590,7 +565,41 @@ export default function Ratings({ ratings }: Props) {
           viewingRating >= 0
           &&
           <div className="fixed top-0 h-dvh w-full z-30 backdrop-blur-2xl grid place-content-center">
-            <Modal rating={ratings[viewingRating]} onClose={() => setViewingRating(-1)} />
+            <Modal
+              rating={ratings[viewingRating]}
+              onClose={() => setViewingRating(-1)}
+            />
+            <div className="absolute bottom-0 w-full justify-center mb-14 flex">
+              <div className="bg-white border border-black rounded-md flex gap-2 text-2xl px-2 py-1">
+                {
+                  viewingRating === 0
+                    ?
+                    <div className="opacity-30">
+                      <FaArrowLeft />
+                    </div>
+                    :
+
+                    <div className="click-cmp"
+                      onClick={() => setViewingRating(current => current - 1)}
+                    >
+                      <FaArrowLeft />
+                    </div>
+                }
+                {
+                  viewingRating === ratings.length - 1
+                    ?
+                    <div className="opacity-30">
+                      <FaArrowRight />
+                    </div>
+                    :
+                    <div className="click-cmp"
+                      onClick={() => setViewingRating(current => current + 1)}
+                    >
+                      <FaArrowRight />
+                    </div>
+                }
+              </div>
+            </div>
           </div>
         }
       </Layout>
