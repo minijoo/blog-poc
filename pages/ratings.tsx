@@ -158,6 +158,20 @@ function Modal({ rating, onClose }: { rating: Rating, onClose: () => void }) {
             }
           </div>
         </div>
+        <div className="flex gap-2">
+          <div className="w-8 flex justify-end">
+            <div className={`text-sm border border-black rounded-full size-7 grid place-content-center`}>👀</div>
+          </div>
+          <div className="flex">
+            {
+              rating.notes
+                ?
+                <span>{rating.notes}</span>
+                :
+                "No notes"
+            }
+          </div>
+        </div>
       </div>
       {
         rating.imgUrl
