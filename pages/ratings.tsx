@@ -482,6 +482,14 @@ export default function Ratings({ ratings }: Props) {
     </div>
   }
 
+  useEffect(() => {
+    if (viewingRating >= 0) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+  }, [viewingRating]);
+
   const catSet = new Set<string>()
   const citSet = new Set<string>()
   ratings.forEach(r => {
@@ -564,7 +572,12 @@ export default function Ratings({ ratings }: Props) {
         {
           viewingRating >= 0
           &&
-          <div className="fixed top-0 h-dvh w-full z-30 backdrop-blur-2xl grid place-content-center">
+          <div
+            className="fixed top-0 h-dvh w-full z-30 backdrop-blur-2xl grid place-content-center"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setViewingRating(-1);
+            }}
+          >
             <Modal
               rating={ratings[viewingRating]}
               onClose={() => setViewingRating(-1)}
