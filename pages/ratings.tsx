@@ -14,13 +14,17 @@ import {
   Photo
 } from "react-photo-album";
 import "react-photo-album/rows.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { FaArrowLeft, FaArrowRight, FaCircleChevronDown, FaHandPointRight, FaMountainCity, FaRepeat, FaStar } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaCircleChevronDown, FaHandPointRight, FaMap, FaMountainCity, FaRepeat, FaStar } from "react-icons/fa6";
 import { MdCloseFullscreen, MdOutlineDashboardCustomize } from "react-icons/md";
 import { compareEditDate } from "../lib/utils";
 import { Kaisei_Opti } from "next/font/google";
 import { GiShrug } from "react-icons/gi";
+
+import { AdvancedMarker, APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
+
+import { type Marker, MarkerClusterer } from '@googlemaps/markerclusterer';
 
 const kaisei = Kaisei_Opti({
   weight: "400",
@@ -205,6 +209,98 @@ function Modal({
       }
     </div>
   )
+}
+
+type ClusteredMarkersProps = {
+  ratings: Rating[]
+}
+
+function ClusteredMarkers({ ratings }: ClusteredMarkersProps) {
+
+  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
+  // create the markerClusterer once the map is available and update it when
+  // the markers are changed
+  const map = useMap();
+  const clusterer = useMemo(() => {
+    if (!map) return null;
+
+    return new MarkerClusterer({ map });
+  }, [map]);
+
+  useEffect(() => {
+    if (!clusterer) return;
+
+    clusterer.clearMarkers();
+    clusterer.addMarkers(Object.values(markers));
+  }, [clusterer, markers]);
+
+  // this callback will effectively get passsed as ref to the markers to keep
+  //   // tracks of markers currently on the map
+  const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
+    setMarkers(markers => {
+      if ((marker && markers[key]) || (!marker && !markers[key]))
+        return markers;
+
+      if (marker) {
+        return { ...markers, [key]: marker };
+      } else {
+        const { [key]: _, ...newMarkers } = markers;
+
+        return newMarkers;
+      }
+    });
+  }, []);
+
+  const handleMarkerClick = useCallback((rating: Rating) => {
+    console.log('rating  marker  clicked');
+  }, []);
+
+  return (
+    <>
+      {ratings.map((rating, i) => ({ ...rating, key: i.toString() })).filter(rating => rating.lat && rating.lng).map((rating) => (
+        <RatingMarker key={rating.key} rating={rating} onClick={handleMarkerClick} setMarkerRef={setMarkerRef} />
+      ))}
+    </>
+  )
+}
+
+type RatingMarkerProps = {
+  rating: Rating;
+  onClick: (rating: Rating) => void;
+  setMarkerRef: (marker: Marker | null, key: string) => void;
+};
+
+function RatingMarker(props: RatingMarkerProps) {
+  const { rating, onClick, setMarkerRef } = props;
+
+  const handleClick = useCallback(() => onClick(rating), [onClick, rating]);
+  const ref = useCallback(
+    (marker: google.maps.marker.AdvancedMarkerElement) =>
+      setMarkerRef(marker, rating.key),
+    [setMarkerRef, rating.key]
+  );
+
+  return (
+    <AdvancedMarker
+      position={{ lat: rating.lat, lng: rating.lng }}
+      ref={ref} onClick={handleClick}>
+      <div className="flex flex-col">
+        <div className="flex rounded-md bg-amber-800 text-white text-base px-2 py-1.5 gap-2 items-center border-white border z-0">
+          <div className="size-8 border border-white rounded-full grid place-content-center">
+            {rating.rating}
+          </div>
+          <div className="">{rating.name}</div>
+
+        </div>
+        <div className="w-full h-4 flex justify-center z-1 -translate-y-1">
+          <div
+            className="bg-amber-800 w-10 h-full top-full"
+            style={{ clipPath: 'polygon(100% 0%, 50% 100%, 0% 0%)' }}
+          />
+        </div>
+      </div>
+    </AdvancedMarker>
+  );
 }
 
 export default function Ratings({ ratings }: Props) {
@@ -520,6 +616,8 @@ export default function Ratings({ ratings }: Props) {
     };
   });
 
+  const [showMap, setShowMap] = useState<boolean>(false);
+
   return (
     <>
       <Layout>
@@ -532,6 +630,16 @@ export default function Ratings({ ratings }: Props) {
             <div className="max-w-4xl w-full">
               <div className="text-2xl font-bold text-center">All Ratings</div>
               <div className="h-12 py-2 flex justify-center gap-2 font-sans">
+                <div
+                  className='border border-black text-dy-sm rounded-full z-7 hover:cursor-pointer h-full aspect-square grid place-content-center'
+                  onClick={(evt) => {
+                    setShowMap(current => !current);
+                    evt.currentTarget.classList.toggle('bg-gray-800');
+                    evt.currentTarget.classList.toggle('text-white');
+                  }}
+                >
+                  <FaMap />
+                </div>
                 <DropDownCity />
                 <DropDownCats />
                 <TabsClipPath defaultTabIndex={s === 'recent' ? 1 : 0} onTabChange={(tab) => {
@@ -544,14 +652,31 @@ export default function Ratings({ ratings }: Props) {
                   window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
                 }} />
               </div>
-              <RowsPhotoAlbum
-                targetRowHeight={200}
-                photos={photos}
-                render={{
-                  image: renderNextImage,
-                }}
-                defaultContainerWidth={1200}
-              />
+              {
+                showMap
+                  ?
+                  <div>
+                    <APIProvider apiKey='AIzaSyA7Gwl0CZi25wwaNdKO4nrkcjaTFTdF5-8'>
+                      <Map
+                        style={{ width: '100%', height: '100vh' }}
+                        defaultZoom={1}
+                        gestureHandling='greedy'
+                        defaultCenter={{ lat: 22.54992, lng: 0 }}
+                        mapId="RATINGS_MAP"
+                      />
+                      <ClusteredMarkers ratings={ratings} />
+                    </APIProvider>
+                  </div>
+                  :
+                  <RowsPhotoAlbum
+                    targetRowHeight={200}
+                    photos={photos}
+                    render={{
+                      image: renderNextImage,
+                    }}
+                    defaultContainerWidth={1200}
+                  />
+              }
             </div>
           </section>
         </Container>
