@@ -10,6 +10,7 @@ type Props = {
 const CoverImage = ({ title, src, slug }: Props) => {
   const image = (
     <Image
+      unoptimized
       src={src}
       alt={`Cover Image for ${title}`}
       fill

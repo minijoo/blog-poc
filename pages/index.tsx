@@ -71,6 +71,9 @@ export default function Index({ allPosts }: Props) {
             {scrollDivs}
           </div>
         </ContainerHome>
+        <div className="fixed top-0 right-5 px-6 pt-8 pb-5 text-center font-sans text-xs grid place-content-center bg-[url(/assets/blog/wooden-sign.png)] bg-center bg-contain bg-no-repeat duration-200 animate-[swing_8s_linear_1] origin-top font-bold text-red-950">
+          <a href="/ratings" className="click-cmp">Jordy's <br /> Ratings</a>
+        </div>
         <div className="fixed bottom-0 w-full flex flex-col gap-y-2 place-items-center">
           <Footer />
         </div>

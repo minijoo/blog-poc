@@ -37,6 +37,7 @@ const PostPreviewStatic = ({
           </div>
         </div>
         {coverImage && <Image
+          unoptimized
           src={encodeURI(coverImage)}
           alt={title}
           objectFit="cover"

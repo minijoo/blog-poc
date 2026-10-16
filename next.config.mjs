@@ -32,6 +32,10 @@ const configuration = {
 	// return config;
 	// },
 	images: {
+		deviceSizes: [640, 900, 1280, 1800],
+		imageSizes: [256, 384],
+		qualities: [75],          // each extra quality multiplies variants
+		minimumCacheTTL: 2678400, // 31 days, so variants aren't regenerated
 		remotePatterns: [
 			{
 				protocol: "https",

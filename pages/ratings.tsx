@@ -152,7 +152,7 @@ function Modal({
               }}
               >
 
-                <Image src="/favicon/favicon-32x32.png" alt="logo" fill />
+                <Image unoptimized src="/favicon/favicon-32x32.png" alt="logo" fill />
               </div>
             </div>
           </div>
@@ -161,7 +161,7 @@ function Modal({
               rating.linksRead && rating.linksRead.length
                 ?
                 rating.linksRead.map(({ title, url }) => (
-                  <a className="decoration-blue-400 underline hover:cursor-pointer" href={url}>"{title}"</a>
+                  <a key={title} className="decoration-blue-400 underline hover:cursor-pointer" href={url}>"{title}"</a>
                 ))
                 : "No blog links found"
             }
@@ -210,33 +210,18 @@ function Modal({
 export default function Ratings({ ratings }: Props) {
   const [viewingRating, setViewingRating] = useState<number>(-1);
   function renderNextImage(
-    { alt = "", title, sizes }: RenderImageProps,
+    { alt = "", title }: RenderImageProps,
     { photo, width, height, index }: RenderImageContext,
   ) {
     return (
       <div
-        className="border border-black"
-        style={{
-          width: "100%",
-          position: "relative",
-          aspectRatio: `${width} / ${height}`,
-        }}
+        className="border border-black relative hover:scale-105 hover:cursor-pointer duration-150 transition-all active:scale-90"
       >
-        <Image
-          fill
-          src={photo}
-          alt={alt}
-          title={title}
-          sizes={sizes}
-          placeholder={"blurDataURL" in photo ? "blur" : undefined}
-        />
-
         {
           <>
             <div
               className="absolute size-full flex flex-col justify-between items-center gap-1 z-5"
               onClick={(evt) => {
-                // setShowScreen(true);
                 setViewingRating(index);
                 evt.preventDefault();
               }}
@@ -267,6 +252,15 @@ export default function Ratings({ ratings }: Props) {
             </div>
           </>
         }
+        <Image
+          src={photo}
+          alt={alt}
+          title={title}
+          width={Math.round(width)}
+          height={Math.round(height)}
+          style={{ width: "100%", height: "auto" }}
+          placeholder={"blurDataURL" in photo ? "blur" : undefined}
+        />
       </div>
     );
   }
@@ -535,35 +529,31 @@ export default function Ratings({ ratings }: Props) {
           <Head>
             <title>{`All Ratings - Jordy's Site`}</title>
           </Head>
-          <section className="relative pb-16">
-            <div className="text-2xl font-bold text-center">All Ratings</div>
-            <div className="h-12 py-2 flex justify-center gap-2 font-sans">
-              <DropDownCity />
-              <DropDownCats />
-              <TabsClipPath defaultTabIndex={s === 'recent' ? 1 : 0} onTabChange={(tab) => {
-                if (tab === 'Recent') {
-                  initParams.s = 'recent';
-                } else {
-                  delete initParams.s;
-                }
-                const searchParams = new URLSearchParams(initParams);
-                window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
-              }} />
+          <section className="relative pb-16 flex justify-center">
+            <div className="max-w-4xl">
+              <div className="text-2xl font-bold text-center">All Ratings</div>
+              <div className="h-12 py-2 flex justify-center gap-2 font-sans">
+                <DropDownCity />
+                <DropDownCats />
+                <TabsClipPath defaultTabIndex={s === 'recent' ? 1 : 0} onTabChange={(tab) => {
+                  if (tab === 'Recent') {
+                    initParams.s = 'recent';
+                  } else {
+                    delete initParams.s;
+                  }
+                  const searchParams = new URLSearchParams(initParams);
+                  window.location.href = '/ratings' + (searchParams.size ? '?' + searchParams.toString() : '');
+                }} />
+              </div>
+              <RowsPhotoAlbum
+                targetRowHeight={200}
+                photos={photos}
+                render={{
+                  image: renderNextImage,
+                }}
+                defaultContainerWidth={1200}
+              />
             </div>
-            <RowsPhotoAlbum
-              targetRowHeight={200}
-              photos={photos}
-              render={{
-                image: renderNextImage,
-              }}
-              defaultContainerWidth={1200}
-              sizes={{
-                size: "1168px",
-                sizes: [
-                  { viewport: "(max-width: 1200px)", size: "calc(100vw - 32px)" },
-                ],
-              }}
-            />
           </section>
         </Container>
         <div className="z-50 fixed bottom-0 w-full flex flex-col gap-y-2 justify-items-center place-items-center">

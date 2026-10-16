@@ -277,3 +277,24 @@ html {
   transition: clip-path 0.25s ease;
   clip-path: inset(0px 75% 0px 0% round 17px);
 }
+
+@keyframes swing {
+  0% {
+    transform: rotateX(-90deg) rotateY(3deg)
+  }
+  30% {
+    transform: rotateX(60deg) rotateY(-8deg)
+  }
+  50% {
+    transform: rotateX(-50deg) rotateY(3deg)
+  }
+  70% {
+    transform: rotateX(40deg) rotateY(11deg)
+  }
+  90% {
+    transform: rotateX(-10deg) rotateY(11deg)
+  }
+  100% {
+    transform: rotateX(0) rotateY(0)
+  }
+}
