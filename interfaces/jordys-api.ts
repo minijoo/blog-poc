@@ -22,8 +22,8 @@ export interface Rating {
   tabeUrl?: string;
   naverUrl?: string;
   address: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   key?: string
   imgWidth?: number;
   imgHeight?: number;
