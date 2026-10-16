@@ -529,7 +529,7 @@ export default function Ratings({ ratings }: Props) {
             <title>{`All Ratings - Jordy's Site`}</title>
           </Head>
           <section className="relative pb-16 flex justify-center">
-            <div className="max-w-4xl">
+            <div className="max-w-4xl w-full">
               <div className="text-2xl font-bold text-center">All Ratings</div>
               <div className="h-12 py-2 flex justify-center gap-2 font-sans">
                 <DropDownCity />
@@ -551,7 +551,6 @@ export default function Ratings({ ratings }: Props) {
                   image: renderNextImage,
                 }}
                 defaultContainerWidth={1200}
-                breakpoints={[300, 600, 900]}
               />
             </div>
           </section>
