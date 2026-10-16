@@ -243,7 +243,6 @@ export default function Ratings({ ratings }: Props) {
             <div
               className="absolute -translate-1/2 top-1/2 left-1/2 px-1 rounded-md border border-border bg-surface/80 shadow-lg shadow-black/5 bg-white/70 font-sans font-bold text-2xl z-5"
               onClick={(evt) => {
-                // setShowScreen(true);
                 setViewingRating(index);
                 evt.preventDefault();
               }}
@@ -552,6 +551,7 @@ export default function Ratings({ ratings }: Props) {
                   image: renderNextImage,
                 }}
                 defaultContainerWidth={1200}
+                breakpoints={[300, 600, 900]}
               />
             </div>
           </section>
