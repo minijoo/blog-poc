@@ -213,9 +213,10 @@ function Modal({
 
 type ClusteredMarkersProps = {
   ratings: Rating[]
+  onMarkerClick: (i: number) => void;
 }
 
-function ClusteredMarkers({ ratings }: ClusteredMarkersProps) {
+function ClusteredMarkers({ ratings, onMarkerClick }: ClusteredMarkersProps) {
 
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   // create the markerClusterer once the map is available and update it when
@@ -252,7 +253,7 @@ function ClusteredMarkers({ ratings }: ClusteredMarkersProps) {
   }, []);
 
   const handleMarkerClick = useCallback((rating: Rating) => {
-    console.log('rating  marker  clicked');
+    onMarkerClick(parseInt(rating.key));
   }, []);
 
   return (
@@ -664,7 +665,7 @@ export default function Ratings({ ratings }: Props) {
                         defaultCenter={{ lat: 22.54992, lng: 0 }}
                         mapId="RATINGS_MAP"
                       />
-                      <ClusteredMarkers ratings={ratings} />
+                      <ClusteredMarkers ratings={ratings} onMarkerClick={(i: number) => setViewingRating(i)} />
                     </APIProvider>
                   </div>
                   :
